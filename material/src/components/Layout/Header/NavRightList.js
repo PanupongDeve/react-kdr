@@ -27,13 +27,13 @@ class NavRightList extends React.Component {
 
     return (
       <ul className="list-unstyled float-right">
-        <li className="list-inline-item search-box seach-box-right d-none d-md-inline-block">
+        {/* <li className="list-inline-item search-box seach-box-right d-none d-md-inline-block">
           <div className="search-box-inner">
             <div className="search-box-icon"><MaterialIcon icon="search" /></div>
             <input type="text" placeholder="search..." />
             <span className="input-bar"></span>
           </div>
-        </li>
+        </li> */}
         <li style={{marginRight: '10px'}}>
           <IconButton
             className="header-btn"

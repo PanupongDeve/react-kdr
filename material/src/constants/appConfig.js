@@ -2,11 +2,11 @@ const date = new Date();
 const year = date.getFullYear();
 
 const APPCONFIG = {
-  brand: 'Material',
+  brand: 'KingDrag',
   user: 'Lisa',
   year,
   AutoCloseMobileNav: true,          // true, false. Automatically close sidenav on route change (Mobile only)
-  showCustomizer: true,              // Boolean: true, false. Customizer will be opened (visible) first time app was loaded if set to true
+  showCustomizer: false,              // Boolean: true, false. Customizer will be opened (visible) first time app was loaded if set to true
   color: {
     primary: '#00BCD4',
     success: '#8BC34A',
@@ -23,7 +23,7 @@ const APPCONFIG = {
     navBehind: false,                 // true, false
     fixedHeader: true,                // true, false
     sidebarWidth: 'middle',           // small, middle, large
-    colorOption: '14',                // String: 11,12,13,14,15,16; 21,22,23,24,25,26; 31,32,33,34,35,36
+    colorOption: '25',                // String: 11,12,13,14,15,16; 21,22,23,24,25,26; 31,32,33,34,35,36
     theme: 'light',                   // light, gray, dark
   }
 };

@@ -47,7 +47,7 @@ class Header extends React.Component {
           </div>
 
           <div className="top-nav-left d-none d-lg-inline-block d-xl-inline-block">
-            <NavLeftList />
+            {/* <NavLeftList /> */}
           </div>
 
           <div className="top-nav-right">

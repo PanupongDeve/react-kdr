@@ -90,21 +90,12 @@ class SidebarContent extends React.Component {
 
 
   render() {
-    
+
     return (
       <ul className="nav" ref={(c) => { this.nav = c; }}>
         <li className="nav-header"><span>Navigation</span></li>
         <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Dashboard</span></Button></li>
-        <li><Button href="#/app/table/user-table"><i className="nav-icon material-icons">person_outline</i><span className="nav-text">Users</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">shopping_cart</i><span className="nav-text">Products</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">exit_to_app</i><span className="nav-text">Orders</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">favorite</i><span className="nav-text">Colors</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">card_travel</i><span className="nav-text">Models</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">turned_in_not</i><span className="nav-text">ProductsGroups</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">turned_in_not</i><span className="nav-text">UserProductGroup</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">turned_in_not</i><span className="nav-text">OrderProduct</span></Button></li>
-        
-        {/* <li>
+        <li>
           <Button href="#/app/ui"><i className="nav-icon material-icons">card_giftcard</i><span className="nav-text">UI Kit</span></Button>
           <ul>
             <li><Button className="prepend-icon" href="#/app/ui/buttons"><span>Buttons</span></Button></li>
@@ -237,7 +228,7 @@ class SidebarContent extends React.Component {
         <li className="nav-divider" />
         <li className="nav-header"><span>Material Design</span></li>
         <li className="li-small"><Button href="#/app/ui/cards"><i className="nav-icon nav-dot material-icons color-success">fiber_manual_record</i><span className="nav-text">Material Cards</span></Button></li>
-        <li className="li-small"><Button href="#/app/ui/icons"><i className="nav-icon nav-dot material-icons color-info">fiber_manual_record</i><span className="nav-text">Material Icons</span></Button></li> */}
+        <li className="li-small"><Button href="#/app/ui/icons"><i className="nav-icon nav-dot material-icons color-info">fiber_manual_record</i><span className="nav-text">Material Icons</span></Button></li>
       </ul>
     );
   }

@@ -1,0 +1,29 @@
+#user-table {
+    & .article-title {
+        text-align: center;
+        text-decoration: underline;
+    }
+
+    & .list-unstyled {
+        display: flex;
+    }
+
+    & .user-table {
+        & .actions-ceil {
+            text-align: right;
+            flex-direction: row-reverse;
+            & g {
+                color: orange;
+            }
+        }
+
+        & th {
+            text-align: right;
+            flex-direction: row-reverse;
+        }
+
+        & .check-box {
+            text-align: left !important; 
+        }
+    }
+}

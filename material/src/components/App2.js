@@ -77,9 +77,9 @@ class App extends Component {
               'sidebar-lg': sidebarWidth === 'large'})
           }>
             <Route path={`${match.url}app`} component={MainApp} />
-            {/* <Route path={`${match.url}exception`} component={Exception} />
+            <Route path={`${match.url}exception`} component={Exception} />
             <Route path={`${match.url}user`} component={Account} />
-            <Route exact path="/fullscreen" component={PageFullscreen} /> */}
+            <Route exact path="/fullscreen" component={PageFullscreen} />
           </div>
         </div>
       </MuiThemeProvider>
