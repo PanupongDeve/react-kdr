@@ -329,6 +329,7 @@ class EnhancedTable extends React.Component {
           color="primary"
           aria-label="add"
           className={classes.button}
+          onClick={this.props.onAddClick}
         >
           <AddIcon />
         </Button>
@@ -408,10 +409,10 @@ EnhancedTable.propTypes = {
 
 const EnhancedTable1 = withStyles(styles)(EnhancedTable);
 
-const Section = () => (
+const Section = (props) => (
   <article className="article">
     <h2 className="article-title">จัดการผู้ใช้งาน</h2>
-    <EnhancedTable1 />
+    <EnhancedTable1 {...props} />
   </article>
 );
 

@@ -1,8 +1,11 @@
 import User from './User';
-import Role from './Role';
+import Colors from './Colors';
+import Models from './Models';
 
 const model = {};
 model.user = User;
-model.role = Role;
+model.colors = Colors;
+model.models = Models;
+
 
 export default model;

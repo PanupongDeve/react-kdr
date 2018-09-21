@@ -3,9 +3,17 @@ export default class BaseOTS {
     constructor() {
         this.loading = false;
         this.payload = null;
+        this.baseActionsTypes = {
+            LOADING: 'loading'
+        }
+      
     }
 
-    toDispatch(type, payload) {
+    getActionsTypes() {
+        return Object.assign(this.actionsTypes, this.baseActionsTypes);
+    }
+
+    sendPayloadToReducer(type, payload) {
         return (dispatch) => {
             dispatch({
                 type,
@@ -15,7 +23,7 @@ export default class BaseOTS {
         
     }
 
-    toStore(payload, name) {
+    sendDataFormReducerToStore(payload, name) {
         const store = {};
         store[name] = payload;
         store.loading = this.loading;

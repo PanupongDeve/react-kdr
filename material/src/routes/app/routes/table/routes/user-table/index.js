@@ -1,20 +1,43 @@
 import React, { Component } from "react";
-import QueueAnim from 'rc-queue-anim';
-import SortingSelecting from './SortingSelecting';
-export default class UserTable extends Component {
+import { connect } from "react-redux";
+import QueueAnim from "rc-queue-anim";
+import * as colorsActions from '../../../../../../actions/ColorsActions';
+import SortingSelecting from "./SortingSelecting";
+
+class UserTable extends Component {
+	componentDidMount() {
+    this.props.getColors();
+  }
+
+  onAddClick = () => {
+    console.log('Click status ---> Success')
+    const data = {
+      code: '456',
+      title: 'blue'
+    }
+
+    this.props.createColors(data);
+  }
+  
   render() {
+    console.log(this.props.colorsStore)
     return (
-      <div id="user-table" className="container-fluid no-breadcrumb page-dashboard">
+      <div
+        id="user-table"
+        className="container-fluid no-breadcrumb page-dashboard"
+      >
         <div className="box box-default">
           <div className="box-body">
             <div className="row">
               <div className="col-xl-12">
                 <div className="box box-transparent">
                   <div className="box-body">
-				  <QueueAnim type="bottom" className="ui-animate">
-				  <div key="1"><SortingSelecting /></div>
-				  </QueueAnim>
-				  </div>
+                    <QueueAnim type="bottom" className="ui-animate">
+                      <div key="1">
+                        <SortingSelecting onAddClick={this.onAddClick} />
+                      </div>
+                    </QueueAnim>
+                  </div>
                 </div>
               </div>
             </div>
@@ -24,3 +47,13 @@ export default class UserTable extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    colorsStore: state.colorsStore
+  };
+};
+
+const actions = Object.assign(colorsActions);
+
+export default connect(mapStateToProps, actions)(UserTable);

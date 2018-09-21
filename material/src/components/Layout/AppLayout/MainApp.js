@@ -7,6 +7,8 @@ import Footer from 'components/Layout/Footer';
 import Customizer from 'components/Customizer';
 import LoadingComponent from 'components/Loading';
 
+import model from '../../../class/FirebaseCloundFireStore'
+
 
 let Dashboard = loadable({
   loader: () => import('routes/app/routes/dashboard/'),
@@ -49,7 +51,6 @@ let Exception = loadable({
 
 
 class MainApp extends React.Component {
-
   render() {
     const { match } = this.props;
 

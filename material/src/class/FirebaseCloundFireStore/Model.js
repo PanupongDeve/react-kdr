@@ -9,6 +9,14 @@ class Model {
     this.moment = moment;
   }
 
+  getDTO() {
+    return this.dto;
+  }
+
+  getOTS() {
+    return this.ots;
+  }
+
   createDatabase() {
     const db = this.firebase.firestore();
 
@@ -92,8 +100,8 @@ class Model {
           };
           runAsyncCallBack();
         }
-
         functionReviceData(data);
+        data = [];
       });
     } catch (error) {
       throw Promise.reject(error);
