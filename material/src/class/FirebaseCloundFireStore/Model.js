@@ -58,7 +58,7 @@ class Model {
   async getAll(functionExtended) {
     try {
       const db = this.createDatabase();
-      const querySnapshot = await db.collection(this.collection).get();
+      const querySnapshot = await db.collection(this.collection).where("status", "==", status.ACTIVE).get();
       let data = [];
       querySnapshot.forEach(doc => {
         let Objectdata = {
@@ -85,7 +85,7 @@ class Model {
     try {
       const db = this.createDatabase();
       let data = [];
-      db.collection(this.collection).onSnapshot(querySnapshot => {
+      db.collection(this.collection).where("status", "==", status.ACTIVE).onSnapshot(querySnapshot => {
         querySnapshot.forEach(doc => {
           let Objectdata = {
             documentId: doc.id
@@ -108,7 +108,7 @@ class Model {
     }
   }
 
-  async getByDocumentId(documentId) {
+  async getByDocumentId(documentId, functionExtended = false) {
     try {
       const db = this.createDatabase();
       const docRef = await db.collection(this.collection).doc(documentId);
@@ -117,7 +117,18 @@ class Model {
         documentId: doc.id
       };
 
+
       objectData = Object.assign(objectData, doc.data());
+      if(objectData.status === status.DELETED) {
+        throw "undefind Data";
+      }
+      if (functionExtended) {
+        const runAsyncCallBack = async () => {
+          objectData = await functionExtended(objectData);
+        };
+        runAsyncCallBack();
+      }
+
       return objectData;
     } catch (error) {
       throw Promise.reject(error);
@@ -159,6 +170,27 @@ class Model {
       throw Promise.reject(error);
     }
   }
+
+  async restoreByDocumentId(documentId) {
+    try {
+      const db = this.createDatabase();
+      const updatedData = {
+        updatedAt: this.moment().format(),
+        status: status.ACTIVE
+      };
+
+      await db
+        .collection(this.collection)
+        .doc(documentId)
+        .update(updatedData);
+      return actions_status.SUCCESS;
+    } catch (error) {
+      console.log("Error");
+      throw Promise.reject(error);
+    }
+  }
 }
+
+
 
 export default Model;

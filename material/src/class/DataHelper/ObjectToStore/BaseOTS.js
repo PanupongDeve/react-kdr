@@ -3,14 +3,11 @@ export default class BaseOTS {
     constructor() {
         this.loading = false;
         this.payload = null;
-        this.baseActionsTypes = {
-            LOADING: 'loading'
-        }
       
     }
 
     getActionsTypes() {
-        return Object.assign(this.actionsTypes, this.baseActionsTypes);
+        return this.actionsTypes;
     }
 
     sendPayloadToReducer(type, payload) {

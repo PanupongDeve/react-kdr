@@ -13,10 +13,15 @@ class UserTable extends Component {
     console.log('Click status ---> Success')
     const data = {
       code: '456',
-      title: 'blue'
+      title: 'blueLemon'
     }
 
-    this.props.createColors(data);
+    //this.props.deleteColor("2ADvs2TiaPsKkaXiygLO");
+    this.props.updateColors("2ADvs2TiaPsKkaXiygLO",data);
+  }
+
+  componentWillUnmount() {
+    this.props.clearColor();
   }
   
   render() {

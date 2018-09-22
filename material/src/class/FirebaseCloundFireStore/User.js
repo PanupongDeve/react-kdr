@@ -7,6 +7,16 @@ class User extends Model {
     this.collection = "User";
   }
 
+  async inCludeUserField(data) {
+    data = await this.inCludeUserRole(data);
+    return data;
+  }
+
+  async inCludeUsersField(data) {
+    data = await this.inCludeUsersRole(data);
+    return data;
+  }
+
   async getByUID(UID) {
     try {
       const db = this.createDatabase();
@@ -30,7 +40,7 @@ class User extends Model {
     }
   }
 
-  async extendUsersRole(users) {
+  async inCludeUsersRole(users) {
     try {
       let usersExtend = users;
       const roles = await role.getAll();
@@ -51,7 +61,7 @@ class User extends Model {
     }
   }
 
-  async extendUserRole(user) {
+  async inCludeUserRole(user) {
     try {
       let userExtend = user;
       const roles = await role.getAll();

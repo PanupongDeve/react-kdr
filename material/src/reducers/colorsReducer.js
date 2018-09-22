@@ -21,7 +21,7 @@ export default (state = ColorsOTS.intialState(), action) => {
       );
       state = Object.assign(state, stateUpdate);
 	  return {...state};
-	case ColorsOTS.LOADING: 
+	case ColorsOTS.CLEAR_COLOR: 
 		return ColorsOTS.intialState();
     default:
       return state;
