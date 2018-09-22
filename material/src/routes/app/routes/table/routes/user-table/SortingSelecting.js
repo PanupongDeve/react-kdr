@@ -22,6 +22,7 @@ import EditIcon from "@material-ui/icons/EditTwoTone";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import MaterialIcon from "components/MaterialIcon";
+import AddModalWrapped from './AddModal';
 
 let counter = 0;
 const Actions = () => {
@@ -324,15 +325,7 @@ class EnhancedTable extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <Button
-          variant="fab"
-          color="primary"
-          aria-label="add"
-          className={classes.button}
-          onClick={this.props.onAddClick}
-        >
-          <AddIcon />
-        </Button>
+        <AddModalWrapped />
         <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={`user-table ${classes.table}`} aria-labelledby="tableTitle">
