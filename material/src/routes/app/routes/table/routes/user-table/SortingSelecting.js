@@ -364,7 +364,7 @@ class EnhancedTable extends React.Component {
                       <TableCell numeric>{n.fat}</TableCell>
                       <TableCell numeric>{n.carbs}</TableCell>
                       <TableCell numeric>{n.protein}</TableCell>
-					  <TableCell className="actions-ceil"><Actions /></TableCell>
+					            <TableCell className="actions-ceil"><Actions /></TableCell>
                     </TableRow>
                   );
                 })}

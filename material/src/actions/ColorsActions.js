@@ -64,7 +64,7 @@ export const restoreColor = (documentId) => async dispatch => {
 export const clearColor = () => async dispatch => {
     try {
         dispatch({
-            type: ColorsOTS.CLEAR_COLOR
+            type: ColorsTypes.CLEAR_COLOR
         });
     } catch (error) {
         throw Promise.reject(error); 

@@ -20,6 +20,7 @@ import 'styles/ui.scss';
 import lightTheme from './themes/lightTheme';
 import darkTheme from './themes/darkTheme';
 import grayTheme from './themes/grayTheme';
+import PageError from '../routes/exception/PageError';
 
 let MainApp = loadable({
   loader: () => import('components/Layout/AppLayout/MainApp'),
@@ -77,9 +78,9 @@ class App extends Component {
               'sidebar-lg': sidebarWidth === 'large'})
           }>
             <Route path={`${match.url}app`} component={MainApp} />
-            {/* <Route path={`${match.url}exception`} component={Exception} />
+            {/* <Route path={`${match.url}exception`} component={Exception} /> */}
             <Route path={`${match.url}user`} component={Account} />
-            <Route exact path="/fullscreen" component={PageFullscreen} /> */}
+            <Route exact path="*" component={PageError} />
           </div>
         </div>
       </MuiThemeProvider>

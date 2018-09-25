@@ -1,31 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
-import * as colorsActions from '../../../../../../actions/ColorsActions';
+import * as colorsActions from "../../../../../../actions/ColorsActions";
 import SortingSelecting from "./SortingSelecting";
 
 class UserTable extends Component {
-	componentDidMount() {
+  componentDidMount() {
     this.props.getColors();
   }
 
   onAddClick = () => {
-    console.log('Click status ---> Success')
+    console.log("Click status ---> Success");
     const data = {
-      code: '456',
-      title: 'blueLemon'
-    }
+      code: "456",
+      title: "blueLemon"
+    };
 
     //this.props.deleteColor("2ADvs2TiaPsKkaXiygLO");
-    this.props.updateColors("2ADvs2TiaPsKkaXiygLO",data);
-  }
+    this.props.updateColors("2ADvs2TiaPsKkaXiygLO", data);
+  };
 
   componentWillUnmount() {
     this.props.clearColor();
   }
-  
+
   render() {
-    console.log(this.props.colorsStore)
     return (
       <div
         id="user-table"
@@ -61,4 +60,7 @@ const mapStateToProps = state => {
 
 const actions = Object.assign(colorsActions);
 
-export default connect(mapStateToProps, actions)(UserTable);
+export default connect(
+  mapStateToProps,
+  actions
+)(UserTable);

@@ -5,14 +5,11 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+import AddUserForm from './AddUserForm';
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -35,7 +32,7 @@ const styles = theme => ({
     marginTop: "-30px",
     marginLeft: "-25px",
     margin: theme.spacing.unit
-  },
+  }
 });
 
 class AddModal extends React.Component {
@@ -66,18 +63,17 @@ class AddModal extends React.Component {
           <AddIcon />
         </Button>
         <Modal
+          className="root-modal"
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="title" id="modal-title">
-              Text in a modal
+          <div className={`${classes.paper} modal-add-user`}>
+            <Typography className="model-header" variant="title" id="modal-title">
+              เพิ่มผู้ใช้งาน
             </Typography>
-            <Typography variant="subheading" id="simple-modal-description">
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <AddUserForm handleClose={this.handleClose}/>      
           </div>
         </Modal>
       </div>
