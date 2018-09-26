@@ -38,17 +38,17 @@ function getSorting(order, orderBy) {
 }
 
 const columnData = [
-  { id: "id", numeric: true, disablePadding: false, label: "Id" },
+  { id: "id", numeric: true, disablePadding: false, label: "รหัสผู้ใช้" },
   {
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)"
+    label: "username"
   },
-  { id: "calories", numeric: true, disablePadding: false, label: "Calories" },
-  { id: "fat", numeric: true, disablePadding: false, label: "Fat (g)" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Carbs (g)" },
-  { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
+  { id: "calories", numeric: true, disablePadding: false, label: "ชื่อ-นามสกุล" },
+  { id: "fat", numeric: true, disablePadding: false, label: "เบอร์โทรศัพท์" },
+  { id: "carbs", numeric: true, disablePadding: false, label: "ที่อยู่" },
+  { id: "protein", numeric: true, disablePadding: false, label: "กลุ่ม" },
   { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
 ];
 
@@ -241,7 +241,7 @@ class EnhancedTable extends React.Component {
     setTimeout(() => {
       this.setState({
         data: [
-          createData("Cupcake", 305, 3.7, 67, 4.3),
+          createData("Cupcake", 'นายภาณุพงศ์ ฉ่ำสมบูรณ์', '089-4735224', '86/1 ต.ท่าเรือ อ.เมือง จ.นครศรีธรรมราช', 'ลูกค้าvip'),
           createData("Donut", 452, 25.0, 51, 4.9),
           createData("Eclair", 262, 16.0, 24, 6.0),
           createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
