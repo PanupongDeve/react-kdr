@@ -80,7 +80,7 @@ class App extends Component {
             <Route path={`${match.url}app`} component={MainApp} />
             {/* <Route path={`${match.url}exception`} component={Exception} /> */}
             <Route path={`${match.url}user`} component={Account} />
-            <Route exact path="*" component={PageError} />
+            {/* <Route exact path="*" component={PageError} /> */}
           </div>
         </div>
       </MuiThemeProvider>

@@ -18,22 +18,14 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/EditTwoTone";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import MaterialIcon from "components/MaterialIcon";
-import AddModalWrapped from './AddModal';
+import AddModalWrapped from './AddModal/AddModal';
+import EditModalWrapped from './EditModal/EditModal';
 
 let counter = 0;
-const Actions = () => {
-  return (
-    <Tooltip title="Edit">
-      <IconButton className="btn-edit"  aria-label="Edit">
-        <EditIcon />
-      </IconButton>
-    </Tooltip>
-  );
-};
+
 function createData(name, calories, fat, carbs, protein) {
   counter += 1;
   return { id: counter, name, calories, fat, carbs, protein};
@@ -364,7 +356,7 @@ class EnhancedTable extends React.Component {
                       <TableCell numeric>{n.fat}</TableCell>
                       <TableCell numeric>{n.carbs}</TableCell>
                       <TableCell numeric>{n.protein}</TableCell>
-					            <TableCell className="actions-ceil"><Actions /></TableCell>
+					            <TableCell className="actions-ceil"><EditModalWrapped /></TableCell>
                     </TableRow>
                   );
                 })}
