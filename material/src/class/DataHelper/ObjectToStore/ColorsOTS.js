@@ -10,6 +10,13 @@ class ColorsOTS extends BaseOTS {
         }
     }
 
+    intialData() {
+        return {
+            colors: [],
+            color: ''
+        }
+    }
+
 }
 
 export default new ColorsOTS();

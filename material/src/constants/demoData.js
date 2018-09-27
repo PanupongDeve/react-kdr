@@ -7,6 +7,7 @@ const DEMO = {
   login: '#/user/login',
   signUp: '#/user/sign-up',
   forgotPassword: '#/user/forgot-password',
+  fb_support: 'https://www.facebook.com/palm.future'
 }
 
 // header links

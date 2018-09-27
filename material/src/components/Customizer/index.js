@@ -55,8 +55,8 @@ class Customizer extends React.Component {
           <p className="customizer-header">Customizer</p>
           <p className="small m-0">Customize and preview in real time.</p>
 
-          <div className="divider my-4 divider-solid" />
-          <LayoutOptions />
+          {/* <div className="divider my-4 divider-solid" />
+          <LayoutOptions /> */}
 
           <div className="divider my-4 divider-solid" />
           <ColorOptions />
@@ -65,9 +65,9 @@ class Customizer extends React.Component {
           <ThemeOptions />
 
           <div className="divider my-4 divider-solid" />
-          <div className="text-right">
+          {/* <div className="text-right">
             <a target="_blank" href={DEMO.productLink}>Download it Now</a>
-          </div>
+          </div> */}
         </div>
       </section>
     );
