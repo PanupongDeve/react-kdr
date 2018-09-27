@@ -28,9 +28,7 @@ export default class BaseOTS {
     }
 
     intialState() {
-        return {
-            loading: true
-        }
+        return Object.assign({loading: true}, this.intialData())
     }
 
     

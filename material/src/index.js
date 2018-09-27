@@ -6,6 +6,7 @@ import Root from './components/Root';
 import * as serviceWorker from './serviceWorker';
 import FirebaseHelper from './class/FirebaseHelper';
 import './styles.scss'
+import 'react-block-ui/style.css';
 const store = configureStore();
 
 FirebaseHelper.plugin();
