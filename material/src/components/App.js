@@ -9,6 +9,8 @@ import LoadingComponent from 'components/Loading';
 
 
 
+
+
 // = styles =
 // 3rd
 import 'styles/bootstrap/bootstrap.scss';
@@ -20,7 +22,8 @@ import 'styles/ui.scss';
 import lightTheme from './themes/lightTheme';
 import darkTheme from './themes/darkTheme';
 import grayTheme from './themes/grayTheme';
-import PageError from '../routes/exception/PageError';
+
+
 
 let MainApp = loadable({
   loader: () => import('components/Layout/AppLayout/MainApp'),
@@ -80,7 +83,6 @@ class App extends Component {
             <Route path={`${match.url}app`} component={MainApp} />
             {/* <Route path={`${match.url}exception`} component={Exception} /> */}
             <Route path={`${match.url}user`} component={Account} />
-            {/* <Route exact path="*" component={PageError} /> */}
           </div>
         </div>
       </MuiThemeProvider>

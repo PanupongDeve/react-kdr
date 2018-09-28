@@ -86,7 +86,7 @@ class EnhancedTableHead extends React.Component {
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
-			  onChange={onSelectAllClick} 
+			        onChange={onSelectAllClick} 
             />
           </TableCell>
           {columnData.map(column => {
@@ -279,7 +279,7 @@ class EnhancedTable extends React.Component {
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }));
+      this.setState(state => ({ selected: state.data.map(n => n.documentId) }));
       return;
     }
     this.setState({ selected: [] });

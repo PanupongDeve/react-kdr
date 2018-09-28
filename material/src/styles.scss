@@ -1,2 +1,6 @@
 @import "scss/pages/users";
 @import "scss/pages/color";
+
+.sweet-alert button.cancel {
+    background-color: red !important;
+}

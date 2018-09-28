@@ -27,11 +27,15 @@ export const getColor = (documentId) => async dispatch => {
     }
 }
 
-export const createColors = (data) => async dispatch => {
+export const createColors = (data, successAlertCallback, errorAlertCallback) => async dispatch => {
     try {
-        const result = await model.colors.create(data);
+        await model.colors.create(data);
+        successAlertCallback();
        
     } catch (error) {
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);
         throw Promise.reject(error);
     }
 }
