@@ -67,7 +67,7 @@ class EditModal extends React.Component {
             <Typography className="model-header" variant="title" id="modal-title">
               แก้ไขสี
             </Typography>
-            <EditUserForm handleClose={this.handleClose} documentId={documentId} />      
+            <EditUserForm handleCloseModal={this.handleClose} documentId={documentId} />      
           </div>
         </Modal>
       </div>

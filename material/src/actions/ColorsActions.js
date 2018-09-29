@@ -40,11 +40,15 @@ export const createColors = (data, successAlertCallback, errorAlertCallback) => 
     }
 }
 
-export const updateColors = (documentId, data) => async dispatch => {
+export const updateColors = (documentId, data, successAlertCallback, errorAlertCallback) => async dispatch => {
     try {
-        const result = await model.colors.updateByDocumentId(documentId, data);
+        await model.colors.updateByDocumentId(documentId, data);
+        successAlertCallback();
        
     } catch (error) {
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);
         throw Promise.reject(error);
     }
 }

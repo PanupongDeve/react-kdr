@@ -12,9 +12,7 @@ import red from "@material-ui/core/colors/red";
 import { connect } from "react-redux";
 import * as colorsActions from "../../../../../../../actions/ColorsActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
-
-
-const SweetAlert = SweetAlertHelper.getComponent();
+import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 
 const styles = theme => ({
   container: {
@@ -43,52 +41,34 @@ const styles = theme => ({
   }
 });
 
-class TextFields extends React.Component {
-  state = {
-    code: "",
-    title: ""
-  };
-
-  componentDidMount() {}
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
-
-  closeModal = () => {
-    setTimeout(() => {
-      this.props.handleCloseModal();
-    }, 300)
-  }
-
-  handleAlertDicisions =() => {
-    const SweetAlertOptions = SweetAlertHelper.getOptions();
-    this.props.swal(SweetAlertOptions.handleDicitions);
-  }
-
-  handleAlertError = () => {
-    SweetAlertHelper.setOnConfirm(() => this.closeModal())
-    const SweetAlertOptions = SweetAlertHelper.getOptions();
-    this.props.swal(SweetAlertOptions.handleError);
-  }
-
-  handleAlertSuccess = () => {
-    SweetAlertHelper.setOnConfirm(() => this.closeModal())
-    const SweetAlertOptions = SweetAlertHelper.getOptions();
-    this.props.swal(SweetAlertOptions.handleSuccess);
+class TextFields extends ComponentWithHandle {
+  constructor(props) {
+    super(props);
+    this.state = {
+      code: "",
+      title: "",
+      blockLoading: false
+    };
   }
 
   handleOnCancel = () => {
     SweetAlertHelper.setOnConfirm(() => this.closeModal());
     this.handleAlertDicisions();
-  }
+  };
 
   handleSubmit = event => {
     event.preventDefault();
+    const data = {
+      code: this.state.code,
+      title: this.state.title
+    }
     SweetAlertHelper.setOnConfirm(() => {
-      this.props.createColors(this.state, this.handleAlertSuccess, this.handleAlertError);
+      this.handleOpenBlockLoading();
+      this.props.createColors(
+        data,
+        this.handleAlertSuccess,
+        this.handleAlertError
+      );
     });
     this.handleAlertDicisions();
   };
@@ -97,6 +77,7 @@ class TextFields extends React.Component {
     const { classes } = this.props;
     return (
       <Fragment>
+        <this.BlockUi tag="div" blocking={this.state.blockLoading}>
         <form
           onSubmit={this.handleSubmit}
           className={classes.container}
@@ -157,7 +138,8 @@ class TextFields extends React.Component {
             </Grid>
           </Grid>
         </form>
-        <SweetAlert />
+        </this.BlockUi>
+        <this.SweetAlert />
       </Fragment>
     );
   }

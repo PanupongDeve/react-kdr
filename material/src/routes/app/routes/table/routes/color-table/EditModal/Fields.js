@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -11,7 +11,9 @@ import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import * as colorsActions from "../../../../../../../actions/ColorsActions";
 import { connect } from "react-redux";
-import model from '../../../../../../../class/FirebaseCloundFireStore';
+import model from "../../../../../../../class/FirebaseCloundFireStore";
+import SweetAlertHelper from "../../../../../../../class/SweetAlert";
+import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 const ColorDTO = model.colors.getDTO();
 
 const styles = theme => ({
@@ -41,16 +43,19 @@ const styles = theme => ({
   }
 });
 
-class TextFields extends React.Component {
-  state = {
-    code: "",
-    title: ""
-  };
+class TextFields extends ComponentWithHandle {
+  constructor(props) {
+    super(props);
+    this.state = {
+      code: "",
+      title: "",
+      blockLoading: false
+    };
+  }
 
   componentDidMount() {
     const { documentId } = this.props;
-    this.props.getColor(documentId)
-    
+    this.props.getColor(documentId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,14 +64,32 @@ class TextFields extends React.Component {
     this.setState({
       code: color.code,
       title: color.title
-    })
+    });
   }
+
+  handleOnCancel = () => {
+    SweetAlertHelper.setOnConfirm(() => this.closeModal());
+    this.handleAlertDicisions();
+  };
 
   handleSubmit = event => {
     event.preventDefault();
     const { documentId } = this.props;
-    this.props.updateColors(documentId, this.state)
-  }
+    const data = {
+      code: this.state.code,
+      title: this.state.title
+    }
+    SweetAlertHelper.setOnConfirm(() => {
+      this.handleOpenBlockLoading();
+      this.props.updateColors(
+        documentId,
+        data,
+        this.handleAlertSuccess,
+        this.handleAlertError
+      );
+    });
+    this.handleAlertDicisions();
+  };
 
   handleChange = name => event => {
     this.setState({
@@ -78,63 +101,73 @@ class TextFields extends React.Component {
     const { classes } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} className={classes.container} noValidate autoComplete="off">
-        <Grid container spacing={24}>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              value={this.state.code}
-              onChange={this.handleChange("code")}
-              id="code"
-              label="รหัส"
-              name="code"
-              className={classes.textField}
-              margin="normal"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              value={this.state.title}
-              onChange={this.handleChange("title")}
-              id="title"
-              label="ชื่อสี"
-              name="title"
-              className={classes.textField}
-              margin="normal"
-              fullWidth
-            />
-          </Grid>
+      <Fragment>
+        <this.BlockUi tag="div" blocking={this.state.blockLoading}>
+        <form
+          onSubmit={this.handleSubmit}
+          className={classes.container}
+          noValidate
+          autoComplete="off"
+        >
+          <Grid container spacing={24}>
+            <Grid item xs={12} md={4}>
+              <TextField
+                required
+                value={this.state.code}
+                onChange={this.handleChange("code")}
+                id="code"
+                label="รหัส"
+                name="code"
+                className={classes.textField}
+                margin="normal"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField
+                required
+                value={this.state.title}
+                onChange={this.handleChange("title")}
+                id="title"
+                label="ชื่อสี"
+                name="title"
+                className={classes.textField}
+                margin="normal"
+                fullWidth
+              />
+            </Grid>
 
-          <Grid item xs={12} md={12}>
-            <Button
-              className="btn-save"
-              variant="contained"
-              size="large"
-              color="primary"
-              type="submit"
-            >
-              <SaveIcon
-                className={classNames(classes.leftIcon, classes.iconSmall)}
-              />
-              Save
-            </Button>
-            <Button
-              onClick={this.props.handleClose}
-              className="btn-cancel"
-              variant="contained"
-              size="large"
-              color="primary"
-            >
-              <ClearIcon
-                className={classNames(classes.leftIcon, classes.iconSmall)}
-              />
-              Cancel
-            </Button>
+            <Grid item xs={12} md={12}>
+              <Button
+                className="btn-save"
+                variant="contained"
+                size="large"
+                color="primary"
+                type="submit"
+              >
+                <SaveIcon
+                  className={classNames(classes.leftIcon, classes.iconSmall)}
+                />
+                Save
+              </Button>
+              <Button
+                onClick={this.handleOnCancel}
+                className="btn-cancel"
+                variant="contained"
+                size="large"
+                color="primary"
+              >
+                <ClearIcon
+                  className={classNames(classes.leftIcon, classes.iconSmall)}
+                />
+                Cancel
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
+        </form>
+        </this.BlockUi>
+        <this.SweetAlert />
+      </Fragment>
     );
   }
 }
