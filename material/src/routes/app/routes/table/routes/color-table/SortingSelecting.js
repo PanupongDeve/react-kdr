@@ -25,17 +25,15 @@ import AddModalWrapped from './AddModal/AddModal';
 import EditModalWrapped from './EditModal/EditModal';
 import { connect } from "react-redux";
 import * as colorsActions from "../../../../../../actions/ColorsActions";
-import BlockUi from "react-block-ui";
 import model from '../../../../../../class/FirebaseCloundFireStore';
+import SweetAlertHelper from "../../../../../../class/SweetAlert";
+import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
 
 const ColorDTO = model.colors.getDTO();
 
 let counter = 0;
 
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein};
-}
+
 
 function getSorting(order, orderBy) {
   return order === "desc"
@@ -237,7 +235,7 @@ const styles = theme => ({
   }
 });
 
-class EnhancedTable extends React.Component {
+class EnhancedTable extends ComponentWithHandle {
   constructor(props) {
     super(props);
 
@@ -314,7 +312,7 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleRemoveItems = event => {
+  handleRemoveItemsConfirmed = event => {
     const { selected } = this.state;
     const items = selected;
     items.map(item => {
@@ -322,6 +320,11 @@ class EnhancedTable extends React.Component {
     })
     this.setState({ selected: [] });
   }
+
+  handleRemoveItems = () => {
+    SweetAlertHelper.setOnConfirm(() => this.handleRemoveItemsConfirmed());
+    this.handleAlertDicisions();
+  };
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
@@ -337,7 +340,7 @@ class EnhancedTable extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <BlockUi tag="div" blocking={loading}>
+        <this.BlockUi tag="div" blocking={loading}>
         <AddModalWrapped />
         <EnhancedTableToolbar handleRemoveItems={this.handleRemoveItems} numSelected={selected.length} />
         <div className={classes.tableWrapper}>
@@ -400,7 +403,8 @@ class EnhancedTable extends React.Component {
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
-        </BlockUi>
+        </this.BlockUi>
+        <this.SweetAlert />
       </Paper>
     );
   }
@@ -416,7 +420,9 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(colorsActions);
+const SweetAlertActions = SweetAlertHelper.getActions();
+
+const actions = Object.assign(colorsActions, SweetAlertActions);
 
 const EnhancedTable1 = withStyles(styles)(EnhancedTable);
 

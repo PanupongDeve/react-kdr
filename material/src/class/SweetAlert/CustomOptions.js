@@ -13,7 +13,8 @@ class CustomOptions {
       showConfirmButton: true,
       confirmButtonColor: 'red',
       confirmButtonText: 'ตกลง',
-      onConfirm
+      onConfirm,
+      customClass: 'dk-alert'
     };
   }
 
@@ -24,7 +25,8 @@ class CustomOptions {
       showConfirmButton: true,
       confirmButtonColor: '#A3CB38',
       confirmButtonText: 'ตกลง',
-      onConfirm
+      onConfirm,
+      customClass: 'dk-alert'
     };
   }
 
@@ -37,7 +39,8 @@ class CustomOptions {
           confirmButtonText: 'ตกลง',
           cancelButtonText: 'ยกเลิก',
           confirmButtonColor: '#A3CB38',
-          onConfirm
+          onConfirm,
+          customClass: 'dk-alert'
       }
   }
 
