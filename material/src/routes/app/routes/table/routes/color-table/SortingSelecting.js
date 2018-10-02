@@ -153,7 +153,7 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes, handleRemoveItems } = props;
+  const { numSelected, classes, handleRemoveItems, handleSearchItems } = props;
 
   return (
     <Toolbar
@@ -190,8 +190,9 @@ let EnhancedTableToolbar = props => {
                     <MaterialIcon icon="search" />
                   </div>
                   <input
-                    onChange={() => alert("Hello world")}
+                    onChange={handleSearchItems}
                     type="text"
+                    name="search"
                     placeholder="search..."
                   />
                   <span className="input-bar" />
@@ -245,7 +246,8 @@ class EnhancedTable extends ComponentWithHandle {
       selected: [],
       data: [],
       page: 0,
-      rowsPerPage: 5
+      rowsPerPage: 5,
+      search: ''
     };
   }
 
@@ -326,23 +328,29 @@ class EnhancedTable extends ComponentWithHandle {
     this.handleAlertDicisions();
   };
 
+  handleSearchItems = (event) => {
+    this.setState({
+      search: event.target.value
+    });
+  }
+
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    let { data, order, orderBy, selected, rowsPerPage, page, search } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     let {loading } = this.props.colorsStore;
-    
+    data = ColorDTO.searchFilter(search, data);
     
 
     return (
       <Paper className={classes.root}>
         <this.BlockUi tag="div" blocking={loading}>
         <AddModalWrapped />
-        <EnhancedTableToolbar handleRemoveItems={this.handleRemoveItems} numSelected={selected.length} />
+        <EnhancedTableToolbar handleRemoveItems={this.handleRemoveItems} handleSearchItems={this.handleSearchItems} numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={`user-table ${classes.table}`} aria-labelledby="tableTitle">
             <EnhancedTableHead

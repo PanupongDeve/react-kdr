@@ -15,6 +15,17 @@ class ColorsDTO extends BaseDTO {
         }
     }
 
+    searchFilter(searchWord, colors) {
+        return colors.filter((color) => {
+            return (
+                new RegExp(searchWord.toLowerCase()).test(color.code.toLowerCase())
+                || new RegExp(searchWord.toLowerCase()).test(color.title.toLowerCase())
+                || new RegExp(searchWord.toLowerCase()).test(color.createdAt.toLowerCase())
+                || new RegExp(searchWord.toLowerCase()).test(color.updatedAt.toLowerCase())
+            );
+        })
+    }
+
     
 }
 
