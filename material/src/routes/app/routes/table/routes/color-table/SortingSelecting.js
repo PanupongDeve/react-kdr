@@ -25,17 +25,15 @@ import AddModalWrapped from './AddModal/AddModal';
 import EditModalWrapped from './EditModal/EditModal';
 import { connect } from "react-redux";
 import * as colorsActions from "../../../../../../actions/ColorsActions";
-import BlockUi from "react-block-ui";
 import model from '../../../../../../class/FirebaseCloundFireStore';
+import SweetAlertHelper from "../../../../../../class/SweetAlert";
+import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
 
 const ColorDTO = model.colors.getDTO();
 
 let counter = 0;
 
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein};
-}
+
 
 function getSorting(order, orderBy) {
   return order === "desc"
@@ -86,7 +84,7 @@ class EnhancedTableHead extends React.Component {
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
-			  onChange={onSelectAllClick} 
+			        onChange={onSelectAllClick} 
             />
           </TableCell>
           {columnData.map(column => {
@@ -155,7 +153,7 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes, handleRemoveItems } = props;
+  const { numSelected, classes, handleRemoveItems, handleSearchItems } = props;
 
   return (
     <Toolbar
@@ -175,10 +173,10 @@ let EnhancedTableToolbar = props => {
         )}
       </div>
       <div className={classes.spacer} />
-      <div onClick={handleRemoveItems} className={classes.actions}>
+      <div  className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+            <IconButton onClick={handleRemoveItems} aria-label="Delete">
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -192,8 +190,9 @@ let EnhancedTableToolbar = props => {
                     <MaterialIcon icon="search" />
                   </div>
                   <input
-                    onChange={() => alert("Hello world")}
+                    onChange={handleSearchItems}
                     type="text"
+                    name="search"
                     placeholder="search..."
                   />
                   <span className="input-bar" />
@@ -237,7 +236,7 @@ const styles = theme => ({
   }
 });
 
-class EnhancedTable extends React.Component {
+class EnhancedTable extends ComponentWithHandle {
   constructor(props) {
     super(props);
 
@@ -247,7 +246,8 @@ class EnhancedTable extends React.Component {
       selected: [],
       data: [],
       page: 0,
-      rowsPerPage: 5
+      rowsPerPage: 5,
+      search: ''
     };
   }
 
@@ -279,7 +279,7 @@ class EnhancedTable extends React.Component {
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }));
+      this.setState(state => ({ selected: state.data.map(n => n.documentId) }));
       return;
     }
     this.setState({ selected: [] });
@@ -314,7 +314,7 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleRemoveItems = event => {
+  handleRemoveItemsConfirmed = event => {
     const { selected } = this.state;
     const items = selected;
     items.map(item => {
@@ -323,23 +323,34 @@ class EnhancedTable extends React.Component {
     this.setState({ selected: [] });
   }
 
+  handleRemoveItems = () => {
+    SweetAlertHelper.setOnConfirm(() => this.handleRemoveItemsConfirmed());
+    this.handleAlertDicisions();
+  };
+
+  handleSearchItems = (event) => {
+    this.setState({
+      search: event.target.value
+    });
+  }
+
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    let { data, order, orderBy, selected, rowsPerPage, page, search } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     let {loading } = this.props.colorsStore;
-    
+    data = ColorDTO.searchFilter(search, data);
     
 
     return (
       <Paper className={classes.root}>
-        <BlockUi tag="div" blocking={loading}>
+        <this.BlockUi tag="div" blocking={loading}>
         <AddModalWrapped />
-        <EnhancedTableToolbar handleRemoveItems={this.handleRemoveItems} numSelected={selected.length} />
+        <EnhancedTableToolbar handleRemoveItems={this.handleRemoveItems} handleSearchItems={this.handleSearchItems} numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={`user-table ${classes.table}`} aria-labelledby="tableTitle">
             <EnhancedTableHead
@@ -400,7 +411,8 @@ class EnhancedTable extends React.Component {
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
-        </BlockUi>
+        </this.BlockUi>
+        <this.SweetAlert />
       </Paper>
     );
   }
@@ -416,7 +428,9 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(colorsActions);
+const SweetAlertActions = SweetAlertHelper.getActions();
+
+const actions = Object.assign(colorsActions, SweetAlertActions);
 
 const EnhancedTable1 = withStyles(styles)(EnhancedTable);
 

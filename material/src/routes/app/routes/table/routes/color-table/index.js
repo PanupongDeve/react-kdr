@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
 import * as colorsActions from "../../../../../../actions/ColorsActions";
 import SortingSelecting from "./SortingSelecting";
-import BlockUi from "react-block-ui";
+
 import model from '../../../../../../class/FirebaseCloundFireStore';
 
 const ColorDTO = model.colors.getDTO();

@@ -23,4 +23,6 @@ export default class BaseDTO {
     showTimesDisapy(date) {
         return moment(date).format("DD/MM/YYYY, h:mm:ss a");
     }
+
+    
 }

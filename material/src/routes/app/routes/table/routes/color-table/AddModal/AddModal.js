@@ -73,7 +73,7 @@ class AddModal extends React.Component {
             <Typography className="model-header" variant="title" id="modal-title">
               เพิ่มสี
             </Typography>
-            <AddUserForm handleClose={this.handleClose}/>      
+            <AddUserForm handleCloseModal={this.handleClose}/>      
           </div>
         </Modal>
       </div>
