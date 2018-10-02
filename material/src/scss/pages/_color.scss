@@ -1,7 +1,6 @@
 #color-table {
     & .article-title {
         text-align: center;
-        text-decoration: underline;
     }
 
     & .list-unstyled {
@@ -40,7 +39,7 @@
     & .model-header {
         font-size: 48px;
         text-align: center;
-        text-decoration: underline;
+
     }
 
     & .btn-cancel {
@@ -66,7 +65,6 @@
         & .model-header {
             font-size: 48px;
             text-align: center;
-            text-decoration: underline;
         }
     
         & .btn-cancel {
@@ -88,7 +86,6 @@
         padding: 0;
         & .article-title {
             text-align: center;
-            text-decoration: underline;
             font-size: 24px;
         }
 
@@ -128,7 +125,6 @@
         & .model-header {
             font-size: 36px;
             text-align: center;
-            text-decoration: underline;
         }
 
         & .btn-save {
