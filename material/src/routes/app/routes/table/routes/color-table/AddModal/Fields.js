@@ -60,7 +60,8 @@ class TextFields extends ComponentWithHandle {
     event.preventDefault();
     const data = {
       code: this.state.code,
-      title: this.state.title
+      title: this.state.title,
+      blockLoading: false
     }
     SweetAlertHelper.setOnConfirm(() => {
       this.handleOpenBlockLoading();

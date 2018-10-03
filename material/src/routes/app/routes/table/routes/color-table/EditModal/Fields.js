@@ -49,7 +49,7 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       code: "",
       title: "",
-      blockLoading: false
+      blockLoading: true
     };
   }
 
@@ -63,7 +63,8 @@ class TextFields extends ComponentWithHandle {
     color = ColorDTO.getObject(color);
     this.setState({
       code: color.code,
-      title: color.title
+      title: color.title,
+      blockLoading: false
     });
   }
 

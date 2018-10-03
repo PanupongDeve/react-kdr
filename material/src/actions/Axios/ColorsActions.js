@@ -24,23 +24,29 @@ export const getColor = (id) => async dispatch => {
     }
 }
 
-export const createColors = (data, closeAlertCallback) => async dispatch => {
+export const createColors = (data, successAlertCallback, errorAlertCallback) => async dispatch => {
     try {
-        throw 'error';
+
         await model.colors.create(data);
-        closeAlertCallback();
+        successAlertCallback();
        
     } catch (error) {
-        closeAlertCallback();
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);;
         throw Promise.reject(error);
     }
 }
 
-export const updateColors = (id, data) => async dispatch => {
+export const updateColors = (id, data, successAlertCallback, errorAlertCallback) => async dispatch => {
     try {
-        const result = await model.colors.update(id, data);
+        await model.colors.update(id, data);
+        successAlertCallback();
        
     } catch (error) {
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);;
         throw Promise.reject(error);
     }
 }
