@@ -440,8 +440,8 @@ class EnhancedTable extends ComponentWithHandle {
                         </TableCell>
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
-                        <TableCell numeric>{n.createdAt}</TableCell>
-                        <TableCell numeric>{n.updatedAt}</TableCell>
+                        <TableCell numeric>{ColorDTO.showTimesDisplay(n.createdAt)}</TableCell>
+                        <TableCell numeric>{ColorDTO.showTimesDisplay(n.updatedAt)}</TableCell>
                         <TableCell className="actions-ceil">
                           <EditModalWrapped documentId={n.documentId} />
                         </TableCell>

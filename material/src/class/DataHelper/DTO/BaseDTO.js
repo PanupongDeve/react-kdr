@@ -1,12 +1,15 @@
-import moment from "moment";
+import * as moment  from 'moment-timezone';
 
 export default class BaseDTO {
-    
+    moment(timestamp) {
+        return moment(timestamp).tz("Asia/Bangkok");
+    }
+
     getTimeStamp(data) {
         return {
-            createdAt: this.showTimesDisapy(data.createdAt),
-            updatedAt: this.showTimesDisapy(data.updatedAt),
-            deletedAt: this.showTimesDisapy(data.deletedAt || '-')
+            createdAt: this.toMilliSecond(data.createdAt),
+            updatedAt: this.toMilliSecond(data.updatedAt),
+            deletedAt: this.toMilliSecond(data.deletedAt || '-')
         }
     }
 
@@ -20,8 +23,16 @@ export default class BaseDTO {
         })
     }
 
-    showTimesDisapy(date) {
-        return moment(date).format("DD/MM/YYYY, h:mm:ss a");
+    showTimesDisplay(date) {
+        return this.moment(date).format("DD/MM/YYYY, h:mm:ss a");
+    }
+
+    toMilliSecond(date) {
+        return this.moment(date).valueOf();
+    }
+
+    setBlackSlash(string) {
+        return string.replace(new RegExp("\\\\", "g"), "\\\\"); 
     }
 
     

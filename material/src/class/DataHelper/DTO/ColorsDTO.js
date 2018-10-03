@@ -15,8 +15,12 @@ class ColorsDTO extends BaseDTO {
         }
     }
 
+    
+
     searchFilter(searchWord, colors) {
+        
         return colors.filter((color) => {
+            searchWord = this.setBlackSlash(searchWord);
             return (
                 new RegExp(searchWord.toLowerCase()).test(color.code.toLowerCase())
                 || new RegExp(searchWord.toLowerCase()).test(color.title.toLowerCase())

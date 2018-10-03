@@ -1,13 +1,17 @@
 import FirebaseHelper from "../FirebaseHelper";
-import moment from "moment";
+import * as moment  from 'moment-timezone';
 import status from "../../enums/status";
 import actions_status from "../../enums/actions_status";
 
 class Model {
   constructor() {
     this.firebase = FirebaseHelper.getFirebase();
-    this.moment = moment;
+
   }
+
+  moment(timestamp) {
+    return moment(timestamp).tz("Asia/Bangkok");
+}
 
   getDTO() {
     return this.dto;
