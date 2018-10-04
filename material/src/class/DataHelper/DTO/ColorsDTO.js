@@ -25,8 +25,8 @@ class ColorsDTO extends BaseDTO {
             return (
                 new RegExp(searchWord.toLowerCase()).test(color.code.toLowerCase())
                 || new RegExp(searchWord.toLowerCase()).test(color.title.toLowerCase())
-                || new RegExp(searchWord.toLowerCase()).test(createdAt)
-                || new RegExp(searchWord.toLowerCase()).test(updatedAt)
+                || new RegExp(searchWord.toLowerCase()).test(createdAt.toLowerCase())
+                || new RegExp(searchWord.toLowerCase()).test(updatedAt.toLowerCase())
             );
         })
     }

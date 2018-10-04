@@ -1,7 +1,14 @@
 import Colors from './ColorsService';
+import Users from './๊UsersService';
+import Storage from '../Storage'
 
-const model = {};
+class ServiceModel {
+    constructor() {
+        this.storage = new Storage();
+        this.colors = Colors;
+        this.users = Users;
+    }
 
-model.colors = Colors;
+}
 
-export default model;
+export default new ServiceModel();

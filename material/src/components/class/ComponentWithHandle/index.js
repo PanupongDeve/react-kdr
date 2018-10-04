@@ -1,17 +1,20 @@
-import React, { Component } from "react";
+import ComponenPermission from '../ComponenPermission';
 import SweetAlertHelper from "../../../class/SweetAlert";
 import BlockUi from "react-block-ui";
 
 const SweetAlert = SweetAlertHelper.getComponent();
 const SweetAlertOptions = SweetAlertHelper.getOptions();
 
-export default class ComponentWithHandle extends Component {
+export default class ComponentWithHandle extends ComponenPermission {
   constructor(props) {
     super(props);
     this.SweetAlert = SweetAlert;
     this.BlockUi = BlockUi;
     this.SweetAlertOptions = SweetAlertOptions;
+    this.SweetAlertHelper = SweetAlertHelper;
   }
+
+  
 
   handleOpenBlockLoading = () => {
     this.setState({ blockLoading: true });

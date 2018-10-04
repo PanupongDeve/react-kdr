@@ -5,6 +5,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { Route, Redirect } from 'react-router-dom';
 import loadable from 'react-loadable';
 import LoadingComponent from 'components/Loading';
+import model from '../class/ServicesAPI'
 
 
 
@@ -44,7 +45,9 @@ let PageFullscreen = loadable({
 
 
 class App extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    
+  }
 
   render() {
     const { match, location, layoutBoxed, navCollapsed, navBehind, fixedHeader, sidebarWidth, theme } = this.props;
@@ -61,8 +64,11 @@ class App extends Component {
     }
 
     const isRoot = location.pathname === '/' ? true : false;
-    if (isRoot) {
-      return ( <Redirect to={'/app/dashboard'}/> );
+
+    if (isRoot && model.storage.isToken() === true) {
+      this.props.history.push('/app/table/color-table')
+    } else if (isRoot && model.storage.isToken() === false) {
+      this.props.history.push('/user/login')
     }
 
     return (

@@ -4,13 +4,11 @@ import { AppContainer } from 'react-hot-loader';
 import configureStore, { history } from './store/configureStore';
 import Root from './components/Root';
 import * as serviceWorker from './serviceWorker';
-import FirebaseHelper from './class/FirebaseHelper';
 import './styles.scss'
 import 'react-block-ui/style.css';
 import 'sweetalert/dist/sweetalert.css';
 const store = configureStore();
 
-FirebaseHelper.plugin();
 
 render(
   <AppContainer>
