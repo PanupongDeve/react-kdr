@@ -10,7 +10,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import { connect } from "react-redux";
-import * as colorsActions from "../../../../../../../actions/ColorsActions";
+import * as colorsActions from "../../../../../../../actions/Axios/ColorsActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 
@@ -68,7 +68,9 @@ class TextFields extends ComponentWithHandle {
       this.props.createColors(
         data,
         this.handleAlertSuccess,
-        this.handleAlertError
+        this.handleAlertError,
+        this.props.getColors,
+        this.SweetAlertOptions.setMessageError
       );
     });
     this.handleAlertDicisions();

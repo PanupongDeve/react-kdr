@@ -3,12 +3,14 @@ import SweetAlertHelper from "../../../class/SweetAlert";
 import BlockUi from "react-block-ui";
 
 const SweetAlert = SweetAlertHelper.getComponent();
+const SweetAlertOptions = SweetAlertHelper.getOptions();
 
 export default class ComponentWithHandle extends Component {
   constructor(props) {
     super(props);
     this.SweetAlert = SweetAlert;
     this.BlockUi = BlockUi;
+    this.SweetAlertOptions = SweetAlertOptions;
   }
 
   handleOpenBlockLoading = () => {
@@ -45,7 +47,9 @@ export default class ComponentWithHandle extends Component {
 
   handleAlertSuccess = () => {
     this.handleCloseBlockLoading();
-    SweetAlertHelper.setOnConfirm(() => this.closeModal());
+    SweetAlertHelper.setOnConfirm(() => {
+      this.closeModal()
+    });
     const SweetAlertOptions = SweetAlertHelper.getOptions();
     this.props.swal(SweetAlertOptions.handleSuccess);
   };

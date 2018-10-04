@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
-import * as colorsActions from "../../../../../../actions/ColorsActions";
+import * as colorsActions from "../../../../../../actions/Axios/ColorsActions";
 import SortingSelecting from "./SortingSelecting";
 
 class UserTable extends Component {

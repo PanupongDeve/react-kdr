@@ -1,4 +1,4 @@
-import model from "../class/FirebaseCloundFireStore";
+import model from "../class/ServicesAPI";
 
 const ColorsOTS = model.colors.getOTS();
 const ColorsTypes = ColorsOTS.getActionsTypes();

@@ -7,7 +7,7 @@ import Footer from 'components/Layout/Footer';
 import Customizer from 'components/Customizer';
 import LoadingComponent from 'components/Loading';
 
-import model from '../../../class/FirebaseCloundFireStore'
+import model from '../../../class/ServicesAPI'
 
 
 let Dashboard = loadable({

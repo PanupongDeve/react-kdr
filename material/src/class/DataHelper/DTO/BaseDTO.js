@@ -5,6 +5,12 @@ export default class BaseDTO {
         return moment(timestamp).tz("Asia/Bangkok");
     }
 
+    getSoftDelte(data) {
+        return {
+            softDelete: data.softDelete
+        }
+    }
+
     getTimeStamp(data) {
         return {
             createdAt: this.toMilliSecond(data.createdAt),
@@ -14,13 +20,17 @@ export default class BaseDTO {
     }
 
     getObject(data) {
-        return Object.assign(this.getFieldObject(data), this.getTimeStamp(data));
+        return Object.assign(this.getFieldObject(data), this.getTimeStamp(data), this.getSoftDelte(data));
     }
 
     getArrayObject(datas) {
         return datas.map(data => {
             return this.getObject(data);
         })
+    }
+
+    filterDataActive(datas) {
+        return datas.filter((data) => data.softDelete === false);
     }
 
     showTimesDisplay(date) {

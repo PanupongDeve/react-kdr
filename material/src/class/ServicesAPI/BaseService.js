@@ -1,7 +1,7 @@
 import axios from "axios";
 import moment from "moment";
 
-const RootURL = "http://localhost";
+const RootURL = "http://localhost:3001";
 
 export default class BaseService {
   constructor(domain) {
@@ -22,19 +22,19 @@ export default class BaseService {
   async get() {
     try {
       const res = await this.axios.get(`${this.RootURL}/${this.domain}`);
-      return res.data;
+      return res.data.result;
     } catch (error) {
       console.log(error);
-      return { error: true };
+      throw error;
     }
   }
   async getById(id) {
     try {
       const res = await this.axios.get(`${this.RootURL}/${this.domain}/${id}`);
-      return res.data[0];
+      return res.data.result;
     } catch (error) {
       console.log(error);
-      return { error: true };
+      throw error;
     }
   }
 
@@ -43,8 +43,7 @@ export default class BaseService {
       const res = await this.axios.post(`${this.RootURL}/${this.domain}`, data);
       return res.data;
     } catch (error) {
-      console.log(error);
-      return { error: true };
+      throw error;
     }
   }
   async update(id, data) {
@@ -56,18 +55,18 @@ export default class BaseService {
       return res.data;
     } catch (error) {
       console.log(error);
-      return { error: true };
+      throw error;
     }
   }
   async remove(id) {
     try {
       const res = await this.axios.delete(
-        `${this.RootURL}/${this.domain}/${id}`
+        `${this.RootURL}/${this.domain}/soft/${id}`
       );
       return res.data;
     } catch (error) {
       console.log(error);
-      return { error: true };
+      throw error;
     }
   }
 }

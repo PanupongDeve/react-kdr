@@ -9,9 +9,9 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
-import * as colorsActions from "../../../../../../../actions/ColorsActions";
+import * as colorsActions from "../../../../../../../actions/Axios/ColorsActions";
 import { connect } from "react-redux";
-import model from "../../../../../../../class/FirebaseCloundFireStore";
+import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 const ColorDTO = model.colors.getDTO();
@@ -54,8 +54,8 @@ class TextFields extends ComponentWithHandle {
   }
 
   componentDidMount() {
-    const { documentId } = this.props;
-    this.props.getColor(documentId);
+    const { id } = this.props;
+    this.props.getColor(id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,7 +75,7 @@ class TextFields extends ComponentWithHandle {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { documentId } = this.props;
+    const { id } = this.props;
     const data = {
       code: this.state.code,
       title: this.state.title
@@ -83,10 +83,12 @@ class TextFields extends ComponentWithHandle {
     SweetAlertHelper.setOnConfirm(() => {
       this.handleOpenBlockLoading();
       this.props.updateColors(
-        documentId,
+        id,
         data,
         this.handleAlertSuccess,
-        this.handleAlertError
+        this.handleAlertError,
+        this.props.getColors,
+        this.SweetAlertOptions.setMessageError
       );
     });
     this.handleAlertDicisions();

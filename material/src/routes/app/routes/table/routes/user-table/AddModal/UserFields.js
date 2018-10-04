@@ -53,7 +53,6 @@ class TextFields extends React.Component {
 
   render() {
     const { classes } = this.props;
-	console.log(this.props);
     return (
       <form className={classes.container} noValidate autoComplete="off">
         <Grid container spacing={24}>

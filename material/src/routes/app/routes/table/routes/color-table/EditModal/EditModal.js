@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-import EditUserForm from './EditForm';
+import EditForm from './EditForm';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import EditIcon from "@material-ui/icons/EditTwoTone";
@@ -51,7 +51,7 @@ class EditModal extends React.Component {
   };
 
   render() {
-    const { classes, documentId } = this.props;
+    const { classes, id } = this.props;
 
     return (
       <div>
@@ -67,7 +67,7 @@ class EditModal extends React.Component {
             <Typography className="model-header" variant="title" id="modal-title">
               แก้ไขสี
             </Typography>
-            <EditUserForm handleCloseModal={this.handleClose} documentId={documentId} />      
+            <EditForm handleCloseModal={this.handleClose} id={id} />      
           </div>
         </Modal>
       </div>

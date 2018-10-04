@@ -24,37 +24,55 @@ export const getColor = (id) => async dispatch => {
     }
 }
 
-export const createColors = (data, successAlertCallback, errorAlertCallback) => async dispatch => {
+export const createColors = (data, successAlertCallback, errorAlertCallback, getColors, setMessageError) => async dispatch => {
     try {
 
         await model.colors.create(data);
-        successAlertCallback();
-       
+        setTimeout(() => {
+            successAlertCallback();
+            getColors();  
+        }, 500);
+          
     } catch (error) {
+        setMessageError(error.response.data.result.errors[0].message);
         setTimeout(() => {
             errorAlertCallback();
-        }, 500);;
+        }, 500);
         throw Promise.reject(error);
     }
 }
 
-export const updateColors = (id, data, successAlertCallback, errorAlertCallback) => async dispatch => {
+export const updateColors = (id, data, successAlertCallback, errorAlertCallback, getColors, setMessageError) => async dispatch => {
     try {
         await model.colors.update(id, data);
-        successAlertCallback();
+        setTimeout(() => {
+            successAlertCallback();
+            getColors();
+        }, 500);
+        
        
     } catch (error) {
+        setMessageError(error.response.data.result.errors[0].message);
         setTimeout(() => {
             errorAlertCallback();
-        }, 500);;
+        }, 500);
         throw Promise.reject(error);
     }
 }
 
-export const deleteColor = (id) => async dispatch => {
+export const deleteColor = (id, getColors, countItemDelete, ItemDeleteLength,errorAlertCallback, setMessageError) => async dispatch => {
     try {
-        const result = await model.colors.remove(id);
+        await model.colors.remove(id);
+        if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
+            getColors();
+        }
     } catch (error) {
+        if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
+            setMessageError(error.response.data.result.errors[0].message);
+            setTimeout(() => {
+                errorAlertCallback();
+            }, 500);
+        }
         throw Promise.reject(error);
     }
 }
@@ -75,4 +93,8 @@ export const clearColor = () => async dispatch => {
     } catch (error) {
         throw Promise.reject(error); 
     }
+}
+
+const isLastItemsforDelelte = (countItemDelete, ItemDeleteLength) => {
+    return countItemDelete === ItemDeleteLength ? true: false;
 }

@@ -7,8 +7,7 @@ class ColorsService extends BaseService {
         super(domain)
         this.dto = ColorsDTO;
         this.ots = ColorsOTS;
-    }
-    
+    }   
 }
 
-export default new ColorsService('colors');
+export default new ColorsService('api/colors');
