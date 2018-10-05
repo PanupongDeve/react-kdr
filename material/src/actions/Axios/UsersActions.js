@@ -13,7 +13,6 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
         redirectCallBack();
           
     } catch (error) {
-        console.log(error);
         setMessageError(error.response.data.result);
         setTimeout(() => {
             errorAlertCallback();
