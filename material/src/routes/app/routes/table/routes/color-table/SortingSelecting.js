@@ -43,7 +43,8 @@ function getSorting(order, orderBy) {
 }
 
 const columnData = [
-  { id: "id", numeric: false, disablePadding: true, label: "รหัส" },
+  { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
+  { id: "code", numeric: false, disablePadding: true, label: "รหัส" },
   {
     id: "title",
     numeric: false,
@@ -448,6 +449,7 @@ class EnhancedTable extends ComponentWithHandle {
                             onClick={event => this.handleClick(event, n.id)}
                           />
                         </TableCell>
+                        <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
                         <TableCell numeric>

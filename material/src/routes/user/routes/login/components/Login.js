@@ -20,7 +20,6 @@ class Login extends ComponentWithHandle {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.checkPermissionUser();
   }
 

@@ -2,6 +2,8 @@ import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Input from "@material-ui/core/Input";
+import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import Table from "@material-ui/core/Table";
@@ -18,18 +20,21 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import MaterialIcon from "components/MaterialIcon";
-import AddModalWrapped from './AddModal/AddModal';
-import EditModalWrapped from './EditModal/EditModal';
+import AddModalWrapped from "./AddModal/AddModal";
+import EditModalWrapped from "./EditModal/EditModal";
+import { connect } from "react-redux";
+import * as usersActions from "../../../../../../actions/Axios/UsersActions";
+import model from "../../../../../../class/ServicesAPI";
+import SweetAlertHelper from "../../../../../../class/SweetAlert";
+import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
+
+const UserDTO = model.users.getDTO();
 
 let counter = 0;
-
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein};
-}
 
 function getSorting(order, orderBy) {
   return order === "desc"
@@ -38,18 +43,44 @@ function getSorting(order, orderBy) {
 }
 
 const columnData = [
-  { id: "id", numeric: true, disablePadding: false, label: "รหัสผู้ใช้" },
+  { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
+  { id: "name", numeric: false, disablePadding: true, label: "ชื่อ" },
   {
-    id: "name",
+    id: "username",
     numeric: false,
     disablePadding: true,
-    label: "username"
+    label: "รหัสสมาชิก"
   },
-  { id: "calories", numeric: true, disablePadding: false, label: "ชื่อ-นามสกุล" },
-  { id: "fat", numeric: true, disablePadding: false, label: "เบอร์โทรศัพท์" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "ที่อยู่" },
-  { id: "protein", numeric: true, disablePadding: false, label: "กลุ่ม" },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
+  {
+    id: "address",
+    numeric: false,
+    disablePadding: true,
+    label: "ที่อยู่"
+  },
+  {
+    id: "tel",
+    numeric: false,
+    disablePadding: true,
+    label: "เบอร์โทรศัพท์"
+  },
+  {
+    id: "group",
+    numeric: false,
+    disablePadding: true,
+    label: "กลุ่ม"
+  },
+  {
+    id: "createdAt",
+    numeric: false,
+    disablePadding: true,
+    label: "สร้างเมื่อ"
+  },
+  {
+    id: "updatedAt",
+    numeric: false,
+    disablePadding: true,
+    label: "แก้ไขล่าสุด"
+  }
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -73,7 +104,7 @@ class EnhancedTableHead extends React.Component {
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
-			  onChange={onSelectAllClick} 
+              onChange={onSelectAllClick}
             />
           </TableCell>
           {columnData.map(column => {
@@ -100,6 +131,7 @@ class EnhancedTableHead extends React.Component {
               </TableCell>
             );
           }, this)}
+          <TableCell numeric>Actions</TableCell>
         </TableRow>
       </TableHead>
     );
@@ -122,18 +154,18 @@ const toolbarStyles = theme => ({
   highlight:
     theme.palette.type === "light"
       ? {
-          color: theme.palette.secondary.main,
+          user: theme.palette.secondary.main,
           backgroundColor: lighten(theme.palette.secondary.light, 0.85)
         }
       : {
-          color: theme.palette.text.primary,
+          user: theme.palette.text.primary,
           backgroundColor: theme.palette.secondary.dark
         },
   spacer: {
     flex: "1 1 100%"
   },
   actions: {
-    color: theme.palette.text.secondary
+    user: theme.palette.text.secondary
   },
   title: {
     flex: "0 0 auto"
@@ -141,7 +173,7 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes } = props;
+  const { numSelected, classes, handleRemoveItems, handleSearchItems } = props;
 
   return (
     <Toolbar
@@ -151,7 +183,7 @@ let EnhancedTableToolbar = props => {
     >
       <div className={classes.title}>
         {numSelected > 0 ? (
-          <Typography color="inherit" variant="subheading">
+          <Typography user="inherit" variant="subheading">
             {numSelected} selected
           </Typography>
         ) : (
@@ -164,7 +196,7 @@ let EnhancedTableToolbar = props => {
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+            <IconButton onClick={handleRemoveItems} aria-label="Delete">
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -178,8 +210,9 @@ let EnhancedTableToolbar = props => {
                     <MaterialIcon icon="search" />
                   </div>
                   <input
-                    onChange={() => alert("Hello world")}
+                    onChange={handleSearchItems}
                     type="text"
+                    name="search"
                     placeholder="search..."
                   />
                   <span className="input-bar" />
@@ -220,43 +253,77 @@ const styles = theme => ({
   },
   extendedIcon: {
     marginRight: theme.spacing.unit
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25)
+    },
+    marginRight: theme.spacing.unit * 2,
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing.unit * 3,
+      width: "auto"
+    }
+  },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  inputRoot: {
+    user: "inherit",
+    width: "100%"
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: 200
+    }
   }
 });
 
-class EnhancedTable extends React.Component {
+class EnhancedTable extends ComponentWithHandle {
   constructor(props) {
     super(props);
 
     this.state = {
-      order: "asc",
-      orderBy: "name",
+      order: "desc",
+      orderBy: "updatedAt",
       selected: [],
       data: [],
       page: 0,
-      rowsPerPage: 5
+      rowsPerPage: 5,
+      search: "",
+      countItemDeleted: 0
     };
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        data: [
-          createData("Cupcake", 'นายภาณุพงศ์ ฉ่ำสมบูรณ์', '089-4735224', '86/1 ต.ท่าเรือ อ.เมือง จ.นครศรีธรรมราช', 'ลูกค้าvip'),
-          createData("Donut", 452, 25.0, 51, 4.9),
-          createData("Eclair", 262, 16.0, 24, 6.0),
-          createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-          createData("Gingerbread", 356, 16.0, 49, 3.9),
-          createData("Honeycomb", 408, 3.2, 87, 6.5),
-          createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-          createData("Jelly Bean", 375, 0.0, 94, 0.0),
-          createData("KitKat", 518, 26.0, 65, 7.0),
-          createData("Lollipop", 392, 0.2, 98, 0.0),
-          createData("Marshmallow", 318, 0, 81, 2.0),
-          createData("Nougat", 360, 19.0, 9, 37.0),
-          createData("Oreo", 437, 18.0, 63, 4.0)
-        ]
-      });
-    }, 300);
+    this.props.getUsers();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let { loading, users } = nextProps.usersStore;
+    users = UserDTO.getArrayObject(users);
+    users = UserDTO.filterDataActive(users);
+    this.setState({ data: users });
+  }
+
+  componentWillUnmount() {
+    this.props.clearUser();
   }
 
   handleRequestSort = (event, property) => {
@@ -307,82 +374,155 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  handleRemoveItemsConfirmed = event => {
+    const { selected } = this.state;
+    const items = selected;
+    items.map(item => {
+      let { countItemDeleted } = this.state;
+      countItemDeleted++;
+      this.setState({ countItemDeleted });
+      this.props.deleteUser(
+        item,
+        this.props.getUsers,
+        countItemDeleted,
+        items.length,
+        this.handleAlertError,
+        this.SweetAlertOptions.setMessageError
+      );
+    });
+    this.setState({ selected: [], countItemDeleted: 0 });
+  };
+
+  handleRemoveItems = () => {
+    SweetAlertHelper.setOnConfirm(() => this.handleRemoveItemsConfirmed());
+    this.handleAlertDicisions();
+  };
+
+  handleSearchItems = event => {
+    this.setState({
+      search: event.target.value
+    });
+  };
+
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    let {
+      data,
+      order,
+      orderBy,
+      selected,
+      rowsPerPage,
+      page,
+      search
+    } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
+    let { loading } = this.props.usersStore;
+    data = UserDTO.searchFilter(search, data);
     return (
       <Paper className={classes.root}>
-        <AddModalWrapped />
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <div className={classes.tableWrapper}>
-          <Table className={`user-table ${classes.table}`} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick}
-              onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
-            />
-            <TableBody>
-              {data
-                .sort(getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
-                  const isSelected = this.isSelected(n.id);
-                  return (
-                    <TableRow
-                      hover
-                    //   onClick={event => this.handleClick(event, n.id)}
-                    //   role="checkbox"
-                    //   aria-checked={isSelected}
-                      tabIndex={-1}
-                      key={n.id}
-                    //   selected={isSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} onClick={event => this.handleClick(event, n.id)} />
-                      </TableCell>
-                      <TableCell numeric>{n.id}</TableCell>
-                      <TableCell className="actions-ceil" component="th" scope="row" padding="none">
-                        {n.name}
-                      </TableCell>
-                      <TableCell numeric>{n.calories}</TableCell>
-                      <TableCell numeric>{n.fat}</TableCell>
-                      <TableCell numeric>{n.carbs}</TableCell>
-                      <TableCell numeric>{n.protein}</TableCell>
-					            <TableCell className="actions-ceil"><EditModalWrapped /></TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+        <this.BlockUi tag="div" blocking={loading}>
+          <AddModalWrapped />
+          <EnhancedTableToolbar
+            handleRemoveItems={this.handleRemoveItems}
+            handleSearchItems={this.handleSearchItems}
+            numSelected={selected.length}
+          />
+          <div className={classes.tableWrapper}>
+            <Table
+              className={`user-table ${classes.table}`}
+              aria-labelledby="tableTitle"
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={this.handleSelectAllClick}
+                onRequestSort={this.handleRequestSort}
+                rowCount={data.length}
+              />
+              <TableBody>
+                {data
+                  .sort(getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map(n => {
+                    const isSelected = this.isSelected(n.id);
+                    return (
+                      <TableRow
+                        hover
+                        //   onClick={event => this.handleClick(event, n.id)}
+                        //   role="checkbox"
+                        //   aria-checked={isSelected}
+                        tabIndex={-1}
+                        key={n.id}
+                        //   selected={isSelected}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isSelected}
+                            onClick={event => this.handleClick(event, n.id)}
+                          />
+                        </TableCell>
+                        <TableCell numeric>{n.id}</TableCell>
+                        <TableCell numeric>{n.name}</TableCell>
+                        <TableCell numeric>{n.username}</TableCell>
+                        <TableCell numeric>{n.address}</TableCell>
+                        <TableCell numeric>{n.tel}</TableCell>
+                        <TableCell numeric>{n.group}</TableCell>
+                        <TableCell numeric>
+                          {UserDTO.showTimesDisplay(n.createdAt)}
+                        </TableCell>
+                        <TableCell numeric>
+                          {UserDTO.showTimesDisplay(n.updatedAt)}
+                        </TableCell>
+                        <TableCell className="actions-ceil">
+                          <EditModalWrapped id={n.id} />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 49 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+            <div className={`mb-show ${classes.search}`}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <Input
+                placeholder="Search…"
+                onChange={this.handleSearchItems}
+                disableUnderline
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput
+                }}
+              />
+            </div>
+          </div>
 
-        <TablePagination
-          component="div"
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            "aria-label": "Previous Page"
-          }}
-          nextIconButtonProps={{
-            "aria-label": "Next Page"
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
+          <TablePagination
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            backIconButtonProps={{
+              "aria-label": "Previous Page"
+            }}
+            nextIconButtonProps={{
+              "aria-label": "Next Page"
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        </this.BlockUi>
+        <this.SweetAlert />
       </Paper>
     );
   }
@@ -392,12 +532,27 @@ EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => {
+  return {
+    usersStore: state.usersStore
+  };
+};
+
+const SweetAlertActions = SweetAlertHelper.getActions();
+
+const actions = Object.assign(usersActions, SweetAlertActions);
+
 const EnhancedTable1 = withStyles(styles)(EnhancedTable);
 
-const Section = (props) => (
+const EnhancedTableWithRedux = connect(
+  mapStateToProps,
+  actions
+)(EnhancedTable1);
+
+const Section = props => (
   <article className="article">
-    <h2 className="article-title">จัดการผู้ใช้งาน</h2>
-    <EnhancedTable1 {...props} />
+    <h2 className="article-title">จัดการผู้ใช้</h2>
+    <EnhancedTableWithRedux {...props} />
   </article>
 );
 

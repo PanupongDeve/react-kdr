@@ -74,24 +74,32 @@ class TextFields extends ComponentWithHandle {
   };
 
   handleSubmit = event => {
-    event.preventDefault();
-    const { id } = this.props;
-    const data = {
-      code: this.state.code,
-      title: this.state.title
+    try {
+      const colorsValidator = this.model.colors.getColorsValidator();
+      event.preventDefault();
+      const { id } = this.props;
+      const data = {
+        code: this.state.code,
+        title: this.state.title
+      };
+      colorsValidator.validate(data);
+      SweetAlertHelper.setOnConfirm(() => {
+        this.handleOpenBlockLoading();
+        this.props.updateColors(
+          id,
+          data,
+          this.handleAlertSuccess,
+          this.handleAlertError,
+          this.props.getColors,
+          this.SweetAlertOptions.setMessageError
+        );
+      });
+      this.handleAlertDicisions();
+    } catch (errorMessages) {
+      errorMessages.map(message => {
+        this.notify.error(message);
+      });
     }
-    SweetAlertHelper.setOnConfirm(() => {
-      this.handleOpenBlockLoading();
-      this.props.updateColors(
-        id,
-        data,
-        this.handleAlertSuccess,
-        this.handleAlertError,
-        this.props.getColors,
-        this.SweetAlertOptions.setMessageError
-      );
-    });
-    this.handleAlertDicisions();
   };
 
   handleChange = name => event => {
@@ -106,68 +114,68 @@ class TextFields extends ComponentWithHandle {
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
-        <form
-          onSubmit={this.handleSubmit}
-          className={classes.container}
-          noValidate
-          autoComplete="off"
-        >
-          <Grid container spacing={24}>
-            <Grid item xs={12} md={4}>
-              <TextField
-                required
-                value={this.state.code}
-                onChange={this.handleChange("code")}
-                id="code"
-                label="รหัส"
-                name="code"
-                className={classes.textField}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                required
-                value={this.state.title}
-                onChange={this.handleChange("title")}
-                id="title"
-                label="ชื่อสี"
-                name="title"
-                className={classes.textField}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
+          <form
+            onSubmit={this.handleSubmit}
+            className={classes.container}
+            noValidate
+            autoComplete="off"
+          >
+            <Grid container spacing={24}>
+              <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  value={this.state.code}
+                  onChange={this.handleChange("code")}
+                  id="code"
+                  label="รหัส"
+                  name="code"
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  value={this.state.title}
+                  onChange={this.handleChange("title")}
+                  id="title"
+                  label="ชื่อสี"
+                  name="title"
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
 
-            <Grid item xs={12} md={12}>
-              <Button
-                className="btn-save"
-                variant="contained"
-                size="large"
-                color="primary"
-                type="submit"
-              >
-                <SaveIcon
-                  className={classNames(classes.leftIcon, classes.iconSmall)}
-                />
-                Save
-              </Button>
-              <Button
-                onClick={this.handleOnCancel}
-                className="btn-cancel"
-                variant="contained"
-                size="large"
-                color="primary"
-              >
-                <ClearIcon
-                  className={classNames(classes.leftIcon, classes.iconSmall)}
-                />
-                Cancel
-              </Button>
+              <Grid item xs={12} md={12}>
+                <Button
+                  className="btn-save"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  type="submit"
+                >
+                  <SaveIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Save
+                </Button>
+                <Button
+                  onClick={this.handleOnCancel}
+                  className="btn-cancel"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                >
+                  <ClearIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Cancel
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
+          </form>
         </this.BlockUi>
         <this.SweetAlert />
       </Fragment>

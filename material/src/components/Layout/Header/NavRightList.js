@@ -6,25 +6,35 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withRouter } from 'react-router-dom';
 import MaterialIcon from 'components/MaterialIcon';
 import DEMO from 'constants/demoData';
+import ComponentWithHandle from '../../class/ComponentWithHandle';
 
-class NavRightList extends React.Component {
+class NavRightList extends ComponentWithHandle {
 
   state = {
     anchorEl: null,
+    user: ''
   };
+
+  componentDidMount() {
+    this.setState({ user: this.model.storage.getCurrentUser()})
+  }
 
   handleClick = event => {
     // console.log( event)
     this.setState({ anchorEl: event.currentTarget });
   };
 
+  handleLogOut = () => {
+    this.model.storage.removeStorage();
+    this.handleRedirectToAuth();
+  }
+
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
 
   render() {
-    const { anchorEl } = this.state;
-
+    const { anchorEl, user } = this.state;
     return (
       <ul className="list-unstyled float-right">
         {/* <li className="list-inline-item search-box seach-box-right d-none d-md-inline-block">
@@ -51,13 +61,13 @@ class NavRightList extends React.Component {
             open={Boolean(anchorEl)}
             onClose={this.handleClose}
           >
-            <MenuItem onClick={this.handleClose}> <div><span>Signed in as</span><strong>{DEMO.user}</strong></div> </MenuItem>
+            <MenuItem onClick={this.handleClose}> <div><span>Signed in as</span><strong>{user.name}</strong></div> </MenuItem>
             <div className="divider divider-solid my-1"></div>
             <MenuItem onClick={this.handleClose}> <a href="#/app/dashboard"> <i className="material-icons">home</i> <span>Dashboard</span> </a> </MenuItem>
             <MenuItem onClick={this.handleClose}> <a href="#/app/page/about"> <i className="material-icons">person</i> <span>About</span> </a> </MenuItem>
             <MenuItem onClick={this.handleClose}> <a href="#/app/page/services"> <i className="material-icons">help</i> <span>Need Help?</span> </a> </MenuItem>
             <div className="divider divider-solid my-1"></div>
-            <MenuItem onClick={this.handleClose}> <a href={DEMO.login}> <i className="material-icons">forward</i> <span>Log Out</span> </a> </MenuItem>
+            <MenuItem onClick={this.handleLogOut}> <a href="#"> <i className="material-icons">forward</i> <span>Log Out</span> </a> </MenuItem>
           </Menu>
         </li>
       </ul>

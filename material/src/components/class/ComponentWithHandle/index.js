@@ -1,6 +1,8 @@
 import ComponenPermission from '../ComponenPermission';
 import SweetAlertHelper from "../../../class/SweetAlert";
+import Notify from "../../../class/Notify";
 import BlockUi from "react-block-ui";
+import model from '../../../class/ServicesAPI'
 
 const SweetAlert = SweetAlertHelper.getComponent();
 const SweetAlertOptions = SweetAlertHelper.getOptions();
@@ -12,6 +14,9 @@ export default class ComponentWithHandle extends ComponenPermission {
     this.BlockUi = BlockUi;
     this.SweetAlertOptions = SweetAlertOptions;
     this.SweetAlertHelper = SweetAlertHelper;
+    this.notify = new Notify();
+    this.NotifyContainer = this.notify.getComponent();
+    this.model = model;
   }
 
   

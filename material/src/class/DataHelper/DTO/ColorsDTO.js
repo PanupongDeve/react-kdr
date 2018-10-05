@@ -23,7 +23,8 @@ class ColorsDTO extends BaseDTO {
             let createdAt = this.showTimesDisplay(color.createdAt);
             let updatedAt = this.showTimesDisplay(color.updatedAt);
             return (
-                new RegExp(searchWord.toLowerCase()).test(color.code.toLowerCase())
+                new RegExp(searchWord.toLowerCase()).test(color.id)
+                ||new RegExp(searchWord.toLowerCase()).test(color.code.toLowerCase())
                 || new RegExp(searchWord.toLowerCase()).test(color.title.toLowerCase())
                 || new RegExp(searchWord.toLowerCase()).test(createdAt.toLowerCase())
                 || new RegExp(searchWord.toLowerCase()).test(updatedAt.toLowerCase())

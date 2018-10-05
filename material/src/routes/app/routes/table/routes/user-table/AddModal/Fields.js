@@ -10,10 +10,9 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import { connect } from "react-redux";
-import * as colorsActions from "../../../../../../../actions/Axios/ColorsActions";
+import * as usersActions from "../../../../../../../actions/Axios/UsersActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
-
 
 const styles = theme => ({
   container: {
@@ -46,8 +45,12 @@ class TextFields extends ComponentWithHandle {
   constructor(props) {
     super(props);
     this.state = {
-      code: "",
-      title: "",
+      name: "",
+      username: "",
+      password: "",
+      address: "",
+      tel: "",
+      group: "",
       blockLoading: false
     };
   }
@@ -59,21 +62,20 @@ class TextFields extends ComponentWithHandle {
 
   handleSubmit = event => {
     try {
-      const colorsValidator = this.model.colors.getColorsValidator();
       event.preventDefault();
-      const data = {
-        code: this.state.code,
-        title: this.state.title,
-        blockLoading: false
-      };
-      colorsValidator.validate(data);
+      const {name, username, password, address, tel, group} = this.state;
+      const usersValidator = this.model.users.getUsersValidator();
+      const UserDTO = this.model.users.getDTO();
+      let data = { name, username, password, address, tel, group };
+      data = UserDTO.filterIsHaveData(data);
+      usersValidator.validateCreate(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
-        this.props.createColors(
+        this.props.createUsers(
           data,
           this.handleAlertSuccess,
           this.handleAlertError,
-          this.props.getColors,
+          this.props.getUsers,
           this.SweetAlertOptions.setMessageError
         );
       });
@@ -81,7 +83,7 @@ class TextFields extends ComponentWithHandle {
     } catch (errorMessages) {
       errorMessages.map(message => {
         this.notify.error(message);
-      })
+      });
     }
   };
 
@@ -100,10 +102,10 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   required
-                  id="code"
-                  label="รหัส"
-                  name="code"
-                  onChange={this.handleChange("code")}
+                  id="name"
+                  label="ชื่อ"
+                  name="name"
+                  onChange={this.handleChange("name")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -112,10 +114,60 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   required
-                  id="title"
-                  label="ชื่อสี"
-                  name="title"
-                  onChange={this.handleChange("title")}
+                  id="username"
+                  label="รหัสสมาชิก"
+                  name="username"
+                  onChange={this.handleChange("username")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  id="password"
+                  label="รหัสผ่าน"
+                  name="password"
+                  onChange={this.handleChange("password")}
+                  className={classes.textField}
+                  margin="normal"
+                  type="password"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="address"
+                  label="ที่อยู่"
+                  name="address"
+                  onChange={this.handleChange("address")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="tel"
+                  label="เบอร์โทรศัพท์"
+                  name="tel"
+                  onChange={this.handleChange("tel")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="group"
+                  label="กลุ่ม"
+                  name="group"
+                  onChange={this.handleChange("group")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -167,7 +219,7 @@ const Box = props => <TextFields1 {...props} />;
 
 const SweetAlertActions = SweetAlertHelper.getActions();
 
-const actions = Object.assign(colorsActions, SweetAlertActions);
+const actions = Object.assign(usersActions, SweetAlertActions);
 
 export default connect(
   null,

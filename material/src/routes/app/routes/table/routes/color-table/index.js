@@ -8,7 +8,7 @@ import model from '../../../../../../class/ServicesAPI';
 
 const ColorDTO = model.colors.getDTO();
 
-class UserTable extends ComponentWithHandle {
+class ColorTable extends ComponentWithHandle {
   componentDidMount() {
     this.checkPermissionAdmin();
   }
@@ -41,6 +41,7 @@ class UserTable extends ComponentWithHandle {
                 </div>
               </div>
             </div>
+            <this.NotifyContainer />
           </div>
     
       </div>
@@ -59,4 +60,4 @@ const actions = Object.assign(colorsActions);
 export default connect(
   mapStateToProps,
   actions
-)(UserTable);
+)(ColorTable);

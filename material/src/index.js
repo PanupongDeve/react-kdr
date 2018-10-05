@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import './styles.scss'
 import 'react-block-ui/style.css';
 import 'sweetalert/dist/sweetalert.css';
+import 'react-toastify/dist/ReactToastify.css'
 const store = configureStore();
 
 
