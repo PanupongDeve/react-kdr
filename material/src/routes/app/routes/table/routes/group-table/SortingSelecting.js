@@ -27,12 +27,12 @@ import MaterialIcon from "components/MaterialIcon";
 import AddModalWrapped from "./AddModal/AddModal";
 import EditModalWrapped from "./EditModal/EditModal";
 import { connect } from "react-redux";
-import * as sizesActions from "../../../../../../actions/Axios/SizesActions";
+import * as groupsActions from "../../../../../../actions/Axios/GroupsActions";
 import model from "../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
 
-const SizeDTO = model.sizes.getDTO();
+const GroupDTO = model.groups.getDTO();
 
 let counter = 0;
 
@@ -49,7 +49,7 @@ const columnData = [
     id: "title",
     numeric: false,
     disablePadding: true,
-    label: "ชื่อขนาดสินค้า"
+    label: "ชื่อกลุ่ม"
   },
   {
     id: "createdAt",
@@ -170,7 +170,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Sizes
+            Groups
           </Typography>
         )}
       </div>
@@ -294,18 +294,18 @@ class EnhancedTable extends ComponentWithHandle {
   }
 
   componentDidMount() {
-    this.props.getSizes();
+    this.props.getGroups();
   }
 
   componentWillReceiveProps(nextProps) {
-    let { loading, sizes } = nextProps.sizesStore;
-    sizes = SizeDTO.getArrayObject(sizes);
-    sizes = SizeDTO.filterDataActive(sizes);
-    this.setState({ data: sizes });
+    let { loading, groups } = nextProps.groupsStore;
+    groups = GroupDTO.getArrayObject(groups);
+    groups = GroupDTO.filterDataActive(groups);
+    this.setState({ data: groups });
   }
 
   componentWillUnmount() {
-    this.props.clearSize();
+    this.props.clearGroup();
   }
 
   handleRequestSort = (event, property) => {
@@ -363,9 +363,9 @@ class EnhancedTable extends ComponentWithHandle {
       let { countItemDeleted } = this.state;
       countItemDeleted++;
       this.setState({ countItemDeleted });
-      this.props.deleteSize(
+      this.props.deleteGroup(
         item,
-        this.props.getSizes,
+        this.props.getGroups,
         countItemDeleted,
         items.length,
         this.handleAlertError,
@@ -402,8 +402,8 @@ class EnhancedTable extends ComponentWithHandle {
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-    let { loading } = this.props.sizesStore;
-    data = SizeDTO.searchFilter(search, data);
+    let { loading } = this.props.groupsStore;
+    data = GroupDTO.searchFilter(search, data);
 
     return (
       <Paper className={classes.root}>
@@ -453,10 +453,10 @@ class EnhancedTable extends ComponentWithHandle {
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
                         <TableCell numeric>
-                          {SizeDTO.showTimesDisplay(n.createdAt)}
+                          {GroupDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
                         <TableCell numeric>
-                          {SizeDTO.showTimesDisplay(n.updatedAt)}
+                          {GroupDTO.showTimesDisplay(n.updatedAt)}
                         </TableCell>
                         <TableCell className="actions-ceil">
                           <EditModalWrapped id={n.id} />
@@ -514,13 +514,13 @@ EnhancedTable.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    sizesStore: state.sizesStore
+    groupsStore: state.groupsStore
   };
 };
 
 const SweetAlertActions = SweetAlertHelper.getActions();
 
-const actions = Object.assign(sizesActions, SweetAlertActions);
+const actions = Object.assign(groupsActions, SweetAlertActions);
 
 const EnhancedTable1 = withStyles(styles)(EnhancedTable);
 
@@ -531,7 +531,7 @@ const EnhancedTableWithRedux = connect(
 
 const Section = props => (
   <article className="article">
-    <h2 className="article-title">จัดการขนาดสินค้า</h2>
+    <h2 className="article-title">จัดการกลุ่ม</h2>
     <EnhancedTableWithRedux {...props} />
   </article>
 );
