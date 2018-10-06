@@ -1,0 +1,172 @@
+#product-table {
+    & .article-title {
+        text-align: center;
+    }
+
+    & .list-unstyled {
+        display: flex;
+    }
+
+    
+
+    & .user-table {
+        & th, & td {
+            font-size: 18px;
+            text-align: left;
+            
+            padding: 0;
+        }
+
+        & .actions-ceil {
+            text-align: left;
+            
+            & g {
+                color: orange;
+            }
+        }
+
+        & .check-box {
+            text-align: left !important; 
+        }
+    }
+
+    & .mb-show {
+        display: none;
+    }
+    
+}
+
+.modal-add-color {
+    width: 80% !important;
+    margin-left: 15vw;
+    height: 50%;
+    margin-top: 15vh;
+    & .kdr-selector {
+        & .selector_input {
+            margin-top: 25px !important;
+        }
+    }
+    
+    & .model-header {
+        font-size: 48px;
+        text-align: center;
+
+    }
+
+    & .btn-cancel {
+        background-color: red;
+        margin-left: 10px;
+        
+        &:hover {
+            background-color: rgba(red, 0.5)
+        }
+    }
+}
+
+@media screen and (max-width: 1140px){
+  
+}
+
+@media screen and (max-width: 960px){
+    #product-table {
+        & .modal-add-color {
+            width: 80% !important;
+            height: auto;
+            
+            & .model-header {
+                font-size: 48px;
+                text-align: center;
+            }
+        
+            & .btn-cancel {
+                background-color: red;
+                margin-left: 10px;
+                
+        
+                &:hover {
+                    background-color: rgba(red, 0.5)
+                }
+            }
+        }
+
+        & .mb-show {
+            display: block;
+        }
+    }
+    
+
+
+}
+
+
+
+@media screen and (max-width: 767px){
+    #product-table {
+        padding: 0;
+        & .article-title {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        & .box-body .box-body {
+            padding: 0;
+        }
+
+        & .user-table {
+            & th, & td {
+                font-size: 14px;
+                text-align: left;
+                
+                padding: 0;
+            }
+    
+            & .actions-ceil {
+                text-align: left;
+                
+                & g {
+                    color: orange;
+                }
+            }
+    
+            & .check-box {
+                text-align: left !important; 
+            }
+        }
+
+        & .modal-add-color {
+            width: 100vw !important;
+            height: auto;
+            margin-left: 0;
+    
+            margin-top: 0;
+            & .model-header {
+                font-size: 36px;
+                text-align: center;
+            }
+    
+            & .btn-save {
+                width: 100%;
+            }
+        
+            & .btn-cancel {
+                background-color: red;
+                margin-left: 0px;
+                width: 100%;
+                margin-top: 10px;
+                &:hover {
+                    background-color: rgba(red, 0.5)
+                }
+            }
+        }
+        
+    }
+ 
+}
+
+@media screen and (max-width: 576px){
+  
+}
+
+
+
+

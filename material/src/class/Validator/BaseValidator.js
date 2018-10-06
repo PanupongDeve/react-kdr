@@ -10,4 +10,21 @@ export default class BaseValidator {
         }
         return false;
     }
+
+    isNumberPlus(field) {
+        let number = Number(field);
+        return (number >= 0) ? true: false;
+    }
+
+    isNumberFromString(field) {
+        const reg = new RegExp(/^\d+$/);
+        return reg.test(field);
+    }
+
+    isValidateNumber(field, fieldName) {
+        if(! (this.isNumberPlus(field) && this.isNumberFromString(field)) ) {
+            return `😿 ${fieldName} is positive integer.`;
+        }
+        return false;
+    }
 }

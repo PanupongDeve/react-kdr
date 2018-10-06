@@ -2,6 +2,7 @@ import Colors from './ColorsService';
 import Users from './๊UsersService';
 import Sizes from './SizesService';
 import Groups from './GroupsService';
+import Products from './ProductsService';
 import Storage from '../Storage'
 
 class ServiceModel {
@@ -11,6 +12,7 @@ class ServiceModel {
         this.users = Users;
         this.sizes = Sizes;
         this.groups = Groups;
+        this.products = Products;
     }
 
 }
