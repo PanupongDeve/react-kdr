@@ -63,7 +63,7 @@
     #color-table {
         & .modal-add-color {
             width: 80% !important;
-            height: auto;
+            height: 100vh;
             
             & .model-header {
                 font-size: 48px;
@@ -129,7 +129,7 @@
 
     .modal-add-color {
         width: 100vw !important;
-        height: auto;
+        height: 100vh;
         margin-left: 0;
 
         margin-top: 0;
@@ -152,7 +152,7 @@
             }
         }
     }
-    
+ 
 }
 
 @media screen and (max-width: 576px){

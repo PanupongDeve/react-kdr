@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-import AddUserForm from './AddUserForm';
+import AddUserForm from './AddForm';
 
 function getModalStyle() {
   const top = 50;
@@ -69,11 +69,11 @@ class AddModal extends React.Component {
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <div className={`${classes.paper} modal-add-user`}>
+          <div className={`${classes.paper} modal-add-color`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              เพิ่มผู้ใช้งาน
+              เพิ่มผู้ใช้
             </Typography>
-            <AddUserForm handleClose={this.handleClose}/>      
+            <AddUserForm handleCloseModal={this.handleClose}/>      
           </div>
         </Modal>
       </div>

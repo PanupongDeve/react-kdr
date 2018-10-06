@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
-import * as colorsActions from "../../../../../../actions/ColorsActions";
+import * as colorsActions from "../../../../../../actions/Axios/ColorsActions";
 import SortingSelecting from "./SortingSelecting";
-
-import model from '../../../../../../class/FirebaseCloundFireStore';
+import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
+import model from '../../../../../../class/ServicesAPI';
 
 const ColorDTO = model.colors.getDTO();
 
-class UserTable extends Component {
+class ColorTable extends ComponentWithHandle {
   componentDidMount() {
-    
+    this.checkPermissionAdmin();
   }
 
   componentWillUnmount() {
@@ -41,6 +41,7 @@ class UserTable extends Component {
                 </div>
               </div>
             </div>
+            <this.NotifyContainer />
           </div>
     
       </div>
@@ -59,4 +60,4 @@ const actions = Object.assign(colorsActions);
 export default connect(
   mapStateToProps,
   actions
-)(UserTable);
+)(ColorTable);

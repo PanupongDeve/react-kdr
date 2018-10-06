@@ -1,6 +1,6 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
-import UserFields from './UserFields';
+import UserFields from './Fields';
 
 
 const Page = (props) => (

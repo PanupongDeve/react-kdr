@@ -4,11 +4,16 @@ class CustomOptions {
     this.handleError = null;
     this.handleDicitions = null;
     this.setHandle();
+    this.messageError = 'ข้อความเก่า';
+  }
+
+  setMessageError = (messageError) => {
+    this.messageError = messageError
   }
 
   setHandleError(onConfirm) {
     this.handleError = {
-      title: "ดำเนินการล้มเหลว โปรดลองใหม่อีกครั้ง",
+      title: `${this.messageError}`,
       type: "error",
       showConfirmButton: true,
       confirmButtonColor: 'red',

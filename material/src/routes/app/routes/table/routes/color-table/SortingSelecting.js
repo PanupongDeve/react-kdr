@@ -2,8 +2,8 @@ import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Input from '@material-ui/core/Input';
-import SearchIcon from '@material-ui/icons/Search';
+import Input from "@material-ui/core/Input";
+import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import Table from "@material-ui/core/Table";
@@ -20,15 +20,15 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { fade } from '@material-ui/core/styles/colorManipulator';
+import { fade } from "@material-ui/core/styles/colorManipulator";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import MaterialIcon from "components/MaterialIcon";
 import AddModalWrapped from "./AddModal/AddModal";
 import EditModalWrapped from "./EditModal/EditModal";
 import { connect } from "react-redux";
-import * as colorsActions from "../../../../../../actions/ColorsActions";
-import model from "../../../../../../class/FirebaseCloundFireStore";
+import * as colorsActions from "../../../../../../actions/Axios/ColorsActions";
+import model from "../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
 
@@ -43,7 +43,8 @@ function getSorting(order, orderBy) {
 }
 
 const columnData = [
-  { id: "id", numeric: false, disablePadding: true, label: "รหัส" },
+  { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
+  { id: "code", numeric: false, disablePadding: true, label: "รหัส" },
   {
     id: "title",
     numeric: false,
@@ -236,44 +237,44 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   search: {
-    position: 'relative',
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25)
     },
     marginRight: theme.spacing.unit * 2,
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
+      width: "auto"
+    }
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   inputRoot: {
-    color: 'inherit',
-    width: '100%',
+    color: "inherit",
+    width: "100%"
   },
   inputInput: {
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
-  },
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: 200
+    }
+  }
 });
 
 class EnhancedTable extends ComponentWithHandle {
@@ -287,7 +288,8 @@ class EnhancedTable extends ComponentWithHandle {
       data: [],
       page: 0,
       rowsPerPage: 5,
-      search: ""
+      search: "",
+      countItemDeleted: 0
     };
   }
 
@@ -298,6 +300,7 @@ class EnhancedTable extends ComponentWithHandle {
   componentWillReceiveProps(nextProps) {
     let { loading, colors } = nextProps.colorsStore;
     colors = ColorDTO.getArrayObject(colors);
+    colors = ColorDTO.filterDataActive(colors);
     this.setState({ data: colors });
   }
 
@@ -318,7 +321,7 @@ class EnhancedTable extends ComponentWithHandle {
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.documentId) }));
+      this.setState(state => ({ selected: state.data.map(n => n.id) }));
       return;
     }
     this.setState({ selected: [] });
@@ -357,9 +360,19 @@ class EnhancedTable extends ComponentWithHandle {
     const { selected } = this.state;
     const items = selected;
     items.map(item => {
-      this.props.deleteColor(item);
+      let { countItemDeleted } = this.state;
+      countItemDeleted++;
+      this.setState({ countItemDeleted });
+      this.props.deleteColor(
+        item,
+        this.props.getColors,
+        countItemDeleted,
+        items.length,
+        this.handleAlertError,
+        this.SweetAlertOptions.setMessageError
+      );
     });
-    this.setState({ selected: [] });
+    this.setState({ selected: [], countItemDeleted: 0 });
   };
 
   handleRemoveItems = () => {
@@ -419,7 +432,7 @@ class EnhancedTable extends ComponentWithHandle {
                   .sort(getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(n => {
-                    const isSelected = this.isSelected(n.documentId);
+                    const isSelected = this.isSelected(n.id);
                     return (
                       <TableRow
                         hover
@@ -433,17 +446,20 @@ class EnhancedTable extends ComponentWithHandle {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isSelected}
-                            onClick={event =>
-                              this.handleClick(event, n.documentId)
-                            }
+                            onClick={event => this.handleClick(event, n.id)}
                           />
                         </TableCell>
+                        <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
-                        <TableCell numeric>{n.createdAt}</TableCell>
-                        <TableCell numeric>{n.updatedAt}</TableCell>
+                        <TableCell numeric>
+                          {ColorDTO.showTimesDisplay(n.createdAt)}
+                        </TableCell>
+                        <TableCell numeric>
+                          {ColorDTO.showTimesDisplay(n.updatedAt)}
+                        </TableCell>
                         <TableCell className="actions-ceil">
-                          <EditModalWrapped documentId={n.documentId} />
+                          <EditModalWrapped id={n.id} />
                         </TableCell>
                       </TableRow>
                     );

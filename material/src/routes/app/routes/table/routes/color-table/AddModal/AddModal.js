@@ -6,6 +6,7 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import AddUserForm from './AddForm';
+import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 
 function getModalStyle() {
   const top = 50;
@@ -35,7 +36,7 @@ const styles = theme => ({
   }
 });
 
-class AddModal extends React.Component {
+class AddModal extends ComponentWithHandle {
   state = {
     open: false
   };
