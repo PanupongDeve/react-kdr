@@ -97,7 +97,7 @@ class SidebarContent extends React.Component {
         <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Dashboard</span></Button></li>
         <li><Button href="#/app/table/user-table"><i className="nav-icon material-icons">person_outline</i><span className="nav-text">Users</span></Button></li>
         <li><Button href="#/app/table/product-table"><i className="nav-icon material-icons">shopping_cart</i><span className="nav-text">Products</span></Button></li>
-        <li><Button href="#/app/dashboard"><i className="nav-icon material-icons">exit_to_app</i><span className="nav-text">Orders</span></Button></li>
+        <li><Button href="#/app/table/order-table"><i className="nav-icon material-icons">exit_to_app</i><span className="nav-text">Orders</span></Button></li>
         <li><Button href="#/app/table/color-table"><i className="nav-icon material-icons">favorite</i><span className="nav-text">Colors</span></Button></li>
         <li><Button href="#/app/table/size-table"><i className="nav-icon material-icons">shopping_basket</i><span className="nav-text">Sizes</span></Button></li>
         <li><Button href="#/app/table/group-table"><i className="nav-icon material-icons">shopping_basket</i><span className="nav-text">Groups</span></Button></li>

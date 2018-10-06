@@ -63,7 +63,7 @@
     #color-table {
         & .modal-add-color {
             width: 80% !important;
-            height: auto;
+            height: 100vh;
             
             & .model-header {
                 font-size: 48px;
@@ -124,33 +124,33 @@
                 text-align: left !important; 
             }
         }
-
-        & .modal-add-color {
-            width: 100vw !important;
-            height: auto;
-            margin-left: 0;
-    
-            margin-top: 0;
-            & .model-header {
-                font-size: 36px;
-                text-align: center;
-            }
-    
-            & .btn-save {
-                width: 100%;
-            }
         
-            & .btn-cancel {
-                background-color: red;
-                margin-left: 0px;
-                width: 100%;
-                margin-top: 10px;
-                &:hover {
-                    background-color: rgba(red, 0.5)
-                }
+    }
+
+    .modal-add-color {
+        width: 100vw !important;
+        height: 100vh;
+        margin-left: 0;
+
+        margin-top: 0;
+        & .model-header {
+            font-size: 36px;
+            text-align: center;
+        }
+
+        & .btn-save {
+            width: 100%;
+        }
+    
+        & .btn-cancel {
+            background-color: red;
+            margin-left: 0px;
+            width: 100%;
+            margin-top: 10px;
+            &:hover {
+                background-color: rgba(red, 0.5)
             }
         }
-        
     }
  
 }

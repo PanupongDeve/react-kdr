@@ -224,6 +224,7 @@ class TextFields extends ComponentWithHandle {
           </form>
         </this.BlockUi>
         <this.SweetAlert />
+        { this.checkMobileDevice() ? <this.NotifyContainer /> : null }
       </Fragment>
     );
   }

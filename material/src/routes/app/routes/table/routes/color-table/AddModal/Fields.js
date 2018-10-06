@@ -52,6 +52,7 @@ class TextFields extends ComponentWithHandle {
     };
   }
 
+
   handleOnCancel = () => {
     SweetAlertHelper.setOnConfirm(() => this.closeModal());
     this.handleAlertDicisions();
@@ -87,6 +88,7 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
+    console.log(this.state.isMobile);
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
@@ -152,6 +154,7 @@ class TextFields extends ComponentWithHandle {
           </form>
         </this.BlockUi>
         <this.SweetAlert />
+        { this.checkMobileDevice() ? <this.NotifyContainer /> : null }
       </Fragment>
     );
   }

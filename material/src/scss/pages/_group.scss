@@ -34,7 +34,7 @@
     
 }
 
-.modal-add-color {
+.modal-group-color {
     width: 80% !important;
     margin-left: 15vw;
     height: 50%;
@@ -61,7 +61,7 @@
 
 @media screen and (max-width: 960px){
     #group-table {
-        & .modal-add-color {
+        & .modal-group-color {
             width: 80% !important;
             height: auto;
             
@@ -125,7 +125,7 @@
             }
         }
 
-        & .modal-add-color {
+        & .modal-group-color {
             width: 100vw !important;
             height: auto;
             margin-left: 0;

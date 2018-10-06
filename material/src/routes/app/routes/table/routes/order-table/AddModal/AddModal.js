@@ -6,7 +6,6 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import AddUserForm from './AddForm';
-import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 
 function getModalStyle() {
   const top = 50;
@@ -36,7 +35,7 @@ const styles = theme => ({
   }
 });
 
-class AddModal extends ComponentWithHandle {
+class AddModal extends React.Component {
   state = {
     open: false
   };
@@ -72,7 +71,7 @@ class AddModal extends ComponentWithHandle {
         >
           <div className={`${classes.paper} modal-add-color`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              เพิ่มสี
+              เพิ่มกลุ่ม
             </Typography>
             <AddUserForm handleCloseModal={this.handleClose}/>      
           </div>

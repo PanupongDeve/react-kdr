@@ -36,7 +36,7 @@
     
 }
 
-.modal-add-color {
+.modal-product-color {
     width: 80% !important;
     margin-left: 15vw;
     height: 50%;
@@ -69,7 +69,7 @@
 
 @media screen and (max-width: 960px){
     #product-table {
-        & .modal-add-color {
+        & .modal-product-color {
             width: 80% !important;
             height: auto;
             
@@ -133,7 +133,7 @@
             }
         }
 
-        & .modal-add-color {
+        & .modal-product-color {
             width: 100vw !important;
             height: auto;
             margin-left: 0;

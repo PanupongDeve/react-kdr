@@ -61,4 +61,8 @@ export default class ComponentWithHandle extends ComponenPermission {
     const SweetAlertOptions = SweetAlertHelper.getOptions();
     this.props.swal(SweetAlertOptions.handleSuccess);
   };
+
+  checkMobileDevice = () => {
+    return window.innerWidth <= 767
+  }
 }

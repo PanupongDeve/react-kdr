@@ -5,19 +5,10 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-import AddUserForm from './AddForm';
-import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
-
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`
-  };
-}
+import EditForm from './EditForm';
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import EditIcon from "@material-ui/icons/EditTwoTone";
 
 const styles = theme => ({
   paper: {
@@ -36,7 +27,17 @@ const styles = theme => ({
   }
 });
 
-class AddModal extends ComponentWithHandle {
+const Actions = (props) => {
+  return (
+    <Tooltip title="Edit">
+      <IconButton onClick={props.handleOpen} className="btn-edit"  aria-label="Edit">
+        <EditIcon />
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+class EditModal extends React.Component {
   state = {
     open: false
   };
@@ -50,19 +51,11 @@ class AddModal extends ComponentWithHandle {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, id } = this.props;
 
     return (
       <div>
-        <Button
-          variant="fab"
-          color="primary"
-          aria-label="add"
-          className={classes.button}
-          onClick={this.handleOpen}
-        >
-          <AddIcon />
-        </Button>
+        <Actions handleOpen={this.handleOpen} />
         <Modal
           className="root-modal"
           aria-labelledby="simple-modal-title"
@@ -72,9 +65,9 @@ class AddModal extends ComponentWithHandle {
         >
           <div className={`${classes.paper} modal-add-color`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              เพิ่มสี
+              แก้ไขกลุ่ม
             </Typography>
-            <AddUserForm handleCloseModal={this.handleClose}/>      
+            <EditForm handleCloseModal={this.handleClose} id={id} />      
           </div>
         </Modal>
       </div>
@@ -82,11 +75,11 @@ class AddModal extends ComponentWithHandle {
   }
 }
 
-AddModal.propTypes = {
+EditModal.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
 // We need an intermediary variable for handling the recursive nesting.
-const AddModalWrapped = withStyles(styles)(AddModal);
+const EditModalWrapped = withStyles(styles)(EditModal);
 
-export default AddModalWrapped;
+export default EditModalWrapped;
