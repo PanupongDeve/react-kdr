@@ -27,12 +27,12 @@ import MaterialIcon from "components/MaterialIcon";
 import AddModalWrapped from "./AddModal/AddModal";
 import EditModalWrapped from "./EditModal/EditModal";
 import { connect } from "react-redux";
-import * as groupsActions from "../../../../../../actions/Axios/GroupsActions";
+import * as ordersActions from "../../../../../../actions/Axios/OrdersActions";
 import model from "../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
 
-const GroupDTO = model.groups.getDTO();
+const OrderDTO = model.orders.getDTO();
 
 let counter = 0;
 
@@ -170,7 +170,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Groups
+            Orders
           </Typography>
         )}
       </div>
@@ -294,18 +294,18 @@ class EnhancedTable extends ComponentWithHandle {
   }
 
   componentDidMount() {
-    this.props.getGroups();
+    this.props.getOrders();
   }
 
   componentWillReceiveProps(nextProps) {
-    let { loading, groups } = nextProps.groupsStore;
-    groups = GroupDTO.getArrayObject(groups);
-    groups = GroupDTO.filterDataActive(groups);
-    this.setState({ data: groups });
+    let { loading, orders } = nextProps.ordersStore;
+    orders = OrderDTO.getArrayObject(orders);
+    orders = OrderDTO.filterDataActive(orders);
+    this.setState({ data: orders });
   }
 
   componentWillUnmount() {
-    this.props.clearGroup();
+    this.props.clearOrder();
   }
 
   handleRequestSort = (event, property) => {
@@ -363,9 +363,9 @@ class EnhancedTable extends ComponentWithHandle {
       let { countItemDeleted } = this.state;
       countItemDeleted++;
       this.setState({ countItemDeleted });
-      this.props.deleteGroup(
+      this.props.deleteOrder(
         item,
-        this.props.getGroups,
+        this.props.getOrders,
         countItemDeleted,
         items.length,
         this.handleAlertError,
@@ -402,8 +402,8 @@ class EnhancedTable extends ComponentWithHandle {
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-    let { loading } = this.props.groupsStore;
-    data = GroupDTO.searchFilter(search, data);
+    let { loading } = this.props.ordersStore;
+    data = OrderDTO.searchFilter(search, data);
 
     return (
       <Paper className={classes.root}>
@@ -453,10 +453,10 @@ class EnhancedTable extends ComponentWithHandle {
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
                         <TableCell numeric>
-                          {GroupDTO.showTimesDisplay(n.createdAt)}
+                          {OrderDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
                         <TableCell numeric>
-                          {GroupDTO.showTimesDisplay(n.updatedAt)}
+                          {OrderDTO.showTimesDisplay(n.updatedAt)}
                         </TableCell>
                         <TableCell className="actions-ceil">
                           <EditModalWrapped id={n.id} />
@@ -514,13 +514,13 @@ EnhancedTable.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    groupsStore: state.groupsStore
+    ordersStore: state.ordersStore
   };
 };
 
 const SweetAlertActions = SweetAlertHelper.getActions();
 
-const actions = Object.assign(groupsActions, SweetAlertActions);
+const actions = Object.assign(ordersActions, SweetAlertActions);
 
 const EnhancedTable1 = withStyles(styles)(EnhancedTable);
 
@@ -531,7 +531,7 @@ const EnhancedTableWithRedux = connect(
 
 const Section = props => (
   <article className="article">
-    <h2 className="article-title">จัดการกลุ่ม</h2>
+    <h2 className="article-title">จัดการใบสั่งสินค้า</h2>
     <EnhancedTableWithRedux {...props} />
   </article>
 );

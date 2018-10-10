@@ -71,7 +71,7 @@ class AddModal extends React.Component {
         >
           <div className={`${classes.paper} modal-add-color`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              เพิ่มกลุ่ม
+              เพิ่มใบสั่งสินค้า
             </Typography>
             <AddUserForm handleCloseModal={this.handleClose}/>      
           </div>

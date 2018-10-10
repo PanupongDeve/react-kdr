@@ -1,26 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
-import * as groupActions from "../../../../../../actions/Axios/GroupsActions";
+import * as orderActions from "../../../../../../actions/Axios/OrdersActions";
 import SortingSelecting from "./SortingSelecting";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
 import model from '../../../../../../class/ServicesAPI';
 
 
-class GroupTable extends ComponentWithHandle {
+class OrderTable extends ComponentWithHandle {
   componentDidMount() {
     this.checkPermissionAdmin();
   }
 
   componentWillUnmount() {
-    this.props.clearGroup();
+    this.props.clearOrder();
   }
 
   render() {
     
     return (
       <div
-        id="group-table"
+        id="order-table"
         className="container-fluid no-breadcrumb page-dashboard"
       >
         
@@ -54,9 +54,9 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(groupActions);
+const actions = Object.assign(orderActions);
 
 export default connect(
   mapStateToProps,
   actions
-)(GroupTable);
+)(OrderTable);
