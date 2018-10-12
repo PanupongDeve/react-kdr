@@ -52,6 +52,24 @@ const columnData = [
     label: "ชื่อสินค้า"
   },
   {
+    id: "color",
+    numeric: false,
+    disablePadding: true,
+    label: "สี"
+  },
+  {
+    id: "group",
+    numeric: false,
+    disablePadding: true,
+    label: "กลุ่ม"
+  },
+  {
+    id: "size",
+    numeric: false,
+    disablePadding: true,
+    label: "ขนาด"
+  },
+  {
     id: "createdAt",
     numeric: false,
     disablePadding: true,
@@ -452,6 +470,9 @@ class EnhancedTable extends ComponentWithHandle {
                         <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
+                        <TableCell numeric>{n.color.title}</TableCell>
+                        <TableCell numeric>{n.group.title}</TableCell>
+                        <TableCell numeric>{n.size.title}</TableCell>
                         <TableCell numeric>
                           {ProductDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>

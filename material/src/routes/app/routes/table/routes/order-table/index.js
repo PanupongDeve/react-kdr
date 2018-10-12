@@ -20,8 +20,8 @@ class OrderTable extends ComponentWithHandle {
     
     return (
       <div
-        id="order-table"
-        className="container-fluid no-breadcrumb page-dashboard"
+        id="order"
+        className="container-fluid no-breadcrumb page-dashboard kdr-table"
       >
         
           <div className="box box-default">

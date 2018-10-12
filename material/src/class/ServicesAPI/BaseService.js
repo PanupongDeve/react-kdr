@@ -42,6 +42,10 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
+      if(error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        return;
+      }
       throw error;
     }
   }

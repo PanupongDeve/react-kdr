@@ -19,8 +19,8 @@ export default class ProductTable extends ComponentWithHandle {
 
     return (
       <div
-        id="product-table"
-        className="container-fluid no-breadcrumb page-dashboard"
+        id="product"
+        className="container-fluid no-breadcrumb page-dashboard kdr-table"
       >
         
           <div className="box box-default">

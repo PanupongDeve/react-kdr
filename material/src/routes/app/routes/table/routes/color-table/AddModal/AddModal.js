@@ -70,7 +70,7 @@ class AddModal extends ComponentWithHandle {
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <div className={`${classes.paper} modal-add-color`}>
+          <div className={`${classes.paper} kdr-modal`}>
             <Typography className="model-header" variant="title" id="modal-title">
               เพิ่มสี
             </Typography>

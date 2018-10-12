@@ -7,10 +7,12 @@ import NavLeftList from './NavLeftList';
 import NavRightList from './NavRightList';
 import $ from 'jquery';
 import DEMO from 'constants/demoData';
+import ComponentWithHandle from '../../class/ComponentWithHandle';
 
 
-class Header extends React.Component {
+class Header extends ComponentWithHandle {
   componentDidMount() {
+    this.checkPermissionAdmin();
     const sidebarToggler = this.sidebarBtn;
     const $sidebarToggler = $(sidebarToggler);
     const $body = $('#body');

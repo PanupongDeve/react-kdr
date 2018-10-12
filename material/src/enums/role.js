@@ -1,6 +1,7 @@
 
 export default {
     ADMIN: 'ADMIN',
-    CUSTOMER: 'CUSTOMER',
-    USER: 'USER'
+    DEFAULT: 'Default',
+    MemberA: 'Member A',
+    MemberB: 'Member B'
 }

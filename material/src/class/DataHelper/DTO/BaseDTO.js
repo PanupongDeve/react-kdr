@@ -14,8 +14,8 @@ export default class BaseDTO {
     getTimeStamp(data) {
         return {
             createdAt: this.toMilliSecond(data.createdAt),
-            updatedAt: this.toMilliSecond(data.updatedAt),
-            deletedAt: this.toMilliSecond(data.deletedAt || '-')
+            updatedAt: this.toMilliSecond(data.updatedAt)
+            // deletedAt: this.toMilliSecond(data.deletedAt || '-')
         }
     }
 

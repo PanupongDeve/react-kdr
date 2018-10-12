@@ -94,8 +94,8 @@ class TextFields extends ComponentWithHandle {
     colors = ColorDTO.getArrayObject(colors);
     colors = ColorDTO.filterDataActive(colors);
 
-    sizes = ColorDTO.getArrayObject(sizes);
-    sizes = ColorDTO.filterDataActive(sizes);
+    sizes = SizeDTO.getArrayObject(sizes);
+    sizes = SizeDTO.filterDataActive(sizes);
 
     this.setState({
       groupLists: groups,

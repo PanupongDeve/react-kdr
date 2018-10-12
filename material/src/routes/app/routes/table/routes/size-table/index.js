@@ -21,8 +21,8 @@ class SizeTable extends ComponentWithHandle {
     
     return (
       <div
-        id="size-table"
-        className="container-fluid no-breadcrumb page-dashboard"
+        id="size"
+        className="container-fluid no-breadcrumb page-dashboard kdr-table"
       >
         
           <div className="box box-default">

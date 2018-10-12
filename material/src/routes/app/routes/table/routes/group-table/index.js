@@ -20,8 +20,8 @@ class GroupTable extends ComponentWithHandle {
     
     return (
       <div
-        id="group-table"
-        className="container-fluid no-breadcrumb page-dashboard"
+        id="group"
+        className="container-fluid no-breadcrumb page-dashboard kdr-table"
       >
         
           <div className="box box-default">
