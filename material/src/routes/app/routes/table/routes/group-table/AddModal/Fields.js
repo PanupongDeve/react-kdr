@@ -13,12 +13,16 @@ import { connect } from "react-redux";
 import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 const styles = theme => ({
   container: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    mixedColor: false,
+    mixedModel: false
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -48,6 +52,8 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       code: "",
       title: "",
+      mixedColor: false,
+      mixedModel: false,
       blockLoading: false
     };
   }
@@ -64,7 +70,18 @@ class TextFields extends ComponentWithHandle {
       const data = {
         code: this.state.code,
         title: this.state.title,
-        blockLoading: false
+        discountA1: this.state.discountA1,
+        discountA2: this.state.discountA2,
+        discountB1: this.state.discountB1,
+        discountB2: this.state.discountB2,
+        discountC1: this.state.discountC1,
+        discountC2: this.state.discountC2,
+        qtyA: this.state.qtyA,
+        qtyB: this.state.qtyB,
+        qtyC: this.state.qtyC,
+        mixedColor: this.state.mixedColor,
+        mixedModel: this.state.mixedModel
+
       };
       groupsValidator.validate(data);
       SweetAlertHelper.setOnConfirm(() => {
@@ -87,6 +104,7 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
+    console.log(this.state);
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
@@ -119,6 +137,153 @@ class TextFields extends ComponentWithHandle {
                   className={classes.textField}
                   margin="normal"
                   fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="qtyA"
+                  label="qtyA"
+                  name="qtyA"
+                  onChange={this.handleChange("qtyA")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="qtyB"
+                  label="qtyB"
+                  name="qtyB"
+                  onChange={this.handleChange("qtyB")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="qtyC"
+                  label="qtyC"
+                  name="qtyC"
+                  onChange={this.handleChange("qtyC")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="discountA1"
+                  type="number"
+                  label="discountA1"
+                  name="discountA1"
+                  onChange={this.handleChange("discountA1")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="discountA2"
+                  label="discountA2"
+                  name="discountA2"
+                  onChange={this.handleChange("discountA2")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="discountB1"
+                  label="discountB1"
+                  name="discountB1"
+                  onChange={this.handleChange("discountB1")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="discountB2"
+                  label="discountB2"
+                  name="discountB2"
+                  onChange={this.handleChange("discountB2")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="discountC1"
+                  label="discountC1"
+                  name="discountC1"
+                  onChange={this.handleChange("discountC1")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  type="number"
+                  id="discountC2"
+                  label="discountC2"
+                  name="discountC2"
+                  onChange={this.handleChange("discountC2")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              
+
+              <Grid item xs={12} md={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      disabled={(this.state.mixedColor&&this.state.mixedModel) || this.state.mixedModel}
+                      checked={this.state.mixedColor}
+                      onChange={this.handleChange('mixedColor', true)}
+                      value={this.state.mixedColor}
+                    />
+                  }
+                  label="Mix-Color"
+                  className="kdr-checkbox"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      disabled={(this.state.mixedColor&&this.state.mixedModel) || this.state.mixedColor}
+                      checked={this.state.mixedModel}
+                      onChange={this.handleChange('mixedModel', true)}
+                      value={this.state.mixedModel}
+                    />
+                  }
+                  label="Mix-Model"
+                  className="kdr-checkbox"
                 />
               </Grid>
 

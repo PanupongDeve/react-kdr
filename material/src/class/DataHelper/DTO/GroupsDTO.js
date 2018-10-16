@@ -20,8 +20,8 @@ class GroupsDTO extends BaseDTO {
             qtyA: data.qtyA,
             qtyB: data.qtyB,
             qtyC: data.qtyC,
-            mixedColor: data.mixedColor,
-            mixedModel: data.mixedModel
+            mixedColor: this.transformToBoolean(data.mixedColor),
+            mixedModel: this.transformToBoolean(data.mixedModel)
         }
     }
 

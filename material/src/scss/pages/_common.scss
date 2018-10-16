@@ -10,6 +10,10 @@
     z-index: 99999 !important;
 }
 
+.kdr-checkbox {
+    margin-top: 25px;
+}
+
 .kdr-table {
     & .article-title {
         text-align: center;
@@ -49,7 +53,7 @@
 .kdr-modal {
     width: 80% !important;
     margin-left: 15vw;
-    height: 50%;
+    height: auto;
     margin-top: 15vh;
     & .kdr-selector {
         & .selector_input {

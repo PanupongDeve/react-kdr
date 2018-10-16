@@ -29,9 +29,9 @@ export default class ComponentWithHandle extends ComponenPermission {
     this.setState({ blockLoading: false });
   };
 
-  handleChange = name => event => {
+  handleChange = (name, checked=false) => event => {
     this.setState({
-      [name]: event.target.value
+      [name]: (checked) ? event.target.checked: event.target.value
     });
   };
 

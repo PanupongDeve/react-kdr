@@ -44,6 +44,7 @@ export default class BaseService {
     } catch (error) {
       if(error.response.data.result.name === 'TokenExpiredError') {
         this.storage.removeStorage();
+        window.location.reload();
         return;
       }
       throw error;
@@ -60,7 +61,11 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      console.log(error);
+      if(error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
@@ -78,6 +83,11 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
+      if(error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
@@ -93,7 +103,11 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      console.log(error);
+      if(error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
@@ -108,7 +122,11 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      console.log(error);
+      if(error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
