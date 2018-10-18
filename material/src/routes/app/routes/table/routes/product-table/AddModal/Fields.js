@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import classNames from "classnames";
 import Grid from "@material-ui/core/Grid";
@@ -21,6 +21,7 @@ import * as sizesActions from "../../../../../../../actions/Axios/SizesActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import model from "../../../../../../../class/ServicesAPI";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 const GroupDTO = model.groups.getDTO();
 const ColorDTO = model.colors.getDTO();
@@ -56,8 +57,8 @@ const styles = theme => ({
     width: "100%"
   },
   selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
+    marginTop: theme.spacing.unit * 2
+  }
 });
 
 class TextFields extends ComponentWithHandle {
@@ -68,11 +69,16 @@ class TextFields extends ComponentWithHandle {
       title: "",
       price: "",
       groupLists: [],
-      groupSelected: '',
+      groupSelected: "",
       colorLists: [],
-      colorSelected: '',
+      colorSelected: "",
       sizeLists: [],
-      sizeSelected: '',
+      sizeSelected: "",
+      imagePath: "assets/images-demo/image-icons/coming-soon.png",
+      price: '',
+      priceA: '',
+      priceB: '',
+      remark: '',
       blockLoading: true
     };
   }
@@ -110,12 +116,42 @@ class TextFields extends ComponentWithHandle {
     this.handleAlertDicisions();
   };
 
+  handleUploadFile = async event => {
+    event.preventDefault();
+
+    try {
+      const productsValidator = this.model.products.getProductsValidator();
+      const file = event.target.files[0];
+      if (!file) return;
+      productsValidator.validateFile(file);
+      let data = await model.products.upload(file);
+      this.setState({
+        imagePath: `http://localhost:3003${data}`
+      });
+    } catch (errorMessages) {
+      errorMessages.map(message => {
+        this.notify.error(message);
+      });
+    }
+  };
+
   handleSubmit = event => {
     try {
       const productsValidator = this.model.products.getProductsValidator();
       event.preventDefault();
-      const { code, title, price, groupSelected: groupId, sizeSelected: sizeId, colorSelected: colorId } = this.state;
-      const data = { code, title, price, groupId, sizeId, colorId };
+      const {
+        code,
+        title,
+        price,
+        imagePath,
+        priceA,
+        priceB,
+        remark,
+        groupSelected: groupId,
+        sizeSelected: sizeId,
+        colorSelected: colorId
+      } = this.state;
+      const data = { code, title, price, groupId, sizeId, colorId, imagePath, priceA, priceB, remark};
       productsValidator.validate(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
@@ -137,8 +173,8 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-    const { groupLists, colorLists, sizeLists }  = this.state;
-   
+    const { groupLists, colorLists, sizeLists } = this.state;
+
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
@@ -177,7 +213,18 @@ class TextFields extends ComponentWithHandle {
 
               <Grid item xs={12} md={4}>
                 <TextField
-                  required
+                  id="remark"
+                  label="หมายเหตุ"
+                  name="remark"
+                  onChange={this.handleChange("remark")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
                   id="price"
                   label="ราคาสินค้า"
                   name="price"
@@ -190,7 +237,36 @@ class TextFields extends ComponentWithHandle {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <FormControl required className={`${classes.formControl} kdr-selector`}>
+                <TextField
+                  id="priceA"
+                  label="ราคาสินค้าA"
+                  name="priceA"
+                  type="number"
+                  onChange={this.handleChange("priceA")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="priceB"
+                  label="ราคาสินค้าB"
+                  name="priceB"
+                  type="number"
+                  onChange={this.handleChange("priceB")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <FormControl
+                  required
+                  className={`${classes.formControl} kdr-selector`}
+                >
                   <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
                   <Select
                     value={this.state.groupSelected}
@@ -204,9 +280,11 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    {
-                      groupLists.map((group, index) => <MenuItem key={index} value={group.id}>{group.title}</MenuItem>)
-                    }
+                    {groupLists.map((group, index) => (
+                      <MenuItem key={index} value={group.id}>
+                        {group.title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -226,15 +304,17 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    {
-                      colorLists.map((color, index) => <MenuItem key={index} value={color.id}>{color.title}</MenuItem>)
-                    }
+                    {colorLists.map((color, index) => (
+                      <MenuItem key={index} value={color.id}>
+                        {color.title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <FormControl required className={`${classes.formControl} kdr-selector`}>
+                <FormControl className={`${classes.formControl} kdr-selector`}>
                   <InputLabel htmlFor="size-required">ขนาด</InputLabel>
                   <Select
                     value={this.state.sizeSelected}
@@ -248,11 +328,46 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    {
-                      sizeLists.map((size, index) => <MenuItem key={index} value={size.id}>{size.title}</MenuItem>)
-                    }
+                    {sizeLists.map((size, index) => (
+                      <MenuItem key={index} value={size.id}>
+                        {size.title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <div className="img" style={{ width: "80%" }}>
+                  <img
+                    style={{ width: "80%" }}
+                    src={this.state.imagePath}
+                    alt=""
+                  />
+                </div>
+
+                <input
+                  accept="image/*"
+                  className="d-none"
+                  id="contained-button-file2"
+                  multiple
+                  type="file"
+                  onChange={this.handleUploadFile}
+                />
+                <label
+                  htmlFor="contained-button-file2"
+                  style={{ marginTop: "20px" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                    className="btn-w-md"
+                  >
+                    {" "}
+                    Upload <CloudUploadIcon className={classes.rightIcon} />
+                  </Button>
+                </label>
               </Grid>
 
               <Grid item xs={12} md={12}>
@@ -285,7 +400,7 @@ class TextFields extends ComponentWithHandle {
           </form>
         </this.BlockUi>
         <this.SweetAlert />
-        { this.checkMobileDevice() ? <this.NotifyContainer /> : null }
+        {this.checkMobileDevice() ? <this.NotifyContainer /> : null}
       </Fragment>
     );
   }
@@ -301,7 +416,13 @@ const Box = props => <TextFields1 {...props} />;
 
 const SweetAlertActions = SweetAlertHelper.getActions();
 
-const actions = Object.assign(productsActions, groupsActions, colorsActions, sizesActions, SweetAlertActions);
+const actions = Object.assign(
+  productsActions,
+  groupsActions,
+  colorsActions,
+  sizesActions,
+  SweetAlertActions
+);
 
 const mapStateToProps = state => {
   return {

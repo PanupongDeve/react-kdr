@@ -5,6 +5,19 @@ export default class ProductsValidator extends BaseValidator {
         super();
     }
 
+    validateFile(file) {
+        try {
+            let messageErrorField = this.isNotImageFile(file);
+            if(messageErrorField) this.messageError.push(messageErrorField);
+            if(this.messageError.length !== 0) {
+                throw this.messageError;
+            }
+            
+        } catch (error) {
+            throw error;
+        }
+    }
+
     validate(product) {
         try {
             let messageErrorField;

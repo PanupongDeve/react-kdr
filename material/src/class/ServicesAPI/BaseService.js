@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import Storage from "../Storage";
 
-const RootURL = "http://localhost:3001";
+const RootURL = "http://localhost:3003";
 
 export default class BaseService {
   constructor(domain) {
@@ -42,7 +42,7 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      if(error.response.data.result.name === 'TokenExpiredError') {
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
         this.storage.removeStorage();
         window.location.reload();
         return;
@@ -61,7 +61,7 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      if(error.response.data.result.name === 'TokenExpiredError') {
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
         this.storage.removeStorage();
         window.location.reload();
         return;
@@ -83,7 +83,7 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      if(error.response.data.result.name === 'TokenExpiredError') {
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
         this.storage.removeStorage();
         window.location.reload();
         return;
@@ -103,7 +103,7 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      if(error.response.data.result.name === 'TokenExpiredError') {
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
         this.storage.removeStorage();
         window.location.reload();
         return;
@@ -122,7 +122,7 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      if(error.response.data.result.name === 'TokenExpiredError') {
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
         this.storage.removeStorage();
         window.location.reload();
         return;

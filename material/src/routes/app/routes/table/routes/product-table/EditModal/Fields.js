@@ -14,6 +14,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import { connect } from "react-redux";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import * as productsActions from "../../../../../../../actions/Axios/ProductsActions";
 import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
 import * as colorsActions from "../../../../../../../actions/Axios/ColorsActions";
@@ -74,6 +75,11 @@ class TextFields extends ComponentWithHandle {
       colorSelected: '',
       sizeLists: [],
       sizeSelected: '',
+      imagePath: "assets/images-demo/image-icons/coming-soon.png",
+      price: '',
+      priceA: '',
+      priceB: '',
+      remark: '',
       blockLoading: true
     };
   }
@@ -109,7 +115,11 @@ class TextFields extends ComponentWithHandle {
       sizeLists: sizes,
       code: product.code,
       price: product.price,
+      priceA: product.priceA,
+      priceB: product.priceB,
+      remark: product.remark,
       title: product.title,
+      imagePath: product.imagePath,
       colorSelected: product.colorId,
       groupSelected: product.groupId,
       sizeSelected: product.sizeId
@@ -127,13 +137,43 @@ class TextFields extends ComponentWithHandle {
     this.handleAlertDicisions();
   };
 
+  handleUploadFile = async event => {
+    event.preventDefault();
+
+    try {
+      const productsValidator = this.model.products.getProductsValidator();
+      const file = event.target.files[0];
+      if (!file) return;
+      productsValidator.validateFile(file);
+      let data = await model.products.upload(file);
+      this.setState({
+        imagePath: `http://localhost:3003${data}`
+      });
+    } catch (errorMessages) {
+      errorMessages.map(message => {
+        this.notify.error(message);
+      });
+    }
+  };
+
   handleSubmit = event => {
     try {
       const { id } = this.props;
       const productsValidator = this.model.products.getProductsValidator();
       event.preventDefault();
-      const { code, title, price, groupSelected: groupId, sizeSelected: sizeId, colorSelected: colorId } = this.state;
-      const data = { code, title, price, groupId, sizeId, colorId };
+      const {
+        code,
+        title,
+        price,
+        imagePath,
+        priceA,
+        priceB,
+        remark,
+        groupSelected: groupId,
+        sizeSelected: sizeId,
+        colorSelected: colorId
+      } = this.state;
+      const data = { code, title, price, groupId, sizeId, colorId, imagePath, priceA, priceB, remark};
       productsValidator.validate(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
@@ -197,6 +237,19 @@ class TextFields extends ComponentWithHandle {
 
               <Grid item xs={12} md={4}>
                 <TextField
+                  id="remark"
+                  label="หมายเหตุ"
+                  value={this.state.remark}
+                  name="remark"
+                  onChange={this.handleChange("remark")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
                   required
                   id="price"
                   label="ราคาสินค้า"
@@ -204,6 +257,34 @@ class TextFields extends ComponentWithHandle {
                   value={this.state.price}
                   type="number"
                   onChange={this.handleChange("price")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="priceA"
+                  label="ราคาสินค้าA"
+                  name="priceA"
+                  value={this.state.priceA}
+                  type="number"
+                  onChange={this.handleChange("priceA")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="priceB"
+                  label="ราคาสินค้าB"
+                  name="priceB"
+                  value={this.state.priceB}
+                  type="number"
+                  onChange={this.handleChange("priceB")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -274,6 +355,39 @@ class TextFields extends ComponentWithHandle {
                     }
                   </Select>
                 </FormControl>
+              </Grid>
+
+               <Grid item xs={12} md={4}>
+                <div className="img" style={{ width: "80%" }}>
+                  <img
+                    style={{ width: "80%" }}
+                    src={this.state.imagePath}
+                    alt=""
+                  />
+                </div>
+
+                <input
+                  accept="image/*"
+                  className="d-none"
+                  id="contained-button-file2"
+                  multiple
+                  type="file"
+                  onChange={this.handleUploadFile}
+                />
+                <label
+                  htmlFor="contained-button-file2"
+                  style={{ marginTop: "20px" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                    className="btn-w-md"
+                  >
+                    {" "}
+                    Upload <CloudUploadIcon className={classes.rightIcon} />
+                  </Button>
+                </label>
               </Grid>
 
               <Grid item xs={12} md={12}>
