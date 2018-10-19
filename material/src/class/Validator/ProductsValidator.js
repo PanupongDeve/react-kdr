@@ -33,6 +33,12 @@ export default class ProductsValidator extends BaseValidator {
 
             messageErrorField = this.isValidateNumber(product.price, "Price")
             if(messageErrorField) this.messageError.push(messageErrorField);
+
+            messageErrorField = this.isValidateNumber(product.priceA, "PriceA")
+            if(messageErrorField) this.messageError.push(messageErrorField);
+
+            messageErrorField = this.isValidateNumber(product.priceB, "PriceB")
+            if(messageErrorField) this.messageError.push(messageErrorField);
         
             messageErrorField = this.isRequired(product.groupId, "Group")
             if(messageErrorField) this.messageError.push(messageErrorField);

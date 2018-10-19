@@ -76,9 +76,12 @@ class TextFields extends ComponentWithHandle {
       qtyB: group.qtyB,
       qtyC: group.qtyC,
       mixedColor: group.mixedColor,
-      mixedModel: group.mixedModel,
-      blockLoading: false
+      mixedModel: group.mixedModel
     });
+
+    if(group) {
+      this.setState({  blockLoading: false })
+    }
   }
 
   handleOnCancel = () => {
