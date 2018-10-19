@@ -21,8 +21,8 @@ class UserTable extends ComponentWithHandle {
     
     return (
       <div
-        id="user-table"
-        className="container-fluid no-breadcrumb page-dashboard"
+        id="user"
+        className="container-fluid no-breadcrumb page-dashboard kdr-table"
       >
         
           <div className="box box-default">

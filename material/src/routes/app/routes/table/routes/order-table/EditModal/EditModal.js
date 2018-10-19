@@ -63,9 +63,9 @@ class EditModal extends React.Component {
           open={this.state.open}
           onClose={this.handleClose}
         >
-          <div className={`${classes.paper} modal-add-color`}>
+          <div className={`${classes.paper} kdr-modal`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              แก้ไขกลุ่ม
+              แก้ไขใบสั่งสินค้า
             </Typography>
             <EditForm handleCloseModal={this.handleClose} id={id} />      
           </div>

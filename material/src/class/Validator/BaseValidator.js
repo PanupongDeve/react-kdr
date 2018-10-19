@@ -22,9 +22,16 @@ export default class BaseValidator {
     }
 
     isValidateNumber(field, fieldName) {
-        if(! (this.isNumberPlus(field) && this.isNumberFromString(field)) ) {
+        if(! (this.isNumberPlus(field)) ) {
             return `😿 ${fieldName} is positive integer.`;
         }
         return false;
+    }
+
+    isNotImageFile(file) {
+        const { name } = file;
+        let typeFile = name.substring(name.lastIndexOf('.')+1).toLowerCase();
+        if (typeFile == "gif" || typeFile == "png" || typeFile == "bmp"|| typeFile == "jpeg" || typeFile == "jpg") return false;
+        else return `😿 ${name} is image type.`;
     }
 }

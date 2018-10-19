@@ -10,7 +10,18 @@ class ProductsDTO extends BaseDTO {
         return {
             id: data.id,
             code: data.code,
-            title: data.title
+            title: data.title,
+            groupId: data.groupId,
+            colorId: data.colorId,
+            sizeId: data.sizeId,
+            imagePath: data.imagePath,
+            price: data.price,
+            priceA: data.priceA,
+            priceB: data.priceB,
+            remark: data.remark,
+            color: data.color,
+            group: data.group,
+            size: data.size
         }
     }
 

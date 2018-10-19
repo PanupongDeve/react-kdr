@@ -21,8 +21,8 @@ class ColorTable extends ComponentWithHandle {
     
     return (
       <div
-        id="color-table"
-        className="container-fluid no-breadcrumb page-dashboard"
+        id="color"
+        className="container-fluid no-breadcrumb page-dashboard kdr-table"
       >
         
           <div className="box box-default">

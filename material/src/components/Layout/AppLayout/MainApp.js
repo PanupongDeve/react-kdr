@@ -53,13 +53,12 @@ let Exception = loadable({
 class MainApp extends React.Component {
   render() {
     const { match } = this.props;
-
     return (
       <div className="main-app-container">
-        <Sidenav />
+        <Sidenav {...this.props} />
 
         <section id="page-container" className="app-page-container">
-          <Header />
+          <Header  {...this.props} />
 
           <div className="app-content-wrapper">
             <div className="app-content">

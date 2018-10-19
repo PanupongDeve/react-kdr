@@ -1,6 +1,6 @@
 
 import model from '../../class/ServicesAPI';
-
+import role from '../../enums/role';
 const UsersOTS = model.users.getOTS();
 const UsersTypes = UsersOTS.getActionsTypes();
 
@@ -8,12 +8,15 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
     try {
 
         const response = await model.users.authentication(data);
+        if(response.user.group !== role.ADMIN) {
+            throw "You dont have permission"
+        }
         model.storage.saveToken(response.token);
         model.storage.saveCurrentUser(response.user);
         redirectCallBack();
           
     } catch (error) {
-        setMessageError(error.response.data.result);
+        setMessageError(error === "You dont have permission" ? error : error.response.data.result);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);

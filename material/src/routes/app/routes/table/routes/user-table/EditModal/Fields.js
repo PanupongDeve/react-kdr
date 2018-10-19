@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 import classNames from "classnames";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -14,6 +17,7 @@ import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
+import role from '../../../../../../../enums/role';
 const UserDTO = model.users.getDTO();
 
 const styles = theme => ({
@@ -40,7 +44,14 @@ const styles = theme => ({
   },
   cancel: {
     backgroundColor: red[500]
-  }
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    width: "100%"
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
 class TextFields extends ComponentWithHandle {
@@ -182,16 +193,26 @@ class TextFields extends ComponentWithHandle {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <TextField
-                  id="group"
-                  label="กลุ่ม"
-                  value={this.state.group}
-                  name="group"
-                  onChange={this.handleChange("group")}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
+                <FormControl required className={`${classes.formControl} kdr-selector`}>
+                  <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
+                  <Select
+                    value={this.state.group}
+                    onChange={this.handleChange("group")}
+                    name="group"
+                    inputProps={{
+                      id: "group"
+                    }}
+                    className={`${classes.selectEmpty} selector_input`}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={role.ADMIN}>{role.ADMIN}</MenuItem>
+                    <MenuItem value={role.MemberA}>{role.MemberA}</MenuItem>
+                    <MenuItem value={role.MemberB}>{role.MemberB}</MenuItem>
+                    <MenuItem value={role.DEFAULT}>{role.DEFAULT}</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
 
               <Grid item xs={12} md={12}>

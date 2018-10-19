@@ -1,0 +1,186 @@
+.sweet-alert button.cancel {
+    background-color: red !important;
+}
+
+.sweet-overlay {
+    z-index: 10000 !important;
+}
+
+.dk-alert {
+    z-index: 99999 !important;
+}
+
+.kdr-checkbox {
+    margin-top: 25px;
+}
+
+.kdr-table {
+    & .article-title {
+        text-align: center;
+    }
+
+    & .list-unstyled {
+        display: flex;
+    }
+
+    & .user-table {
+        & th, & td {
+            font-size: 18px;
+            text-align: left;
+            
+            padding: 0;
+        }
+
+        & .actions-ceil {
+            text-align: left;
+            
+            & g {
+                color: orange;
+            }
+        }
+
+        & .check-box {
+            text-align: left !important; 
+        }
+    }
+
+    & .mb-show {
+        display: none;
+    }
+    
+}
+
+.kdr-modal {
+    width: 80% !important;
+    margin-left: 15vw;
+    height: auto;
+    margin-top: 15vh;
+    & .kdr-selector {
+        & .selector_input {
+            margin-top: 25px !important;
+        }
+    }
+    
+    & .model-header {
+        font-size: 48px;
+        text-align: center;
+
+    }
+
+    & .btn-cancel {
+        background-color: red;
+        margin-left: 10px;
+        
+        &:hover {
+            background-color: rgba(red, 0.5)
+        }
+    }
+}
+
+@media screen and (max-width: 1140px){
+  
+}
+
+@media screen and (max-width: 960px){
+    .kdr-table {
+        & .kdr-modal {
+            width: 80% !important;
+            height: 100vh;
+            
+            & .model-header {
+                font-size: 48px;
+                text-align: center;
+            }
+        
+            & .btn-cancel {
+                background-color: red;
+                margin-left: 10px;
+                
+        
+                &:hover {
+                    background-color: rgba(red, 0.5)
+                }
+            }
+        }
+
+        & .mb-show {
+            display: block;
+        }
+    }
+    
+
+
+}
+
+
+
+@media screen and (max-width: 767px){
+    .kdr-table {
+        padding: 0;
+        & .article-title {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        & .box-body .box-body {
+            padding: 0;
+        }
+
+        & .user-table {
+            & th, & td {
+                font-size: 14px;
+                text-align: left;
+                
+                padding: 0;
+            }
+    
+            & .actions-ceil {
+                text-align: left;
+                
+                & g {
+                    color: orange;
+                }
+            }
+    
+            & .check-box {
+                text-align: left !important; 
+            }
+        }
+        
+    }
+
+    .kdr-modal {
+        width: 100vw !important;
+        height: 100vh;
+        margin-left: 0;
+
+        margin-top: 0;
+        & .model-header {
+            font-size: 36px;
+            text-align: center;
+        }
+
+        & .btn-save {
+            width: 100%;
+        }
+    
+        & .btn-cancel {
+            background-color: red;
+            margin-left: 0px;
+            width: 100%;
+            margin-top: 10px;
+            &:hover {
+                background-color: rgba(red, 0.5)
+            }
+        }
+    }
+ 
+}
+
+@media screen and (max-width: 576px){
+  
+}
+
+
+
+

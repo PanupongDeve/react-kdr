@@ -1,3 +1,4 @@
+@import "scss/pages/common";
 @import "scss/pages/users";
 @import "scss/pages/color";
 @import "scss/pages/size";
@@ -5,14 +6,3 @@
 @import "scss/pages/product";
 @import "scss/pages/order";
 
-.sweet-alert button.cancel {
-    background-color: red !important;
-}
-
-.sweet-overlay {
-    z-index: 10000 !important;
-}
-
-.dk-alert {
-    z-index: 99999 !important;
-}

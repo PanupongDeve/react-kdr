@@ -10,7 +10,18 @@ class GroupsDTO extends BaseDTO {
         return {
             id: data.id,
             code: data.code,
-            title: data.title
+            title: data.title,
+            discountA1: data.discountA1,
+            discountA2: data.discountA2,
+            discountB1: data.discountB1,
+            discountB2: data.discountB2,
+            discountC1: data.discountC1,
+            discountC2: data.discountC2,
+            qtyA: data.qtyA,
+            qtyB: data.qtyB,
+            qtyC: data.qtyC,
+            mixedColor: this.transformToBoolean(data.mixedColor),
+            mixedModel: this.transformToBoolean(data.mixedModel)
         }
     }
 

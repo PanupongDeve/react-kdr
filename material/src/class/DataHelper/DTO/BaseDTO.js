@@ -14,8 +14,8 @@ export default class BaseDTO {
     getTimeStamp(data) {
         return {
             createdAt: this.toMilliSecond(data.createdAt),
-            updatedAt: this.toMilliSecond(data.updatedAt),
-            deletedAt: this.toMilliSecond(data.deletedAt || '-')
+            updatedAt: this.toMilliSecond(data.updatedAt)
+            // deletedAt: this.toMilliSecond(data.deletedAt || '-')
         }
     }
 
@@ -24,6 +24,7 @@ export default class BaseDTO {
     }
 
     getArrayObject(datas) {
+        if(!datas) return [];
         return datas.map(data => {
             return this.getObject(data);
         })
@@ -76,6 +77,14 @@ export default class BaseDTO {
             }
         }
         return result;
+    }
+
+    transformToBoolean(field) {
+        if(field === 'true' || field === true) {
+            return true;
+        } else if (field == 'false' || field === false) {
+            return false;
+        }
     }
 
     

@@ -2,12 +2,13 @@ import axios from "axios";
 import moment from "moment";
 import Storage from "../Storage";
 
-const RootURL = "http://localhost:3001";
+const RootURL = "http://localhost:3003";
 
 export default class BaseService {
   constructor(domain) {
     this.axios = axios;
     this.RootURL = RootURL;
+    this.TokenURL = 'api/authentication/refreshToken'
     this.domain = domain;
     this.moment = moment;
     this.storage = new Storage();
@@ -31,28 +32,40 @@ export default class BaseService {
   }
 
   async get() {
-    this.setConfig();
     try {
+      const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+      this.storage.saveToken(resToken.data.result.token);
+      this.setConfig();
       const res = await this.axios.get(
         `${this.RootURL}/${this.domain}`,
         this.config
       );
       return res.data.result;
     } catch (error) {
-      console.log(error);
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
   async getById(id) {
-    this.setConfig();
     try {
+      const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+      this.storage.saveToken(resToken.data.result.token);
+      this.setConfig();
       const res = await this.axios.get(
         `${this.RootURL}/${this.domain}/${id}`,
         this.config
       );
       return res.data.result;
     } catch (error) {
-      console.log(error);
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
@@ -60,6 +73,9 @@ export default class BaseService {
   async create(data) {
     this.setConfig();
     try {
+      const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+      this.storage.saveToken(resToken.data.result.token);
+      this.setConfig();
       const res = await this.axios.post(
         `${this.RootURL}/${this.domain}`,
         data,
@@ -67,12 +83,19 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
   async update(id, data) {
-    this.setConfig();
     try {
+      const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+      this.storage.saveToken(resToken.data.result.token);
+      this.setConfig();
       const res = await this.axios.patch(
         `${this.RootURL}/${this.domain}/${id}`,
         data,
@@ -80,20 +103,30 @@ export default class BaseService {
       );
       return res.data.result;
     } catch (error) {
-      console.log(error);
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }
   async remove(id) {
-    this.setConfig();
     try {
+      const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+      this.storage.saveToken(resToken.data.result.token);
+      this.setConfig();
       const res = await this.axios.delete(
         `${this.RootURL}/${this.domain}/soft/${id}`,
         this.config
       );
       return res.data.result;
     } catch (error) {
-      console.log(error);
+      if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+        this.storage.removeStorage();
+        window.location.reload();
+        return;
+      }
       throw error;
     }
   }

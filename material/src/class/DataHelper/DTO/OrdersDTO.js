@@ -9,8 +9,12 @@ class OrdersDTO extends BaseDTO {
     getFieldObject(data) {
         return {
             id: data.id,
-            code: data.code,
-            title: data.title
+            userId: data.userId,
+            address: data.address,
+            messager: data.messager,
+            amount: data.amount,
+            tel: data.tel,
+            filePath: data.filePath
         }
     }
 
@@ -24,8 +28,11 @@ class OrdersDTO extends BaseDTO {
             let updatedAt = this.showTimesDisplay(order.updatedAt);
             return (
                 new RegExp(searchWord.toLowerCase()).test(order.id)
-                ||new RegExp(searchWord.toLowerCase()).test(order.code.toLowerCase())
-                || new RegExp(searchWord.toLowerCase()).test(order.title.toLowerCase())
+                ||new RegExp(searchWord.toLowerCase()).test(order.userId)
+                || new RegExp(searchWord.toLowerCase()).test(order.address.toLowerCase())
+                || new RegExp(searchWord.toLowerCase()).test(order.messager.toLowerCase())
+                || new RegExp(searchWord.toLowerCase()).test(order.amount)
+                || new RegExp(searchWord.toLowerCase()).test(order.tel.toLowerCase())
                 || new RegExp(searchWord.toLowerCase()).test(createdAt.toLowerCase())
                 || new RegExp(searchWord.toLowerCase()).test(updatedAt.toLowerCase())
             );

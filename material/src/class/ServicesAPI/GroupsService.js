@@ -13,6 +13,14 @@ class GroupsService extends BaseService {
     getGroupsValidator() {
         return new GroupsValidator();
     }
+
+    getDTOClass() {
+
+    }
+
+    getOTSClass() {
+        
+    }
 }
 
 export default new GroupsService('api/groups');
