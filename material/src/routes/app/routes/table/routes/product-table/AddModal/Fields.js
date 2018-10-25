@@ -22,6 +22,9 @@ import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import model from "../../../../../../../class/ServicesAPI";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 
 const GroupDTO = model.groups.getDTO();
 const ColorDTO = model.colors.getDTO();
@@ -79,7 +82,9 @@ class TextFields extends ComponentWithHandle {
       priceA: '',
       priceB: '',
       remark: '',
-      blockLoading: true
+      blockLoading: true,
+      isSize: false,
+      isColor: true
     };
   }
 
@@ -293,6 +298,7 @@ class TextFields extends ComponentWithHandle {
                 <FormControl className={`${classes.formControl} kdr-selector`}>
                   <InputLabel htmlFor="color-required">สี</InputLabel>
                   <Select
+                    disabled={!this.state.isColor}
                     value={this.state.colorSelected}
                     onChange={this.handleChange("colorSelected")}
                     name="colorSelected"
@@ -317,6 +323,7 @@ class TextFields extends ComponentWithHandle {
                 <FormControl className={`${classes.formControl} kdr-selector`}>
                   <InputLabel htmlFor="size-required">ขนาด</InputLabel>
                   <Select
+                    disabled={!this.state.isSize}
                     value={this.state.sizeSelected}
                     onChange={this.handleChange("sizeSelected")}
                     name="sizeSelected"
@@ -368,6 +375,32 @@ class TextFields extends ComponentWithHandle {
                     Upload <CloudUploadIcon className={classes.rightIcon} />
                   </Button>
                 </label>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.isColor}
+                      onChange={this.handleCheckBoxSwitchChange('isColor',['isColor', 'isSize'])}
+                      value={this.state.isColor}
+                    />
+                  }
+                  label="Color"
+                  className="kdr-checkbox"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.isSize}
+                      onChange={this.handleCheckBoxSwitchChange('isSize',['isColor', 'isSize'])}
+                      value={this.state.isSize}
+                    />
+                  }
+                  label="Size"
+                  className="kdr-checkbox"
+                />
               </Grid>
 
               <Grid item xs={12} md={12}>
