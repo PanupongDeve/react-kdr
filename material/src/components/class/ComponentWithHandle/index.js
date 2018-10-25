@@ -35,6 +35,16 @@ export default class ComponentWithHandle extends ComponenPermission {
     });
   };
 
+  handleCheckBoxSwitchChange = (key, lists) => event => {
+    lists.map(list => {
+      if(list === key) {
+        this.setState({ [list]: true});
+      } else {
+        this.setState({ [list]: false});
+      }
+    })
+  };
+
   closeModal = () => {
     setTimeout(() => {
       this.props.handleCloseModal();

@@ -10,12 +10,14 @@ import SizeTable from './routes/size-table';
 import GroupTable from './routes/group-table';
 import ProductTable from './routes/product-table';
 import OrderTable from './routes/order-table';
+import ModelTable from './routes/model-table';
 
 const Table = ({ match }) => (
   <div>
     <Route path={`${match.url}/user-table`} component={Usertable}/>
     <Route path={`${match.url}/color-table`} component={ColorTable}/>
     <Route path={`${match.url}/size-table`} component={SizeTable}/>
+    <Route path={`${match.url}/model-table`} component={ModelTable}/>
     <Route path={`${match.url}/group-table`} component={GroupTable}/>
     <Route path={`${match.url}/product-table`} component={ProductTable}/>
     <Route path={`${match.url}/order-table`} component={OrderTable}/>

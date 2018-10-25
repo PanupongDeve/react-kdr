@@ -51,7 +51,7 @@ class NavRightList extends ComponentWithHandle {
             aria-haspopup="true"
             onClick={this.handleClick}
           >
-            <Avatar alt="avatar" src="assets/images-demo/g1.jpg" className="rounded-circle header-avatar" />
+            <Avatar alt="avatar" src="assets/images-demo/avatars/admin.png" style={{ width: '100%'}} className="rounded-circle header-avatar" />
           </IconButton>
 
           <Menu
@@ -63,10 +63,10 @@ class NavRightList extends ComponentWithHandle {
           >
             <MenuItem onClick={this.handleClose}> <div><span>Signed in as</span><strong>{user.name}</strong></div> </MenuItem>
             <div className="divider divider-solid my-1"></div>
-            <MenuItem onClick={this.handleClose}> <a href="#/app/dashboard"> <i className="material-icons">home</i> <span>Dashboard</span> </a> </MenuItem>
+            {/* <MenuItem onClick={this.handleClose}> <a href="#/app/dashboard"> <i className="material-icons">home</i> <span>Dashboard</span> </a> </MenuItem>
             <MenuItem onClick={this.handleClose}> <a href="#/app/page/about"> <i className="material-icons">person</i> <span>About</span> </a> </MenuItem>
             <MenuItem onClick={this.handleClose}> <a href="#/app/page/services"> <i className="material-icons">help</i> <span>Need Help?</span> </a> </MenuItem>
-            <div className="divider divider-solid my-1"></div>
+            <div className="divider divider-solid my-1"></div> */}
             <MenuItem onClick={this.handleLogOut}> <a href="#"> <i className="material-icons">forward</i> <span>Log Out</span> </a> </MenuItem>
           </Menu>
         </li>

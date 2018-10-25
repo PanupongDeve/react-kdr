@@ -39,7 +39,7 @@ class ProductsService extends BaseService {
           );
 
           let data = res.data.result
-          data = data.substring(7); //  --> to cut /public
+          
           return data;
         } catch (error) {
           if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {

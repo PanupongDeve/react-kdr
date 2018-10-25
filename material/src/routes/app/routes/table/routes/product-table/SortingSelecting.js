@@ -46,6 +46,12 @@ const columnData = [
   { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
   { id: "code", numeric: false, disablePadding: true, label: "รหัส" },
   {
+    id: "imagePath",
+    numeric: false,
+    disablePadding: true,
+    label: "รูปสินค้า"
+  },
+  {
     id: "title",
     numeric: false,
     disablePadding: true,
@@ -469,6 +475,7 @@ class EnhancedTable extends ComponentWithHandle {
                         </TableCell>
                         <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.code}</TableCell>
+                        <TableCell numeric><div style={{ padding: '30px'}}><img style={{ width: '100px', height: '100px'}} src={n.imagePath} /></div></TableCell>
                         <TableCell numeric>{n.title}</TableCell>
                         <TableCell numeric>{n.color.title}</TableCell>
                         <TableCell numeric>{n.group.title}</TableCell>

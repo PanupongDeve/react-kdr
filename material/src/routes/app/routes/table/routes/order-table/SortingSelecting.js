@@ -83,11 +83,11 @@ class EnhancedTableHead extends React.Component {
       <TableHead>
         <TableRow>
           <TableCell padding="checkbox" className="check-box">
-            <Checkbox
+            {/* <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
-            />
+            /> */}
           </TableCell>
           {columnData.map(column => {
             return (
@@ -444,10 +444,10 @@ class EnhancedTable extends ComponentWithHandle {
                         //   selected={isSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox
+                          {/* <Checkbox
                             checked={isSelected}
                             onClick={event => this.handleClick(event, n.id)}
-                          />
+                          /> */}
                         </TableCell>
                         <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.code}</TableCell>
