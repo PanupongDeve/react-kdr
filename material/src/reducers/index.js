@@ -7,6 +7,7 @@ import sizesReducer from './sizesReducer';
 import groupsReducer from './groupsReducer';
 import productsReducer from './productsReducer';
 import ordersReducer from './ordersReducer';
+import modelsReducer from './modelsReducer';
 import SweetAlertHelper from '../class/SweetAlert';
 
 const sweetalertReducer = SweetAlertHelper.getReducer();
@@ -20,7 +21,8 @@ const reducers = {
   sizesStore: sizesReducer,
   groupsStore: groupsReducer,
   productsStore: productsReducer,
-  ordersStore: ordersReducer
+  ordersStore: ordersReducer,
+  modelsStore: modelsReducer 
 };
 
 export default combineReducers(reducers);
