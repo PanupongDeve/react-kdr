@@ -9,14 +9,18 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Chip from '@material-ui/core/Chip';
 import Checkbox from '@material-ui/core/Checkbox';
 import red from "@material-ui/core/colors/red";
 import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
+import * as modelsActions from "../../../../../../../actions/Axios/ModelsActions";
 import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
+import AddModalWrapped from "./AddModalModel/AddModal";
 const GroupDTO = model.groups.getDTO();
+const ModelDTO = model.models.getDTO();
 
 const styles = theme => ({
   container: {
@@ -42,7 +46,10 @@ const styles = theme => ({
   },
   cancel: {
     backgroundColor: red[500]
-  }
+  },
+  chip: {
+    margin: theme.spacing.unit / 2,
+  },
 });
 
 class TextFields extends ComponentWithHandle {
@@ -51,6 +58,7 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       code: "",
       title: "",
+      models: [],
       blockLoading: true
     };
   }
@@ -62,7 +70,11 @@ class TextFields extends ComponentWithHandle {
 
   componentWillReceiveProps(nextProps) {
     let { group } = nextProps.groupsStore;
+
     group = GroupDTO.getObject(group);
+    let models = group.models;
+    models = ModelDTO.getArrayObject(models);
+    models = ModelDTO.filterDataActive(models);
     this.setState({
       code: group.code,
       title: group.title,
@@ -76,7 +88,8 @@ class TextFields extends ComponentWithHandle {
       qtyB: group.qtyB,
       qtyC: group.qtyC,
       mixedColor: group.mixedColor,
-      mixedModel: group.mixedModel
+      mixedModel: group.mixedModel,
+      models
     });
 
     if(group) {
@@ -128,6 +141,19 @@ class TextFields extends ComponentWithHandle {
       });
     }
   };
+
+  handleDeleteModel = (modelId) => () => {
+    this.props.deleteModel(
+      modelId,
+      null,
+      0,
+      1,
+      () => console.log('error'),
+      this.SweetAlertOptions.setMessageError
+    );
+    const { id } = this.props;
+    this.props.getGroup(id);
+  }
 
 
   render() {
@@ -333,6 +359,25 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
+              <Grid item xs={12} md={8}>
+                <div style={{ display: 'flex', flexDirection: 'row'}}>
+                  <h5>โมเดล</h5>
+                  <AddModalWrapped groupId={this.props.id} />
+                </div>
+                
+                {this.state.models.map(model => {
+                  return (
+                    <Chip
+                      style={{ marginTop: '25px'}}
+                      key={model.id}
+                      label={model.title}
+                      onDelete={this.handleDeleteModel(model.id)}
+                      className={classes.chip}
+                    />
+                  );
+                })}
+              </Grid>
+
               <Grid item xs={12} md={12}>
                 <Button
                   className="btn-save"
@@ -383,7 +428,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(groupsActions);
+const actions = Object.assign(modelsActions, groupsActions);
 
 export default connect(
   mapStateToProps,
