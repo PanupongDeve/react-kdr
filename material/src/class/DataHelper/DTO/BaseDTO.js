@@ -87,5 +87,21 @@ export default class BaseDTO {
         }
     }
 
+    deleteEmptyField(object, fields) {
+        fields.map(field => {
+            if(!object[field]) {
+                delete object[field];
+            }
+        })
+    }
+
+    createMarkEmptyData(field) {
+        if(!field) {
+            return '-'
+        } else {
+            return field;
+        }
+    }
+
     
 }
