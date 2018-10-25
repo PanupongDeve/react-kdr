@@ -65,7 +65,7 @@ class EditModal extends React.Component {
         >
           <div className={`${classes.paper} kdr-modal`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              แก้ไขขนาดสินค้า
+              แก้ไขโมเดล
             </Typography>
             <EditForm handleCloseModal={this.handleClose} id={id} />      
           </div>

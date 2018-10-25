@@ -1,13 +1,13 @@
 
-import model from '../../class/ServicesAPI';
+import modelDB from '../../class/ServicesAPI';
 
-const ModelsOTS = model.models.getOTS();
+const ModelsOTS = modelDB.models.getOTS();
 const ModelsTypes = ModelsOTS.getActionsTypes();
 
 export const getModels = () => async dispatch => {
     try {
 
-        const models = await model.models.get();
+        const models = await modelDB.models.get();
         ModelsOTS.sendPayloadToReducer(ModelsTypes.FETH_MODELS, models)(dispatch);
         
     } catch (error) {
@@ -17,7 +17,7 @@ export const getModels = () => async dispatch => {
 
 export const getModel = (id) => async dispatch => {
     try {
-        const model = await model.models.getById(id);
+        const model = await modelDB.models.getById(id);
         ModelsOTS.sendPayloadToReducer(ModelsTypes.FETH_MODEL, model)(dispatch);
     } catch (error) {
         throw Promise.reject(error);
@@ -27,7 +27,7 @@ export const getModel = (id) => async dispatch => {
 export const createModels = (data, successAlertCallback, errorAlertCallback, getModels, setMessageError) => async dispatch => {
     try {
 
-        await model.models.create(data);
+        await modelDB.models.create(data);
         setTimeout(() => {
             successAlertCallback();
             getModels();  
@@ -44,7 +44,7 @@ export const createModels = (data, successAlertCallback, errorAlertCallback, get
 
 export const updateModels = (id, data, successAlertCallback, errorAlertCallback, getModels, setMessageError) => async dispatch => {
     try {
-        await model.models.update(id, data);
+        await modelDB.models.update(id, data);
         setTimeout(() => {
             successAlertCallback();
             getModels();
@@ -62,7 +62,7 @@ export const updateModels = (id, data, successAlertCallback, errorAlertCallback,
 
 export const deleteModel = (id, getModels, countItemDelete, ItemDeleteLength,errorAlertCallback, setMessageError) => async dispatch => {
     try {
-        await model.models.remove(id);
+        await modelDB.models.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
             getModels();
         }

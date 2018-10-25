@@ -10,7 +10,8 @@ class ModelsDTO extends BaseDTO {
         return {
             id: data.id,
             code: data.code,
-            title: data.title
+            title: data.title,
+            groupId: data.groupId
         }
     }
 

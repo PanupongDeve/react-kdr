@@ -3,18 +3,23 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
 import classNames from "classnames";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
-import * as sizesActions from "../../../../../../../actions/Axios/SizesActions";
 import { connect } from "react-redux";
-import model from "../../../../../../../class/ServicesAPI";
+import * as modelsActions from "../../../../../../../actions/Axios/ModelsActions";
+import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
-const SizeDTO = model.sizes.getDTO();
+import model from "../../../../../../../class/ServicesAPI";
+const GroupDTO = model.groups.getDTO();
+const ModelDTO = model.models.getDTO();
 
 const styles = theme => ({
   container: {
@@ -40,6 +45,13 @@ const styles = theme => ({
   },
   cancel: {
     backgroundColor: red[500]
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    width: "100%"
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2
   }
 });
 
@@ -49,23 +61,38 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       code: "",
       title: "",
+      groupLists: [],
+      groupSelected: "",
       blockLoading: true
     };
   }
 
   componentDidMount() {
     const { id } = this.props;
-    this.props.getSize(id);
+    this.props.getModel(id);
+    this.props.getGroups();
   }
 
   componentWillReceiveProps(nextProps) {
-    let { size } = nextProps.sizesStore;
-    size = SizeDTO.getObject(size);
+    let { groups } = nextProps.groupsStore;
+    let { model } = nextProps.modelsStore
+    groups = GroupDTO.getArrayObject(groups);
+    groups = GroupDTO.filterDataActive(groups);
+
+    model = ModelDTO.getObject(model);
+    console.log(model);
     this.setState({
-      code: size.code,
-      title: size.title,
-      blockLoading: false
+      groupLists: groups,
+      code: model.code,
+      title: model.title,
+      groupSelected: model.groupId,
     });
+
+    if(groups && model) {
+      this.setState({
+        blockLoading: false
+      })
+    }
   }
 
   handleOnCancel = () => {
@@ -75,22 +102,20 @@ class TextFields extends ComponentWithHandle {
 
   handleSubmit = event => {
     try {
-      const sizesValidator = this.model.sizes.getSizesValidator();
-      event.preventDefault();
       const { id } = this.props;
-      const data = {
-        code: this.state.code,
-        title: this.state.title
-      };
-      sizesValidator.validate(data);
+      const { code, title, groupSelected: groupId, } = this.state;
+      const modelsValidator = this.model.models.getModelsValidator();
+      event.preventDefault();
+      const data = { code, title, groupId } 
+      modelsValidator.validate(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
-        this.props.updateSizes(
+        this.props.updateModels(
           id,
           data,
           this.handleAlertSuccess,
           this.handleAlertError,
-          this.props.getSizes,
+          this.props.getModels,
           this.SweetAlertOptions.setMessageError
         );
       });
@@ -98,19 +123,13 @@ class TextFields extends ComponentWithHandle {
     } catch (errorMessages) {
       errorMessages.map(message => {
         this.notify.error(message);
-      });
+      })
     }
-  };
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
   };
 
   render() {
     const { classes } = this.props;
-
+    const { groupLists } = this.state;
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
@@ -124,11 +143,11 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   required
-                  value={this.state.code}
-                  onChange={this.handleChange("code")}
                   id="code"
                   label="รหัส"
                   name="code"
+                  value={this.state.code}
+                  onChange={this.handleChange("code")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -137,15 +156,42 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   required
+                  id="title"
+                  label="ชื่อโมเดล"
+                  name="title"
                   value={this.state.title}
                   onChange={this.handleChange("title")}
-                  id="title"
-                  label="ชื่อขนาดสินค้า"
-                  name="title"
                   className={classes.textField}
                   margin="normal"
                   fullWidth
                 />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <FormControl
+                  required
+                  className={`${classes.formControl} kdr-selector`}
+                >
+                  <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
+                  <Select
+                    value={this.state.groupSelected}
+                    onChange={this.handleChange("groupSelected")}
+                    name="groupSelected"
+                    inputProps={{
+                      id: "group-required"
+                    }}
+                    className={`${classes.selectEmpty} selector_input`}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {groupLists.map((group, index) => (
+                      <MenuItem key={index} value={group.id}>
+                        {group.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
 
               <Grid item xs={12} md={12}>
@@ -174,6 +220,8 @@ class TextFields extends ComponentWithHandle {
                   Cancel
                 </Button>
               </Grid>
+              
+
             </Grid>
           </form>
         </this.BlockUi>
@@ -192,13 +240,20 @@ const TextFields1 = withStyles(styles)(TextFields);
 
 const Box = props => <TextFields1 {...props} />;
 
+const SweetAlertActions = SweetAlertHelper.getActions();
+
+const actions = Object.assign(
+  modelsActions,
+  groupsActions, 
+  SweetAlertActions
+);
+
 const mapStateToProps = state => {
   return {
-    sizesStore: state.sizesStore
+    groupsStore: state.groupsStore,
+    modelsStore: state.modelsStore
   };
 };
-
-const actions = Object.assign(sizesActions);
 
 export default connect(
   mapStateToProps,

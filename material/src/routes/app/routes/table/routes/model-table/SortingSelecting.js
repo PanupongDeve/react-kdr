@@ -531,7 +531,7 @@ const EnhancedTableWithRedux = connect(
 
 const Section = props => (
   <article className="article">
-    <h2 className="article-title">จัดการขนาดสินค้า</h2>
+    <h2 className="article-title">จัดการโมเดล</h2>
     <EnhancedTableWithRedux {...props} />
   </article>
 );
