@@ -11,6 +11,7 @@ import GroupTable from './routes/group-table';
 import ProductTable from './routes/product-table';
 import OrderTable from './routes/order-table';
 
+
 const Table = ({ match }) => (
   <div>
     <Route path={`${match.url}/user-table`} component={Usertable}/>
