@@ -71,9 +71,6 @@ class TextFields extends ComponentWithHandle {
   constructor(props) {
     super(props);
     this.state = {
-      code: "",
-      title: "",
-      price: "",
       groupLists: [],
       groupSelected: "",
       colorLists: [],
@@ -122,9 +119,12 @@ class TextFields extends ComponentWithHandle {
       groupLists: groups,
       colorLists: colors,
       sizeLists: sizes,
-      modelLists: models,
-      blockLoading: false
+      modelLists: models
     });
+
+    if(groups && colors && sizes && models) {
+      this.setState({blockLoading: false})
+    }
   }
 
   handleOnCancel = () => {
@@ -171,6 +171,7 @@ class TextFields extends ComponentWithHandle {
       const data = { code, title, price, groupId, sizeId, colorId, modelId,imagePath, priceA, priceB, remark};
       productsValidator.validate(data);
       ProductDTO.deleteEmptyField(data, ['sizeId', 'colorId']);
+      ProductDTO.setDefaultDecimal(data, ['priceA', 'priceB']);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
         this.props.createProducts(
@@ -203,7 +204,7 @@ class TextFields extends ComponentWithHandle {
             autoComplete="off"
           >
             <Grid container spacing={24}>
-              <Grid item xs={12} md={4}>
+              {/* <Grid item xs={12} md={4}>
                 <TextField
                   required
                   id="code"
@@ -227,27 +228,18 @@ class TextFields extends ComponentWithHandle {
                   margin="normal"
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
+
 
               <Grid item xs={12} md={4}>
                 <TextField
-                  id="remark"
-                  label="หมายเหตุ"
-                  name="remark"
-                  onChange={this.handleChange("remark")}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <TextField
+                  required
                   id="price"
                   label="ราคาปลีก"
                   name="price"
                   type="number"
                   onChange={this.handleChange("price")}
+                  value={this.state.price}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -261,6 +253,7 @@ class TextFields extends ComponentWithHandle {
                   name="priceA"
                   type="number"
                   onChange={this.handleChange("priceA")}
+                  value={this.state.priceA}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -274,6 +267,7 @@ class TextFields extends ComponentWithHandle {
                   name="priceB"
                   type="number"
                   onChange={this.handleChange("priceB")}
+                  value={this.state.priceB}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -385,6 +379,20 @@ class TextFields extends ComponentWithHandle {
               </Grid>
 
               <Grid item xs={12} md={4}>
+                <TextField
+                  id="remark"
+                  label="หมายเหตุ"
+                  name="remark"
+                  onChange={this.handleChange("remark")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4} />
+
+              <Grid item xs={12} md={4}>
                 <div className="img" style={{ width: "80%" }}>
                   <img
                     style={{ width: "80%" }}
@@ -422,7 +430,7 @@ class TextFields extends ComponentWithHandle {
                   control={
                     <Checkbox
                       checked={this.state.isColor}
-                      onChange={this.handleCheckBoxSwitchChange('isColor',['isColor', 'isSize'])}
+                      onChange={this.handleCheckBoxSwitchChange('isColor',['isColor', 'isSize'], 'colorSelected', ['colorSelected', 'sizeSelected'])}
                       value={this.state.isColor}
                     />
                   }
@@ -434,7 +442,7 @@ class TextFields extends ComponentWithHandle {
                   control={
                     <Checkbox
                       checked={this.state.isSize}
-                      onChange={this.handleCheckBoxSwitchChange('isSize',['isColor', 'isSize'])}
+                      onChange={this.handleCheckBoxSwitchChange('isSize',['isColor', 'isSize'], 'sizeSelected', ['colorSelected', 'sizeSelected'])}
                       value={this.state.isSize}
                     />
                   }

@@ -113,7 +113,6 @@ class EnhancedTableHead extends React.Component {
               </TableCell>
             );
           }, this)}
-          <TableCell numeric>Actions</TableCell>
         </TableRow>
       </TableHead>
     );
@@ -408,7 +407,6 @@ class EnhancedTable extends ComponentWithHandle {
     return (
       <Paper className={classes.root}>
         <this.BlockUi tag="div" blocking={loading}>
-          <AddModalWrapped />
           <EnhancedTableToolbar
             handleRemoveItems={this.handleRemoveItems}
             handleSearchItems={this.handleSearchItems}
@@ -459,9 +457,6 @@ class EnhancedTable extends ComponentWithHandle {
                         <TableCell numeric>
                           {OrderDTO.showTimesDisplay(n.updatedAt)}
                         </TableCell> */}
-                        <TableCell className="actions-ceil">
-                          <EditModalWrapped id={n.id} />
-                        </TableCell>
                       </TableRow>
                     );
                   })}

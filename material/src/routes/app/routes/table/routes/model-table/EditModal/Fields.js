@@ -80,7 +80,6 @@ class TextFields extends ComponentWithHandle {
     groups = GroupDTO.filterDataActive(groups);
 
     model = ModelDTO.getObject(model);
-    console.log(model);
     this.setState({
       groupLists: groups,
       code: model.code,

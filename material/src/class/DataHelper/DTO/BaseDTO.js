@@ -95,6 +95,14 @@ export default class BaseDTO {
         })
     }
 
+    setDefaultDecimal(object, fields) {
+        fields.map(field => {
+            if(!object[field]) {
+                object[field] = 0;
+            }
+        })
+    }
+
     createMarkEmptyData(field) {
         if(!field) {
             return '-'
