@@ -19,6 +19,7 @@ import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import AddModalWrapped from "./AddModalModel/AddModal";
+import EditModalWrapped from "./EditModalModel/EditModal";
 const GroupDTO = model.groups.getDTO();
 const ModelDTO = model.models.getDTO();
 
@@ -92,13 +93,19 @@ class TextFields extends ComponentWithHandle {
       models
     });
 
+    models.map( model => {
+      this.setState({ [`stateModel${model.id}`]: false} )
+    })
+
     if(group) {
       this.setState({  blockLoading: false })
     }
   }
 
   handleOnCancel = () => {
-    SweetAlertHelper.setOnConfirm(() => this.closeModal());
+    SweetAlertHelper.setOnConfirm(() => {
+      this.closeModal();
+    });
     this.handleAlertDicisions();
   };
 
@@ -157,6 +164,13 @@ class TextFields extends ComponentWithHandle {
     this.handleAlertDicisions();
   }
 
+  handleModelModalOpen = (modelId) => () => {
+    this.setState({ [`stateModel${modelId}`]: true} );
+  }
+
+  handleModelModalClose = (modelId) => () => {
+    this.setState({ [`stateModel${modelId}`]: false} );
+  }
 
   render() {
     const { classes } = this.props;
@@ -367,15 +381,26 @@ class TextFields extends ComponentWithHandle {
                   <AddModalWrapped groupId={this.props.id} />
                 </div>
                 
-                {this.state.models.map(model => {
+                {this.state.models.map((model, index) => {
+              
                   return (
-                    <Chip
-                      style={{ marginTop: '25px'}}
-                      key={model.id}
-                      label={model.title}
-                      onDelete={this.handleDeleteModel(model.id)}
-                      className={classes.chip}
-                    />
+                      <Fragment key={index} style={{ display: 'flex', flexDirection: 'row'}}>
+                            <Chip
+                              style={{ marginTop: '25px'}}
+                              key={model.id}
+                              label={model.title}
+                              onClick={this.handleModelModalOpen(model.id)}
+                              onDelete={this.handleDeleteModel(model.id)}
+                              className={classes.chip}
+                            /> 
+                        
+                        <EditModalWrapped 
+                          key={index} 
+                          modalClose={this.handleModelModalClose(model.id)}
+                          open={this.state[`stateModel${model.id}`]} 
+                          id={model.id} 
+                          groupId={this.props.id} />
+                      </Fragment>
                   );
                 })}
               </Grid>
