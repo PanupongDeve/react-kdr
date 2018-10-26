@@ -1,11 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
 import * as groupActions from "../../../../../../actions/Axios/GroupsActions";
 import SortingSelecting from "./SortingSelecting";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
-import model from '../../../../../../class/ServicesAPI';
-
 
 class GroupTable extends ComponentWithHandle {
   componentDidMount() {

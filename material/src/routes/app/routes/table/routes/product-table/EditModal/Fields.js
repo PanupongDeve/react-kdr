@@ -24,7 +24,7 @@ import model from "../../../../../../../class/ServicesAPI";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { ServerURL } from '../../../../../../../class/ServicesAPI';
+import { ServerURL } from '../../../../../../../class/ServicesAPI/Config';
 
 const GroupDTO = model.groups.getDTO();
 const ColorDTO = model.colors.getDTO();

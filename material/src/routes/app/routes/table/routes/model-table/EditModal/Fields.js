@@ -122,6 +122,7 @@ class TextFields extends ComponentWithHandle {
     } catch (errorMessages) {
       errorMessages.map(message => {
         this.notify.error(message);
+        return message;
       })
     }
   };
