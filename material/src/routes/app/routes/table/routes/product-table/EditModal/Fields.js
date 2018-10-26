@@ -210,6 +210,9 @@ class TextFields extends ComponentWithHandle {
   };
 
   handleGroupChange = (name) => event => {
+    this.setState({
+      modelSelected: ""
+    });
     const groupId = event.target.value;
     const groups = this.state.groupLists.filter((group) => group.id === groupId );
     let models;
