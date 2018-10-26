@@ -44,49 +44,55 @@ function getSorting(order, orderBy) {
 
 const columnData = [
   { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
-  { id: "code", numeric: false, disablePadding: true, label: "รหัส" },
   {
     id: "imagePath",
     numeric: false,
     disablePadding: true,
     label: "รูปสินค้า"
   },
+  { id: "code", numeric: false, disablePadding: true, label: "รหัส" },
   {
     id: "title",
     numeric: false,
     disablePadding: true,
     label: "ชื่อสินค้า"
   },
-  {
-    id: "color",
-    numeric: false,
-    disablePadding: true,
-    label: "สี"
-  },
-  {
-    id: "group",
-    numeric: false,
-    disablePadding: true,
-    label: "กลุ่ม"
-  },
-  {
-    id: "size",
-    numeric: false,
-    disablePadding: true,
-    label: "ขนาด"
-  },
-  {
-    id: "createdAt",
-    numeric: false,
-    disablePadding: true,
-    label: "สร้างเมื่อ"
-  },
-  {
-    id: "updatedAt",
-    numeric: false,
-    disablePadding: true,
-    label: "แก้ไขล่าสุด"
-  }
+  // {
+  //   id: "group",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "กลุ่ม"
+  // },
+  // {
+  //   id: "model",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "โมเดล"
+  // },
+  // {
+  //   id: "color",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "สี"
+  // },
+  // {
+  //   id: "size",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "ขนาด"
+  // },
+  // {
+  //   id: "createdAt",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "สร้างเมื่อ"
+  // },
+  // {
+  //   id: "updatedAt",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "แก้ไขล่าสุด"
+  // }
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -474,18 +480,20 @@ class EnhancedTable extends ComponentWithHandle {
                           />
                         </TableCell>
                         <TableCell numeric>{n.id}</TableCell>
-                        <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric><div style={{ padding: '30px'}}><img style={{ width: '100px', height: '100px'}} src={n.imagePath} /></div></TableCell>
-                        <TableCell numeric>{n.title}</TableCell>
-                        <TableCell numeric>{n.color.title}</TableCell>
-                        <TableCell numeric>{n.group.title}</TableCell>
-                        <TableCell numeric>{n.size.title}</TableCell>
-                        <TableCell numeric>
+                        <TableCell numeric>{n.size ? ProductDTO.createCodeBySize(n) : ProductDTO.createCodeByColor(n)}</TableCell>
+                        <TableCell numeric>{n.size ? ProductDTO.createTitleBySize(n) : ProductDTO.createTitleByColor(n)}</TableCell>
+                        
+                        {/* <TableCell numeric>{n.group.title}</TableCell>
+                        <TableCell numeric>{n.model.title}</TableCell>
+                        <TableCell numeric>{ProductDTO.createMarkEmptyData(n.color && n.color.title)}</TableCell>
+                        <TableCell numeric>{ProductDTO.createMarkEmptyData(n.size && n.size.title)}</TableCell> */}
+                        {/* <TableCell numeric>
                           {ProductDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
                         <TableCell numeric>
                           {ProductDTO.showTimesDisplay(n.updatedAt)}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="actions-ceil">
                           <EditModalWrapped id={n.id} />
                         </TableCell>

@@ -35,13 +35,17 @@ export default class ComponentWithHandle extends ComponenPermission {
     });
   };
 
-  handleCheckBoxSwitchChange = (key, lists) => event => {
+  handleCheckBoxSwitchChange = (key, lists, keyData, dataItems) => event => {
     lists.map(list => {
       if(list === key) {
         this.setState({ [list]: true});
       } else {
         this.setState({ [list]: false});
       }
+    })
+    dataItems = dataItems.filter(item => keyData !== item);
+    dataItems.map(item => {
+      this.setState({ [item]: ''})
     })
   };
 

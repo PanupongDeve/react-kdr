@@ -13,12 +13,11 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import { connect } from "react-redux";
-import * as modelsActions from "../../../../../../../actions/Axios/ModelsActions";
-import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
-import SweetAlertHelper from "../../../../../../../class/SweetAlert";
-import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
-import model from "../../../../../../../class/ServicesAPI";
-const GroupDTO = model.groups.getDTO();
+import * as modelsActions from "../../../../../../../../actions/Axios/ModelsActions";
+import * as groupsActions from "../../../../../../../../actions/Axios/GroupsActions";
+import SweetAlertHelper from "../../../../../../../../class/SweetAlert";
+import ComponentWithHandle from "../../../../../../../../components/class/ComponentWithHandle";
+import model from "../../../../../../../../class/ServicesAPI";
 const ModelDTO = model.models.getDTO();
 
 const styles = theme => ({
@@ -61,8 +60,6 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       code: "",
       title: "",
-      groupLists: [],
-      groupSelected: "",
       blockLoading: true
     };
   }
@@ -70,24 +67,18 @@ class TextFields extends ComponentWithHandle {
   componentDidMount() {
     const { id } = this.props;
     this.props.getModel(id);
-    this.props.getGroups();
   }
 
   componentWillReceiveProps(nextProps) {
-    let { groups } = nextProps.groupsStore;
     let { model } = nextProps.modelsStore
-    groups = GroupDTO.getArrayObject(groups);
-    groups = GroupDTO.filterDataActive(groups);
 
     model = ModelDTO.getObject(model);
     this.setState({
-      groupLists: groups,
       code: model.code,
-      title: model.title,
-      groupSelected: model.groupId,
+      title: model.title
     });
 
-    if(groups && model) {
+    if(model) {
       this.setState({
         blockLoading: false
       })
@@ -101,8 +92,8 @@ class TextFields extends ComponentWithHandle {
 
   handleSubmit = event => {
     try {
-      const { id } = this.props;
-      const { code, title, groupSelected: groupId, } = this.state;
+      const { id, groupId } = this.props;
+      const { code, title } = this.state;
       const modelsValidator = this.model.models.getModelsValidator();
       event.preventDefault();
       const data = { code, title, groupId } 
@@ -128,9 +119,8 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-    const { groupLists } = this.state;
     return (
-      <Fragment>
+      <Fragment key='2'>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
           <form
             onSubmit={this.handleSubmit}
@@ -164,33 +154,6 @@ class TextFields extends ComponentWithHandle {
                   margin="normal"
                   fullWidth
                 />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <FormControl
-                  required
-                  className={`${classes.formControl} kdr-selector`}
-                >
-                  <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
-                  <Select
-                    value={this.state.groupSelected}
-                    onChange={this.handleChange("groupSelected")}
-                    name="groupSelected"
-                    inputProps={{
-                      id: "group-required"
-                    }}
-                    className={`${classes.selectEmpty} selector_input`}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {groupLists.map((group, index) => (
-                      <MenuItem key={index} value={group.id}>
-                        {group.title}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
               </Grid>
 
               <Grid item xs={12} md={12}>

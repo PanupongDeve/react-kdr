@@ -9,6 +9,7 @@ import productsReducer from './productsReducer';
 import ordersReducer from './ordersReducer';
 import modelsReducer from './modelsReducer';
 import SweetAlertHelper from '../class/SweetAlert';
+import editModalModelReducer from './editModalModelReducer';
 
 const sweetalertReducer = SweetAlertHelper.getReducer();
 
@@ -22,7 +23,8 @@ const reducers = {
   groupsStore: groupsReducer,
   productsStore: productsReducer,
   ordersStore: ordersReducer,
-  modelsStore: modelsReducer 
+  modelsStore: modelsReducer,
+  openEditModalModel: editModalModelReducer
 };
 
 export default combineReducers(reducers);

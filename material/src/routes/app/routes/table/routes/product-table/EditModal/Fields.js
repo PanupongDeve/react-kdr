@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import classNames from "classnames";
 import Grid from "@material-ui/core/Grid";
@@ -14,18 +14,23 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import { connect } from "react-redux";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import * as productsActions from "../../../../../../../actions/Axios/ProductsActions";
 import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
 import * as colorsActions from "../../../../../../../actions/Axios/ColorsActions";
 import * as sizesActions from "../../../../../../../actions/Axios/SizesActions";
+import * as modelsActions from "../../../../../../../actions/Axios/ModelsActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import model from "../../../../../../../class/ServicesAPI";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 
 const GroupDTO = model.groups.getDTO();
 const ColorDTO = model.colors.getDTO();
 const SizeDTO = model.sizes.getDTO();
+const ModelDTO = model.models.getDTO();
 const ProductDTO = model.products.getDTO();
 
 const styles = theme => ({
@@ -58,45 +63,48 @@ const styles = theme => ({
     width: "100%"
   },
   selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
+    marginTop: theme.spacing.unit * 2
+  }
 });
 
 class TextFields extends ComponentWithHandle {
   constructor(props) {
     super(props);
     this.state = {
-      code: "",
-      title: "",
-      price: "",
       groupLists: [],
-      groupSelected: '',
+      groupSelected: "",
       colorLists: [],
-      colorSelected: '',
+      colorSelected: "",
       sizeLists: [],
-      sizeSelected: '',
+      sizeSelected: "",
+      modelLists: [],
+      modelSelected: "",
       imagePath: "assets/images-demo/image-icons/coming-soon.png",
       price: '',
       priceA: '',
       priceB: '',
       remark: '',
-      blockLoading: true
+      blockLoading: true,
+      isSize: false,
+      isColor: true
     };
   }
 
   componentDidMount() {
     const { id } = this.props;
-    this.props.getProduct(id);
+    this.props.getProduct(id)
     this.props.getGroups();
     this.props.getColors();
     this.props.getSizes();
+    this.props.getModels();
   }
 
   componentWillReceiveProps(nextProps) {
     let { groups } = nextProps.groupsStore;
     let { colors } = nextProps.colorsStore;
     let { sizes } = nextProps.sizesStore;
-    let { product } = nextProps.productsStore
+    let { models } = nextProps.modelsStore;
+    let { product } = nextProps.productsStore;
 
     groups = GroupDTO.getArrayObject(groups);
     groups = GroupDTO.filterDataActive(groups);
@@ -107,28 +115,30 @@ class TextFields extends ComponentWithHandle {
     sizes = SizeDTO.getArrayObject(sizes);
     sizes = SizeDTO.filterDataActive(sizes);
 
+    models = ModelDTO.getArrayObject(models);
+    models = ModelDTO.filterDataActive(models);
+
     product = ProductDTO.getObject(product);
-   
+
     this.setState({
       groupLists: groups,
       colorLists: colors,
       sizeLists: sizes,
-      code: product.code,
+      modelLists: models,
+      groupSelected: product.groupId,
+      modelSelected: product.modelId,
+      colorSelected: product.colorId,
+      sizeSelected: product.sizeId,
       price: product.price,
       priceA: product.priceA,
       priceB: product.priceB,
       remark: product.remark,
-      title: product.title,
-      imagePath: product.imagePath,
-      colorSelected: product.colorId,
-      groupSelected: product.groupId,
-      sizeSelected: product.sizeId
+      isSize: product.sizeId ? true : false,
+      isColor: product.colorId ? true: false
     });
 
-    if(groups && colors && sizes && product) {
-      this.setState({
-        blockLoading: false
-      })
+    if(groups && colors && sizes && models) {
+      this.setState({blockLoading: false})
     }
   }
 
@@ -171,10 +181,13 @@ class TextFields extends ComponentWithHandle {
         remark,
         groupSelected: groupId,
         sizeSelected: sizeId,
-        colorSelected: colorId
+        colorSelected: colorId,
+        modelSelected: modelId
       } = this.state;
-      const data = { code, title, price, groupId, sizeId, colorId, imagePath, priceA, priceB, remark};
+      const data = { code, title, price, groupId, sizeId, colorId, modelId,imagePath, priceA, priceB, remark};
       productsValidator.validate(data);
+      // ProductDTO.deleteEmptyField(data, ['sizeId', 'colorId']);
+      ProductDTO.setDefaultDecimal(data, ['priceA', 'priceB']);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
         this.props.updateProducts(
@@ -196,7 +209,8 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-    const { groupLists, colorLists, sizeLists }  = this.state;
+    const { groupLists, colorLists, sizeLists, modelLists } = this.state;
+
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
@@ -207,13 +221,12 @@ class TextFields extends ComponentWithHandle {
             autoComplete="off"
           >
             <Grid container spacing={24}>
-              <Grid item xs={12} md={4}>
+              {/* <Grid item xs={12} md={4}>
                 <TextField
                   required
                   id="code"
                   label="รหัส"
                   name="code"
-                  value={this.state.code}
                   onChange={this.handleChange("code")}
                   className={classes.textField}
                   margin="normal"
@@ -227,36 +240,23 @@ class TextFields extends ComponentWithHandle {
                   id="title"
                   label="ชื่อสินค้า"
                   name="title"
-                  value={this.state.title}
                   onChange={this.handleChange("title")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
 
-              <Grid item xs={12} md={4}>
-                <TextField
-                  id="remark"
-                  label="หมายเหตุ"
-                  value={this.state.remark}
-                  name="remark"
-                  onChange={this.handleChange("remark")}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
 
               <Grid item xs={12} md={4}>
                 <TextField
                   required
                   id="price"
-                  label="ราคาสินค้า"
+                  label="ราคาปลีก"
                   name="price"
-                  value={this.state.price}
                   type="number"
                   onChange={this.handleChange("price")}
+                  value={this.state.price}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -266,11 +266,11 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   id="priceA"
-                  label="ราคาสินค้าA"
+                  label="ราคากลุ่มA"
                   name="priceA"
-                  value={this.state.priceA}
                   type="number"
                   onChange={this.handleChange("priceA")}
+                  value={this.state.priceA}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -280,11 +280,11 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   id="priceB"
-                  label="ราคาสินค้าB"
+                  label="ราคากลุ่มB"
                   name="priceB"
-                  value={this.state.priceB}
                   type="number"
                   onChange={this.handleChange("priceB")}
+                  value={this.state.priceB}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -292,7 +292,10 @@ class TextFields extends ComponentWithHandle {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <FormControl required className={`${classes.formControl} kdr-selector`}>
+                <FormControl
+                  required
+                  className={`${classes.formControl} kdr-selector`}
+                >
                   <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
                   <Select
                     value={this.state.groupSelected}
@@ -306,9 +309,38 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    {
-                      groupLists.map((group, index) => <MenuItem key={index} value={group.id}>{group.title}</MenuItem>)
-                    }
+                    {groupLists.map((group, index) => (
+                      <MenuItem key={index} value={group.id}>
+                        {group.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <FormControl
+                  required
+                  className={`${classes.formControl} kdr-selector`}
+                >
+                  <InputLabel htmlFor="group-required">โมเดล</InputLabel>
+                  <Select
+                    value={this.state.modelSelected}
+                    onChange={this.handleChange("modelSelected")}
+                    name="modelSelected"
+                    inputProps={{
+                      id: "model-required"
+                    }}
+                    className={`${classes.selectEmpty} selector_input`}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {modelLists.map((group, index) => (
+                      <MenuItem key={index} value={group.id}>
+                        {group.title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -317,6 +349,7 @@ class TextFields extends ComponentWithHandle {
                 <FormControl className={`${classes.formControl} kdr-selector`}>
                   <InputLabel htmlFor="color-required">สี</InputLabel>
                   <Select
+                    disabled={!this.state.isColor}
                     value={this.state.colorSelected}
                     onChange={this.handleChange("colorSelected")}
                     name="colorSelected"
@@ -328,17 +361,20 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    {
-                      colorLists.map((color, index) => <MenuItem key={index} value={color.id}>{color.title}</MenuItem>)
-                    }
+                    {colorLists.map((color, index) => (
+                      <MenuItem key={index} value={color.id}>
+                        {color.title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <FormControl required className={`${classes.formControl} kdr-selector`}>
+                <FormControl className={`${classes.formControl} kdr-selector`}>
                   <InputLabel htmlFor="size-required">ขนาด</InputLabel>
                   <Select
+                    disabled={!this.state.isSize}
                     value={this.state.sizeSelected}
                     onChange={this.handleChange("sizeSelected")}
                     name="sizeSelected"
@@ -350,14 +386,31 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    {
-                      sizeLists.map((size, index) => <MenuItem key={index} value={size.id}>{size.title}</MenuItem>)
-                    }
+                    {sizeLists.map((size, index) => (
+                      <MenuItem key={index} value={size.id}>
+                        {size.title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
 
-               <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="remark"
+                  label="หมายเหตุ"
+                  name="remark"
+                  onChange={this.handleChange("remark")}
+                  value={this.state.remark}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4} />
+
+              <Grid item xs={12} md={4}>
                 <div className="img" style={{ width: "80%" }}>
                   <img
                     style={{ width: "80%" }}
@@ -390,6 +443,32 @@ class TextFields extends ComponentWithHandle {
                 </label>
               </Grid>
 
+              <Grid item xs={12} md={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.isColor}
+                      onChange={this.handleCheckBoxSwitchChange('isColor',['isColor', 'isSize'], 'colorSelected', ['colorSelected', 'sizeSelected'])}
+                      value={this.state.isColor}
+                    />
+                  }
+                  label="Color"
+                  className="kdr-checkbox"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.isSize}
+                      onChange={this.handleCheckBoxSwitchChange('isSize',['isColor', 'isSize'], 'sizeSelected', ['colorSelected', 'sizeSelected'])}
+                      value={this.state.isSize}
+                    />
+                  }
+                  label="Size"
+                  className="kdr-checkbox"
+                />
+              </Grid>
+
               <Grid item xs={12} md={12}>
                 <Button
                   className="btn-save"
@@ -420,7 +499,7 @@ class TextFields extends ComponentWithHandle {
           </form>
         </this.BlockUi>
         <this.SweetAlert />
-        { this.checkMobileDevice() ? <this.NotifyContainer /> : null }
+        {this.checkMobileDevice() ? <this.NotifyContainer /> : null}
       </Fragment>
     );
   }
@@ -436,13 +515,21 @@ const Box = props => <TextFields1 {...props} />;
 
 const SweetAlertActions = SweetAlertHelper.getActions();
 
-const actions = Object.assign(productsActions, groupsActions, colorsActions, sizesActions, SweetAlertActions);
+const actions = Object.assign(
+  productsActions,
+  groupsActions,
+  colorsActions,
+  sizesActions,
+  modelsActions,
+  SweetAlertActions
+);
 
 const mapStateToProps = state => {
   return {
     groupsStore: state.groupsStore,
     colorsStore: state.colorsStore,
     sizesStore: state.sizesStore,
+    modelsStore: state.modelsStore,
     productsStore: state.productsStore
   };
 };

@@ -22,12 +22,6 @@ export default class ProductsValidator extends BaseValidator {
         try {
             let messageErrorField;
 
-            messageErrorField = this.isRequired(product.code, "Code")
-            if(messageErrorField) this.messageError.push(messageErrorField);
-
-            messageErrorField = this.isRequired(product.title, "Title")
-            if(messageErrorField) this.messageError.push(messageErrorField);
-
             messageErrorField = this.isRequired(product.price, "Price")
             if(messageErrorField) this.messageError.push(messageErrorField);
 
@@ -43,6 +37,12 @@ export default class ProductsValidator extends BaseValidator {
             messageErrorField = this.isRequired(product.groupId, "Group")
             if(messageErrorField) this.messageError.push(messageErrorField);
 
+            messageErrorField = this.isRequired(product.modelId, "Model")
+            if(messageErrorField) this.messageError.push(messageErrorField);
+
+            messageErrorField = this.isRequired(product.sizeId || product.colorId, "Color or Size")
+            if(messageErrorField) this.messageError.push(messageErrorField);
+        
             if(this.messageError.length !== 0) {
                 throw this.messageError;
             }

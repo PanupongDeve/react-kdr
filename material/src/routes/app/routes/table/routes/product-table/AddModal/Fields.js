@@ -18,6 +18,7 @@ import * as productsActions from "../../../../../../../actions/Axios/ProductsAct
 import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
 import * as colorsActions from "../../../../../../../actions/Axios/ColorsActions";
 import * as sizesActions from "../../../../../../../actions/Axios/SizesActions";
+import * as modelsActions from "../../../../../../../actions/Axios/ModelsActions";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import model from "../../../../../../../class/ServicesAPI";
@@ -29,6 +30,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 const GroupDTO = model.groups.getDTO();
 const ColorDTO = model.colors.getDTO();
 const SizeDTO = model.sizes.getDTO();
+const ModelDTO = model.models.getDTO();
+const ProductDTO = model.products.getDTO();
 
 const styles = theme => ({
   container: {
@@ -68,15 +71,14 @@ class TextFields extends ComponentWithHandle {
   constructor(props) {
     super(props);
     this.state = {
-      code: "",
-      title: "",
-      price: "",
       groupLists: [],
       groupSelected: "",
       colorLists: [],
       colorSelected: "",
       sizeLists: [],
       sizeSelected: "",
+      modelLists: [],
+      modelSelected: "",
       imagePath: "assets/images-demo/image-icons/coming-soon.png",
       price: '',
       priceA: '',
@@ -92,12 +94,14 @@ class TextFields extends ComponentWithHandle {
     this.props.getGroups();
     this.props.getColors();
     this.props.getSizes();
+    this.props.getModels();
   }
 
   componentWillReceiveProps(nextProps) {
     let { groups } = nextProps.groupsStore;
     let { colors } = nextProps.colorsStore;
     let { sizes } = nextProps.sizesStore;
+    let { models } = nextProps.modelsStore;
 
     groups = GroupDTO.getArrayObject(groups);
     groups = GroupDTO.filterDataActive(groups);
@@ -108,12 +112,19 @@ class TextFields extends ComponentWithHandle {
     sizes = SizeDTO.getArrayObject(sizes);
     sizes = SizeDTO.filterDataActive(sizes);
 
+    models = ModelDTO.getArrayObject(models);
+    models = ModelDTO.filterDataActive(models);
+
     this.setState({
       groupLists: groups,
       colorLists: colors,
       sizeLists: sizes,
-      blockLoading: false
+      modelLists: models
     });
+
+    if(groups && colors && sizes && models) {
+      this.setState({blockLoading: false})
+    }
   }
 
   handleOnCancel = () => {
@@ -154,10 +165,13 @@ class TextFields extends ComponentWithHandle {
         remark,
         groupSelected: groupId,
         sizeSelected: sizeId,
-        colorSelected: colorId
+        colorSelected: colorId,
+        modelSelected: modelId
       } = this.state;
-      const data = { code, title, price, groupId, sizeId, colorId, imagePath, priceA, priceB, remark};
+      const data = { code, title, price, groupId, sizeId, colorId, modelId,imagePath, priceA, priceB, remark};
       productsValidator.validate(data);
+      ProductDTO.deleteEmptyField(data, ['sizeId', 'colorId']);
+      ProductDTO.setDefaultDecimal(data, ['priceA', 'priceB']);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
         this.props.createProducts(
@@ -178,7 +192,7 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-    const { groupLists, colorLists, sizeLists } = this.state;
+    const { groupLists, colorLists, sizeLists, modelLists } = this.state;
 
     return (
       <Fragment>
@@ -190,7 +204,7 @@ class TextFields extends ComponentWithHandle {
             autoComplete="off"
           >
             <Grid container spacing={24}>
-              <Grid item xs={12} md={4}>
+              {/* <Grid item xs={12} md={4}>
                 <TextField
                   required
                   id="code"
@@ -214,27 +228,18 @@ class TextFields extends ComponentWithHandle {
                   margin="normal"
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
+
 
               <Grid item xs={12} md={4}>
                 <TextField
-                  id="remark"
-                  label="หมายเหตุ"
-                  name="remark"
-                  onChange={this.handleChange("remark")}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <TextField
+                  required
                   id="price"
-                  label="ราคาสินค้า"
+                  label="ราคาปลีก"
                   name="price"
                   type="number"
                   onChange={this.handleChange("price")}
+                  value={this.state.price}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -244,10 +249,11 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   id="priceA"
-                  label="ราคาสินค้าA"
+                  label="ราคากลุ่มA"
                   name="priceA"
                   type="number"
                   onChange={this.handleChange("priceA")}
+                  value={this.state.priceA}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -257,10 +263,11 @@ class TextFields extends ComponentWithHandle {
               <Grid item xs={12} md={4}>
                 <TextField
                   id="priceB"
-                  label="ราคาสินค้าB"
+                  label="ราคากลุ่มB"
                   name="priceB"
                   type="number"
                   onChange={this.handleChange("priceB")}
+                  value={this.state.priceB}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -286,6 +293,33 @@ class TextFields extends ComponentWithHandle {
                       <em>None</em>
                     </MenuItem>
                     {groupLists.map((group, index) => (
+                      <MenuItem key={index} value={group.id}>
+                        {group.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <FormControl
+                  required
+                  className={`${classes.formControl} kdr-selector`}
+                >
+                  <InputLabel htmlFor="group-required">โมเดล</InputLabel>
+                  <Select
+                    value={this.state.modelSelected}
+                    onChange={this.handleChange("modelSelected")}
+                    name="modelSelected"
+                    inputProps={{
+                      id: "model-required"
+                    }}
+                    className={`${classes.selectEmpty} selector_input`}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {modelLists.map((group, index) => (
                       <MenuItem key={index} value={group.id}>
                         {group.title}
                       </MenuItem>
@@ -345,6 +379,20 @@ class TextFields extends ComponentWithHandle {
               </Grid>
 
               <Grid item xs={12} md={4}>
+                <TextField
+                  id="remark"
+                  label="หมายเหตุ"
+                  name="remark"
+                  onChange={this.handleChange("remark")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4} />
+
+              <Grid item xs={12} md={4}>
                 <div className="img" style={{ width: "80%" }}>
                   <img
                     style={{ width: "80%" }}
@@ -382,7 +430,7 @@ class TextFields extends ComponentWithHandle {
                   control={
                     <Checkbox
                       checked={this.state.isColor}
-                      onChange={this.handleCheckBoxSwitchChange('isColor',['isColor', 'isSize'])}
+                      onChange={this.handleCheckBoxSwitchChange('isColor',['isColor', 'isSize'], 'colorSelected', ['colorSelected', 'sizeSelected'])}
                       value={this.state.isColor}
                     />
                   }
@@ -394,7 +442,7 @@ class TextFields extends ComponentWithHandle {
                   control={
                     <Checkbox
                       checked={this.state.isSize}
-                      onChange={this.handleCheckBoxSwitchChange('isSize',['isColor', 'isSize'])}
+                      onChange={this.handleCheckBoxSwitchChange('isSize',['isColor', 'isSize'], 'sizeSelected', ['colorSelected', 'sizeSelected'])}
                       value={this.state.isSize}
                     />
                   }
@@ -454,6 +502,7 @@ const actions = Object.assign(
   groupsActions,
   colorsActions,
   sizesActions,
+  modelsActions,
   SweetAlertActions
 );
 
@@ -461,7 +510,8 @@ const mapStateToProps = state => {
   return {
     groupsStore: state.groupsStore,
     colorsStore: state.colorsStore,
-    sizesStore: state.sizesStore
+    sizesStore: state.sizesStore,
+    modelsStore: state.modelsStore
   };
 };
 

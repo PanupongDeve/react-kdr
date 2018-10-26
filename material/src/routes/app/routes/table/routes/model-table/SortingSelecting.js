@@ -52,17 +52,23 @@ const columnData = [
     label: "ชื่อขนาดสินค้า"
   },
   {
-    id: "createdAt",
+    id: "group",
     numeric: false,
     disablePadding: true,
-    label: "สร้างเมื่อ"
+    label: "กลุ่ม"
   },
-  {
-    id: "updatedAt",
-    numeric: false,
-    disablePadding: true,
-    label: "แก้ไขล่าสุด"
-  }
+  // {
+  //   id: "createdAt",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "สร้างเมื่อ"
+  // },
+  // {
+  //   id: "updatedAt",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "แก้ไขล่าสุด"
+  // }
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -452,12 +458,13 @@ class EnhancedTable extends ComponentWithHandle {
                         <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
-                        <TableCell numeric>
+                        <TableCell numeric>{n.group.title}</TableCell>
+                        {/* <TableCell numeric>
                           {ModelDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
                         <TableCell numeric>
                           {ModelDTO.showTimesDisplay(n.updatedAt)}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="actions-ceil">
                           <EditModalWrapped id={n.id} />
                         </TableCell>

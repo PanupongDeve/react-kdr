@@ -51,18 +51,18 @@ const columnData = [
     disablePadding: true,
     label: "ชื่อกลุ่ม"
   },
-  {
-    id: "createdAt",
-    numeric: false,
-    disablePadding: true,
-    label: "สร้างเมื่อ"
-  },
-  {
-    id: "updatedAt",
-    numeric: false,
-    disablePadding: true,
-    label: "แก้ไขล่าสุด"
-  }
+  // {
+  //   id: "createdAt",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "สร้างเมื่อ"
+  // },
+  // {
+  //   id: "updatedAt",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "แก้ไขล่าสุด"
+  // }
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -82,12 +82,12 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox" className="check-box">
-            {/* <Checkbox
+          <TableCell padding="checkbox" className="check-box" style={{ opacity: '0'}}>
+            <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
-            /> */}
+            />
           </TableCell>
           {columnData.map(column => {
             return (
@@ -113,7 +113,6 @@ class EnhancedTableHead extends React.Component {
               </TableCell>
             );
           }, this)}
-          <TableCell numeric>Actions</TableCell>
         </TableRow>
       </TableHead>
     );
@@ -408,7 +407,6 @@ class EnhancedTable extends ComponentWithHandle {
     return (
       <Paper className={classes.root}>
         <this.BlockUi tag="div" blocking={loading}>
-          <AddModalWrapped />
           <EnhancedTableToolbar
             handleRemoveItems={this.handleRemoveItems}
             handleSearchItems={this.handleSearchItems}
@@ -436,31 +434,29 @@ class EnhancedTable extends ComponentWithHandle {
                     return (
                       <TableRow
                         hover
-                        //   onClick={event => this.handleClick(event, n.id)}
-                        //   role="checkbox"
-                        //   aria-checked={isSelected}
+                          onClick={event => this.handleClick(event, n.id)}
+                          role="checkbox"
+                          aria-checked={isSelected}
                         tabIndex={-1}
                         key={n.id}
-                        //   selected={isSelected}
+                          selected={isSelected}
+                          style={{ opacity: '0'}}
                       >
                         <TableCell padding="checkbox">
-                          {/* <Checkbox
+                          <Checkbox
                             checked={isSelected}
                             onClick={event => this.handleClick(event, n.id)}
-                          /> */}
+                          />
                         </TableCell>
                         <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.code}</TableCell>
                         <TableCell numeric>{n.title}</TableCell>
-                        <TableCell numeric>
+                        {/* <TableCell numeric>
                           {OrderDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
                         <TableCell numeric>
                           {OrderDTO.showTimesDisplay(n.updatedAt)}
-                        </TableCell>
-                        <TableCell className="actions-ceil">
-                          <EditModalWrapped id={n.id} />
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     );
                   })}
