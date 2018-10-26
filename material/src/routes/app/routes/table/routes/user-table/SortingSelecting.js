@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
 import SearchIcon from "@material-ui/icons/Search";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -21,7 +19,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import MaterialIcon from "components/MaterialIcon";
 import AddModalWrapped from "./AddModal/AddModal";
@@ -34,7 +31,6 @@ import ComponentWithHandle from "../../../../../../components/class/ComponentWit
 
 const UserDTO = model.users.getDTO();
 
-let counter = 0;
 
 function getSorting(order, orderBy) {
   return order === "desc"
@@ -316,7 +312,7 @@ class EnhancedTable extends ComponentWithHandle {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { loading, users } = nextProps.usersStore;
+    let { users } = nextProps.usersStore;
     users = UserDTO.getArrayObject(users);
     users = UserDTO.filterDataActive(users);
     this.setState({ data: users });
@@ -389,6 +385,7 @@ class EnhancedTable extends ComponentWithHandle {
         this.handleAlertError,
         this.SweetAlertOptions.setMessageError
       );
+      return item;
     });
     this.setState({ selected: [], countItemDeleted: 0 });
   };

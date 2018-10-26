@@ -1,5 +1,4 @@
 import {createStore, compose, applyMiddleware} from 'redux';
-import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createHashHistory';
 // 'routerMiddleware': the new way of storing route changes with redux middleware since rrV4.

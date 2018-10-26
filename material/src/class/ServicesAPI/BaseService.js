@@ -1,9 +1,9 @@
 import axios from "axios";
 import moment from "moment";
 import Storage from "../Storage";
+import { ServerURL } from './Config';
 
-const RootURL = "http://localhost:3003";
-
+const RootURL = ServerURL;
 export default class BaseService {
   constructor(domain) {
     this.axios = axios;

@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -25,7 +24,7 @@ import model from "../../../../../../../class/ServicesAPI";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import { ServerURL } from '../../../../../../../class/ServicesAPI/Config';
 
 const GroupDTO = model.groups.getDTO();
 const ColorDTO = model.colors.getDTO();
@@ -158,11 +157,12 @@ class TextFields extends ComponentWithHandle {
       productsValidator.validateFile(file);
       let data = await model.products.upload(file);
       this.setState({
-        imagePath: `http://localhost:3003${data}`
+        imagePath: `${ServerURL}${data}`
       });
     } catch (errorMessages) {
       errorMessages.map(message => {
         this.notify.error(message);
+        return message;
       });
     }
   };
@@ -204,6 +204,7 @@ class TextFields extends ComponentWithHandle {
     } catch (errorMessages) {
       errorMessages.map(message => {
         this.notify.error(message);
+        return message;
       });
     }
   };

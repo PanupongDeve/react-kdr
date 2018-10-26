@@ -31,7 +31,7 @@ export default class BaseValidator {
     isNotImageFile(file) {
         const { name } = file;
         let typeFile = name.substring(name.lastIndexOf('.')+1).toLowerCase();
-        if (typeFile == "gif" || typeFile == "png" || typeFile == "bmp"|| typeFile == "jpeg" || typeFile == "jpg") return false;
+        if (typeFile === "gif" || typeFile === "png" || typeFile === "bmp"|| typeFile === "jpeg" || typeFile === "jpg") return false;
         else return `😿 ${name} is image type.`;
     }
 }

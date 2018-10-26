@@ -3,7 +3,6 @@ import React from 'react';
 import classnames from 'classnames';
 import DEMO from 'constants/demoData';
 import APPCONFIG from 'constants/appConfig';
-import LayoutOptions from './LayoutOptions';
 import ColorOptions from './ColorOptions';
 import ThemeOptions from './ThemeOptions';
 import $ from 'jquery';

@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import $ from 'jquery';
 import 'jquery-slimscroll/jquery.slimscroll.min';
-import DEMO from 'constants/demoData';
-
 
 class SidebarContent extends React.Component {
 

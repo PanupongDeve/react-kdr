@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Storage from '../../../class/Storage';
 
 export default class ComponentWithPermission extends Component {

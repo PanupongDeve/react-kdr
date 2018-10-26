@@ -1,5 +1,5 @@
 const DEMO = {
-  link: 'javascript:;', // javascript:;
+  link: 'javascript:', 
   home: '#/app/dashboard',
   home2: '/app/dashboard',
   productLink: 'https://themeforest.net/item/material-design-reactjs-admin-web-app-with-bootstrap-4/19582625',

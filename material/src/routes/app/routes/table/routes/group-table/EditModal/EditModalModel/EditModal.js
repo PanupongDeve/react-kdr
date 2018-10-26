@@ -1,16 +1,10 @@
 import React from "react";
-import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
 import EditForm from './EditForm';
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import EditIcon from "@material-ui/icons/EditTwoTone";
-import * as modalModelActions from '../../../../../../../../actions/EditModalModelActions';
+
 
 const styles = theme => ({
   paper: {
@@ -61,8 +55,6 @@ class EditModal extends React.Component {
 EditModal.propTypes = {
   classes: PropTypes.object.isRequired
 };
-
-const actions = Object.assign(modalModelActions);
 
 // We need an intermediary variable for handling the recursive nesting.
 let EditModalWrapped = withStyles(styles)(EditModal);

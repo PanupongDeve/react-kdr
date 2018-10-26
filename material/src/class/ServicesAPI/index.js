@@ -22,4 +22,6 @@ class ServiceModel {
 
 }
 
+
+
 export default new ServiceModel();

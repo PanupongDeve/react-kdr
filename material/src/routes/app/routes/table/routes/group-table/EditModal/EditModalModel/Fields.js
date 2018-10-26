@@ -1,11 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
 import classNames from "classnames";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -113,6 +109,7 @@ class TextFields extends ComponentWithHandle {
     } catch (errorMessages) {
       errorMessages.map(message => {
         this.notify.error(message);
+        return message;
       })
     }
   };

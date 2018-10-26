@@ -1,11 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
 import * as orderActions from "../../../../../../actions/Axios/OrdersActions";
 import SortingSelecting from "./SortingSelecting";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
-import model from '../../../../../../class/ServicesAPI';
-
 
 class OrderTable extends ComponentWithHandle {
   componentDidMount() {
