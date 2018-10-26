@@ -143,16 +143,18 @@ class TextFields extends ComponentWithHandle {
   };
 
   handleDeleteModel = (modelId) => () => {
-    this.props.deleteModel(
-      modelId,
-      null,
-      0,
-      1,
-      () => console.log('error'),
-      this.SweetAlertOptions.setMessageError
-    );
     const { id } = this.props;
-    this.props.getGroup(id);
+    SweetAlertHelper.setOnConfirm(() => {
+      this.props.deleteModel(
+        modelId,
+        () => this.props.getGroup(id),
+        1,
+        1,
+        () => console.log('error'),
+        this.SweetAlertOptions.setMessageError
+      );   
+    });
+    this.handleAlertDicisions();
   }
 
 
