@@ -7,44 +7,8 @@ import Footer from 'components/Layout/Footer';
 import Customizer from 'components/Customizer';
 import LoadingComponent from 'components/Loading';
 
-import model from '../../../class/ServicesAPI'
-
-
-let Dashboard = loadable({
-  loader: () => import('routes/app/routes/dashboard/'),
-  loading: LoadingComponent
-})
-let Chart = loadable({
-  loader: () => import('routes/app/routes/chart/'),
-  loading: LoadingComponent
-})
-let ECommerce = loadable({
-  loader: () => import('routes/app/routes/ecommerce/'),
-  loading: LoadingComponent
-})
-let Form = loadable({
-  loader: () => import('routes/app/routes/form/'),
-  loading: LoadingComponent
-})
-let Page = loadable({
-  loader: () => import('routes/app/routes/page/'),
-  loading: LoadingComponent
-})
-let PageLayout = loadable({
-  loader: () => import('routes/app/routes/page-layout/'),
-  loading: LoadingComponent
-})
 let Table = loadable({
   loader: () => import('routes/app/routes/table/'),
-  loading: LoadingComponent
-})
-let UI = loadable({
-  loader: () => import('routes/app/routes/ui/'),
-  loading: LoadingComponent
-})
-
-let Exception = loadable({
-  loader: () => import('routes/exception/'),
   loading: LoadingComponent
 })
 

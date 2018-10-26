@@ -1,12 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
 import * as colorsActions from "../../../../../../actions/Axios/ColorsActions";
 import SortingSelecting from "./SortingSelecting";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
-import model from '../../../../../../class/ServicesAPI';
-
-const ColorDTO = model.colors.getDTO();
 
 class ColorTable extends ComponentWithHandle {
   componentDidMount() {

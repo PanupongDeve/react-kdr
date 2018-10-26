@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import APPCONFIG from 'constants/appConfig';
-import NavLeftList from './NavLeftList';
+// import NavLeftList from './NavLeftList';
 import NavRightList from './NavRightList';
 import $ from 'jquery';
 import DEMO from 'constants/demoData';

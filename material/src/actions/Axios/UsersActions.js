@@ -9,7 +9,7 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
 
         const response = await model.users.authentication(data);
         if(response.user.group !== role.ADMIN) {
-            throw "You dont have permission"
+            throw "You dont have permission";
         }
         model.storage.saveToken(response.token);
         model.storage.saveCurrentUser(response.user);

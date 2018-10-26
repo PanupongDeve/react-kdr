@@ -82,7 +82,7 @@ export default class BaseDTO {
     transformToBoolean(field) {
         if(field === 'true' || field === true) {
             return true;
-        } else if (field == 'false' || field === false) {
+        } else if (field === 'false' || field === false) {
             return false;
         }
     }
@@ -92,6 +92,7 @@ export default class BaseDTO {
             if(!object[field]) {
                 delete object[field];
             }
+            return field;
         })
     }
 
@@ -100,6 +101,7 @@ export default class BaseDTO {
             if(!object[field]) {
                 object[field] = 0;
             }
+            return field;
         })
     }
 

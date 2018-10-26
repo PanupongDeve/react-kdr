@@ -42,10 +42,12 @@ export default class ComponentWithHandle extends ComponenPermission {
       } else {
         this.setState({ [list]: false});
       }
+      return list;
     })
     dataItems = dataItems.filter(item => keyData !== item);
     dataItems.map(item => {
       this.setState({ [item]: ''})
+      return item;
     })
   };
 
