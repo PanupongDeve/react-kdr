@@ -1,12 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import QueueAnim from "rc-queue-anim";
 import * as usersActions from "../../../../../../actions/Axios/UsersActions";
 import SortingSelecting from "./SortingSelecting";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
-import model from '../../../../../../class/ServicesAPI';
-
-const UserDTO = model.users.getDTO();
 
 class UserTable extends ComponentWithHandle {
   componentDidMount() {

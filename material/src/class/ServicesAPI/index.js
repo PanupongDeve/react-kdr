@@ -22,4 +22,6 @@ class ServiceModel {
 
 }
 
+export const ServerURL = "http://localhost:3003";
+
 export default new ServiceModel();
