@@ -103,7 +103,6 @@ class TextFields extends ComponentWithHandle {
     let { groups } = nextProps.groupsStore;
     let { colors } = nextProps.colorsStore;
     let { sizes } = nextProps.sizesStore;
-    let { models } = nextProps.modelsStore;
     let { product } = nextProps.productsStore;
 
     groups = GroupDTO.getArrayObject(groups);
@@ -115,11 +114,13 @@ class TextFields extends ComponentWithHandle {
     sizes = SizeDTO.getArrayObject(sizes);
     sizes = SizeDTO.filterDataActive(sizes);
 
-    models = ModelDTO.getArrayObject(models);
-    models = ModelDTO.filterDataActive(models);
 
     product = ProductDTO.getObject(product);
-
+    const groupsProduct = groups.filter((group) => group.id === product.groupId );
+    let models;
+    models = (groups.length !== 0) ? groupsProduct[0].models : [];
+    models = ModelDTO.getArrayObject(models);
+    models = ModelDTO.filterDataActive(models);
     this.setState({
       groupLists: groups,
       colorLists: colors,
@@ -205,6 +206,19 @@ class TextFields extends ComponentWithHandle {
         this.notify.error(message);
       });
     }
+  };
+
+  handleGroupChange = (name) => event => {
+    const groupId = event.target.value;
+    const groups = this.state.groupLists.filter((group) => group.id === groupId );
+    let models;
+    models = (groups.length !== 0) ? groups[0].models : [];
+    models = ModelDTO.getArrayObject(models);
+    models = ModelDTO.filterDataActive(models);
+    this.setState({
+      [name]: groupId,
+      modelLists: models
+    });
   };
 
   render() {
@@ -299,7 +313,7 @@ class TextFields extends ComponentWithHandle {
                   <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
                   <Select
                     value={this.state.groupSelected}
-                    onChange={this.handleChange("groupSelected")}
+                    onChange={this.handleGroupChange("groupSelected")}
                     name="groupSelected"
                     inputProps={{
                       id: "group-required"
