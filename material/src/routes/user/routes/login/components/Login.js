@@ -23,6 +23,14 @@ class Login extends ComponentWithHandle {
     this.checkPermissionUser();
   }
 
+  enableLoading = () => {
+    this.setState({ blockLoading: true });
+  }
+
+  disableLoading = () => {
+    this.setState({ blockLoading: false });
+  }
+
   handleAlertError = () => {
     this.handleCloseBlockLoading();
     SweetAlertHelper.setOnConfirm(() => null);
@@ -38,7 +46,9 @@ class Login extends ComponentWithHandle {
       data,
       this.handleRedirectToApp,
       this.handleAlertError,
-      this.SweetAlertOptions.setMessageError
+      this.SweetAlertOptions.setMessageError,
+      this.enableLoading,
+      this.disableLoading
     );
   };
 
@@ -51,7 +61,9 @@ class Login extends ComponentWithHandle {
         data,
         this.handleRedirectToApp,
         this.handleAlertError,
-        this.SweetAlertOptions.setMessageError
+        this.SweetAlertOptions.setMessageError,
+        this.enableLoading,
+        this.disableLoading
       );
     }
   };
@@ -106,11 +118,11 @@ class Login extends ComponentWithHandle {
             </form>
           </div>
 
-          <div className="additional-info">
+          {/* <div className="additional-info">
             <a href={DEMO.signUp}>Sign up</a>
             <span className="divider-h" />
             <a href={DEMO.forgotPassword}>Forgot your password?</a>
-          </div>
+          </div> */}
           <this.SweetAlert />
         </this.BlockUi>
       </div>

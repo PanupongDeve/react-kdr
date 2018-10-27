@@ -4,13 +4,14 @@ import role from '../../enums/role';
 const UsersOTS = model.users.getOTS();
 const UsersTypes = UsersOTS.getActionsTypes();
 
-export const authentication = (data, redirectCallBack, errorAlertCallback, setMessageError) => async dispatch => {
+export const authentication = (data, redirectCallBack, errorAlertCallback, setMessageError, enableLoading, disableLoading) => async dispatch => {
     try {
-
+        enableLoading();
         const response = await model.users.authentication(data);
         if(response.user.group !== role.ADMIN) {
             throw "You dont have permission";
         }
+        disableLoading();
         model.storage.saveToken(response.token);
         model.storage.saveCurrentUser(response.user);
         redirectCallBack();
@@ -18,6 +19,7 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
     } catch (error) {
         setMessageError(error === "You dont have permission" ? error : error.response.data.result);
         setTimeout(() => {
+            disableLoading();
             errorAlertCallback();
         }, 500);
         throw Promise.reject(error);
