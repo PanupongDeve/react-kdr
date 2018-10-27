@@ -1,4 +1,4 @@
-const PORT = process.env.NODE_ENV === 'production' ? process.env.PORT : '3003';
+const PORT = process.env.CLIENT_NODE_ENV === 'production' ? process.env.PORT : '3003';
 console.log(process.env.NODE_ENV );
 console.log(process.env.PORT);
 
