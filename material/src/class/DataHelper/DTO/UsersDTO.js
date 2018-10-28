@@ -14,7 +14,8 @@ class UsersDTO extends BaseDTO {
             username: data.username,
             address: data.address,
             tel: data.tel,
-            group: data.group
+            group: data.group,
+            groups: data.groups
 
         }
     }

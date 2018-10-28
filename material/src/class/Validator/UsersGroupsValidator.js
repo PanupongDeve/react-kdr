@@ -9,10 +9,19 @@ export default class GroupsValidator extends BaseValidator {
         try {
             let messageErrorField;
 
-            messageErrorField = this.isRequired(group.userId, "User")
+            messageErrorField = this.isRequired(data.userId, "User")
             if(messageErrorField) this.messageError.push(messageErrorField);
 
-            messageErrorField = this.isRequired(group.groupId, "Group")
+            messageErrorField = this.isRequired(data.groupId, "Group")
+            if(messageErrorField) this.messageError.push(messageErrorField);
+
+            messageErrorField = this.isRequired(data.amount, "Amount")
+            if(messageErrorField) this.messageError.push(messageErrorField)
+
+            messageErrorField = this.isRequired(data.discountA, "discountA")
+            if(messageErrorField) this.messageError.push(messageErrorField)
+
+            messageErrorField = this.isValidateNumber(data.amount, 'amount');
             if(messageErrorField) this.messageError.push(messageErrorField);
 
             messageErrorField = this.isValidateNumber(data.discountA, 'discountA');

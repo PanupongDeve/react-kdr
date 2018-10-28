@@ -10,7 +10,7 @@ class GroupsService extends BaseService {
         this.ots = UsersGroupsOTS;
     }
     
-    getGroupsValidator() {
+    getValidator() {
         return new UsersGroupsValidator();
     }
 

@@ -64,6 +64,10 @@ class TextFields extends ComponentWithHandle {
   }
 
   componentDidMount() {
+    this.getGroup();
+  }
+
+  getGroup = () => {
     const { id } = this.props;
     this.props.getGroup(id);
   }
@@ -155,7 +159,7 @@ class TextFields extends ComponentWithHandle {
     SweetAlertHelper.setOnConfirm(() => {
       this.props.deleteModel(
         modelId,
-        () => this.props.getGroup(id),
+        this.getGroup,
         1,
         1,
         () => console.log('error'),

@@ -64,6 +64,24 @@ export const createUsers = (data, successAlertCallback, errorAlertCallback, getU
     }
 }
 
+export const createUsersGroups = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
+    try {
+
+        await model.usersGroups.create(data);
+        setTimeout(() => {
+            successAlertCallback();
+            getUser();  
+        }, 500);
+          
+    } catch (error) {
+        setMessageError(error.response.data.result.errors[0].message);
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);
+        throw Promise.reject(error);
+    }
+}
+
 export const updateUsers = (id, data, successAlertCallback, errorAlertCallback, getUsers, setMessageError) => async dispatch => {
     try {
         await model.users.update(id, data);
