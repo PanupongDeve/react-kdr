@@ -59,9 +59,9 @@ class TextFields extends ComponentWithHandle {
   constructor(props) {
     super(props);
     this.state = {
-      discountA: 10,
-      discountB: 10,
-      amount: 10,
+      discountA: 0,
+      discountB: 0,
+      amount: 0,
       groupLists: [],
       groupSelected:"",
       blockLoading: true
@@ -100,7 +100,6 @@ class TextFields extends ComponentWithHandle {
       const data = { userId, groupId, discountA, discountB, amount  } 
       UserGroupsValidator.validate(data);
       GroupDTO.deleteEmptyField(data, ['discountB']);
-      console.log(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
         this.props.createUsersGroups(
@@ -156,6 +155,53 @@ class TextFields extends ComponentWithHandle {
                       ))}
                     </Select>
                   </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  type="number"
+                  id="amount"
+                  label="จำนวน"
+                  name="amount"
+                  onChange={this.handleChange("amount")}
+                  value={this.state.amount}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4} />
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  type="number"
+                  id="discountA"
+                  label="ส่วนลดA"
+                  name="discountA"
+                  onChange={this.handleChange("discountA")}
+                  value={this.state.discountA}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  type="number"
+                  id="discountB"
+                  label="ส่วนลดB"
+                  name="discountB"
+                  onChange={this.handleChange("discountB")}
+                  value={this.state.discountB}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
               </Grid>
 
               <Grid item xs={12} md={12}>

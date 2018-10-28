@@ -239,7 +239,7 @@ class TextFields extends ComponentWithHandle {
                   return (
                       <Fragment key={index} style={{ display: 'flex', flexDirection: 'row'}}>
                             <Chip
-                              style={{ marginTop: '25px'}}
+                              style={{ marginTop: '25px', marginRight: '12px'}}
                               key={model.id}
                               label={model.title}
                               // onDelete={this.handleDeleteModel(model.id)}
