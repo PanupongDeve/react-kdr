@@ -289,7 +289,11 @@ class EnhancedTable extends ComponentWithHandle {
   }
 
   componentDidMount() {
-    this.props.getGroups();
+    this.props.getGroups(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -363,7 +367,7 @@ class EnhancedTable extends ComponentWithHandle {
         this.props.getGroups,
         countItemDeleted,
         items.length,
-        this.handleAlertError,
+        this.handleAlertErrorWithoutModal,
         this.SweetAlertOptions.setMessageError
       );
       return item;

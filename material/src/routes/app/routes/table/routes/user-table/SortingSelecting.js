@@ -296,6 +296,7 @@ class EnhancedTable extends ComponentWithHandle {
     super(props);
 
     this.state = {
+      blockLoading: true,
       order: "desc",
       orderBy: "updatedAt",
       selected: [],
@@ -308,7 +309,11 @@ class EnhancedTable extends ComponentWithHandle {
   }
 
   componentDidMount() {
-    this.props.getUsers();
+    this.props.getUsers(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -382,7 +387,7 @@ class EnhancedTable extends ComponentWithHandle {
         this.props.getUsers,
         countItemDeleted,
         items.length,
-        this.handleAlertError,
+        this.handleAlertErrorWithoutModal,
         this.SweetAlertOptions.setMessageError
       );
       return item;
@@ -417,11 +422,10 @@ class EnhancedTable extends ComponentWithHandle {
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-    let { loading } = this.props.usersStore;
     data = UserDTO.searchFilter(search, data);
     return (
       <Paper className={classes.root}>
-        <this.BlockUi tag="div" blocking={loading}>
+        <this.BlockUi tag="div" blocking={this.state.blockLoading}>
           <AddModalWrapped />
           <EnhancedTableToolbar
             handleRemoveItems={this.handleRemoveItems}

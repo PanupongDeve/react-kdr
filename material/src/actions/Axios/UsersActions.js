@@ -1,45 +1,48 @@
 
 import model from '../../class/ServicesAPI';
 import role from '../../enums/role';
+import { handleMessageError } from './Helper';
+
 const UsersOTS = model.users.getOTS();
 const UsersTypes = UsersOTS.getActionsTypes();
 
-export const authentication = (data, redirectCallBack, errorAlertCallback, setMessageError) => async dispatch => {
-    try {
 
+export const authentication = (data, redirectCallBack, errorAlertCallback, setMessageError, enableLoading, disableLoading) => async dispatch => {
+    try {
+        enableLoading();
         const response = await model.users.authentication(data);
         if(response.user.group !== role.ADMIN) {
             throw "You dont have permission";
         }
+        disableLoading();
         model.storage.saveToken(response.token);
         model.storage.saveCurrentUser(response.user);
         redirectCallBack();
           
     } catch (error) {
-        setMessageError(error === "You dont have permission" ? error : error.response.data.result);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
 
-export const getUsers = () => async dispatch => {
+export const getUsers = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
 
         const users = await model.users.get();
         UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USERS, users)(dispatch);
-        
+        if (disableLoading) disableLoading();
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
 
-export const getUser = (id) => async dispatch => {
+export const getUser = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const user = await model.users.getById(id);
         UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USER, user)(dispatch);
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -50,14 +53,26 @@ export const createUsers = (data, successAlertCallback, errorAlertCallback, getU
         await model.users.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getUsers();  
+            getUsers(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        handleMessageError(error, errorAlertCallback, setMessageError);
+        throw Promise.reject(error);
+    }
+}
+
+export const createUsersGroups = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
+    try {
+
+        await model.usersGroups.create(data);
         setTimeout(() => {
-            errorAlertCallback();
+            successAlertCallback();
+            getUser();  
         }, 500);
+          
+    } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -67,15 +82,12 @@ export const updateUsers = (id, data, successAlertCallback, errorAlertCallback, 
         await model.users.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getUsers();
+            getUsers(errorAlertCallback, setMessageError);
         }, 500);
         
        
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -84,14 +96,11 @@ export const deleteUser = (id, getUsers, countItemDelete, ItemDeleteLength,error
     try {
         await model.users.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            getUsers();
+            getUsers(errorAlertCallback, setMessageError);
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            setMessageError(error.response.data.result.errors[0].message);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);
         }
         throw Promise.reject(error);
     }

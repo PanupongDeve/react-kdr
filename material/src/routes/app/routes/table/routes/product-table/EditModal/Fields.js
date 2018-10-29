@@ -91,11 +91,29 @@ class TextFields extends ComponentWithHandle {
 
   componentDidMount() {
     const { id } = this.props;
-    this.props.getProduct(id)
-    this.props.getGroups();
-    this.props.getColors();
-    this.props.getSizes();
-    this.props.getModels();
+    this.props.getProduct(id, this.handleAlertError, this.SweetAlertOptions.setMessageError);
+    
+    this.props.getGroups(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
+
+    this.props.getColors(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
+    this.props.getSizes(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
+    this.props.getModels(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -210,6 +228,9 @@ class TextFields extends ComponentWithHandle {
   };
 
   handleGroupChange = (name) => event => {
+    this.setState({
+      modelSelected: ""
+    });
     const groupId = event.target.value;
     const groups = this.state.groupLists.filter((group) => group.id === groupId );
     let models;

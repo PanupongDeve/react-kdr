@@ -54,7 +54,7 @@ class TextFields extends ComponentWithHandle {
 
   componentDidMount() {
     const { id } = this.props;
-    this.props.getSize(id);
+    this.props.getSize(id, this.handleAlertError, this.SweetAlertOptions.setMessageError);
   }
 
   componentWillReceiveProps(nextProps) {

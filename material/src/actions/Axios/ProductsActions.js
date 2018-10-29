@@ -1,25 +1,28 @@
 
 import model from '../../class/ServicesAPI';
+import { handleMessageError } from './Helper';
 
 const ProductsOTS = model.products.getOTS();
 const ProductsTypes = ProductsOTS.getActionsTypes();
 
-export const getProducts = () => async dispatch => {
+export const getProducts = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
 
         const products = await model.products.get();
         ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCTS, products)(dispatch);
-        
+        if (disableLoading) disableLoading(); 
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
 
-export const getProduct = (id) => async dispatch => {
+export const getProduct = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const product = await model.products.getById(id);
         ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCT, product)(dispatch);
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -30,14 +33,11 @@ export const createProducts = (data, successAlertCallback, errorAlertCallback, g
         await model.products.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getProducts();  
+            getProducts(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -47,15 +47,12 @@ export const updateProducts = (id, data, successAlertCallback, errorAlertCallbac
         await model.products.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getProducts();
+            getProducts(errorAlertCallback, setMessageError);
         }, 500);
         
        
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -64,14 +61,11 @@ export const deleteProduct = (id, getProducts, countItemDelete, ItemDeleteLength
     try {
         await model.products.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            getProducts();
+            getProducts(errorAlertCallback, setMessageError);
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            setMessageError(error.response.data.result.errors[0].message);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);
         }
         throw Promise.reject(error);
     }

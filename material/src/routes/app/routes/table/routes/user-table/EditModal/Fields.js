@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import Chip from '@material-ui/core/Chip';
 import classNames from "classnames";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -18,7 +19,9 @@ import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import role from '../../../../../../../enums/role';
+import AddModalWrapped from "./AddModalUserGroups/AddModal";
 const UserDTO = model.users.getDTO();
+const GroupsDTO = model.groups.getDTO();
 
 const styles = theme => ({
   container: {
@@ -63,26 +66,35 @@ class TextFields extends ComponentWithHandle {
       address: "",
       tel: "",
       group: "",
+      groups: [],
       blockLoading: true
     };
   }
 
   componentDidMount() {
-    const { id } = this.props;
-    this.props.getUser(id);
+    this.getUser();
   }
 
   componentWillReceiveProps(nextProps) {
     let { user } = nextProps.usersStore;
     user = UserDTO.getObject(user);
+    let { groups } = user;
+    groups = GroupsDTO.getArrayObject(groups);
+    groups = GroupsDTO.filterDataActive(groups);
     this.setState({
       name: user.name,
       username: user.username,
       address: user.address,
       tel: user.tel,
       group: user.group,
+      groups,
       blockLoading: false
     });
+  }
+
+  getUser = () => {
+    const { id } = this.props;
+    this.props.getUser(id, this.handleAlertError,this.SweetAlertOptions.setMessageError);
   }
 
   handleOnCancel = () => {
@@ -195,7 +207,7 @@ class TextFields extends ComponentWithHandle {
 
               <Grid item xs={12} md={4}>
                 <FormControl required className={`${classes.formControl} kdr-selector`}>
-                  <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
+                  <InputLabel htmlFor="group-required">สิทธ์การใช้งาน</InputLabel>
                   <Select
                     value={this.state.group}
                     onChange={this.handleChange("group")}
@@ -214,6 +226,35 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value={role.DEFAULT}>{role.DEFAULT}</MenuItem>
                   </Select>
                 </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={8}>
+                <div style={{ display: 'flex', flexDirection: 'row'}}>
+                  <h5>กลุ่ม</h5>
+                  <AddModalWrapped createUsersGroups={this.props.createUsersGroups} getUser={this.getUser} userId={this.props.id} />
+                </div>
+                
+                {this.state.groups.map((model, index) => {
+              
+                  return (
+                      <Fragment key={index} style={{ display: 'flex', flexDirection: 'row'}}>
+                            <Chip
+                              style={{ marginTop: '25px', marginRight: '12px'}}
+                              key={model.id}
+                              label={model.title}
+                              // onDelete={this.handleDeleteModel(model.id)}
+                              className={classes.chip}
+                            /> 
+                        
+                        {/* <EditModalWrapped 
+                          key={index} 
+                          modalClose={this.handleModelModalClose(model.id)}
+                          open={this.state[`stateModel${model.id}`]} 
+                          id={model.id} 
+                          groupId={this.props.id} /> */}
+                      </Fragment>
+                  );
+                })}
               </Grid>
 
               <Grid item xs={12} md={12}>

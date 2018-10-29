@@ -176,7 +176,7 @@ class TextFields extends ComponentWithHandle {
 
               <Grid item xs={12} md={4}>
                 <FormControl required className={`${classes.formControl} kdr-selector`}>
-                  <InputLabel htmlFor="group-required">กลุ่ม</InputLabel>
+                  <InputLabel htmlFor="group-required">สิทธ์การใช้งาน</InputLabel>
                   <Select
                     value={this.state.group}
                     onChange={this.handleChange("group")}
