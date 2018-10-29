@@ -1,4 +1,3 @@
-
 const devURL = "http://localhost:3003";
 const serverURL  = 'https://king-drag.herokuapp.com';
 
