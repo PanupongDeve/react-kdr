@@ -1,26 +1,27 @@
 
 import modelDB from '../../class/ServicesAPI';
-import ErrorHandleMessage from '../../class/ErrorHandleMessage';
+import { handleMessageError } from './Helper';
 
 const ModelsOTS = modelDB.models.getOTS();
 const ModelsTypes = ModelsOTS.getActionsTypes();
 
-export const getModels = () => async dispatch => {
+export const getModels = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
-
         const models = await modelDB.models.get();
         ModelsOTS.sendPayloadToReducer(ModelsTypes.FETH_MODELS, models)(dispatch);
-        
+        if (disableLoading) disableLoading();
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
 
-export const getModel = (id) => async dispatch => {
+export const getModel = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const model = await modelDB.models.getById(id);
         ModelsOTS.sendPayloadToReducer(ModelsTypes.FETH_MODEL, model)(dispatch);
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -31,17 +32,11 @@ export const createModels = (data, successAlertCallback, errorAlertCallback, get
         await modelDB.models.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getModels();  
+            getModels(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -51,18 +46,12 @@ export const updateModels = (id, data, successAlertCallback, errorAlertCallback,
         await modelDB.models.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getModels();
+            getModels(errorAlertCallback, setMessageError);
         }, 500);
         
        
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -71,17 +60,11 @@ export const deleteModel = (id, getModels, countItemDelete, ItemDeleteLength,err
     try {
         await modelDB.models.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            getModels();
+            getModels(errorAlertCallback, setMessageError);
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            const errorHandleMessage = new ErrorHandleMessage();
-            errorHandleMessage.setErrorMessage(error);
-            const errorMessage = errorHandleMessage.getErrorMessage();
-            setMessageError(errorMessage);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);
         }
         throw Promise.reject(error);
     }

@@ -368,7 +368,7 @@ class EnhancedTable extends ComponentWithHandle {
         this.props.getSizes,
         countItemDeleted,
         items.length,
-        this.handleAlertError,
+        this.handleAlertErrorWithoutModal,
         this.SweetAlertOptions.setMessageError
       );
       return item;

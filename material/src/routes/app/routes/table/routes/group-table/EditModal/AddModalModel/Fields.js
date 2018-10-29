@@ -62,7 +62,7 @@ class TextFields extends ComponentWithHandle {
 
   componentDidMount() {
     this.props.getGroups(
-      this.handleAlertErrorWithoutModal,
+      this.handleAlertError,
       this.SweetAlertOptions.setMessageError,
       this.handleCloseBlockLoading
     );

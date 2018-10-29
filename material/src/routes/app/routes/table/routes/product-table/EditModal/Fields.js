@@ -109,7 +109,11 @@ class TextFields extends ComponentWithHandle {
       this.SweetAlertOptions.setMessageError,
       this.handleCloseBlockLoading
     );
-    this.props.getModels();
+    this.props.getModels(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
   }
 
   componentWillReceiveProps(nextProps) {

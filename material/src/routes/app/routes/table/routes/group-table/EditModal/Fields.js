@@ -162,7 +162,7 @@ class TextFields extends ComponentWithHandle {
         this.getGroup,
         1,
         1,
-        () => console.log('error'),
+        this.handleAlertErrorWithoutModal,
         this.SweetAlertOptions.setMessageError
       );   
     });
