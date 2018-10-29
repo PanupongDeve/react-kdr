@@ -1,5 +1,6 @@
 
 import model from '../../class/ServicesAPI';
+import ErrorHandleMessage from '../../class/ErrorHandleMessage';
 
 const ColorsOTS = model.colors.getOTS();
 const ColorsTypes = ColorsOTS.getActionsTypes();
@@ -34,7 +35,10 @@ export const createColors = (data, successAlertCallback, errorAlertCallback, get
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -52,7 +56,10 @@ export const updateColors = (id, data, successAlertCallback, errorAlertCallback,
         
        
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -68,11 +75,14 @@ export const deleteColor = (id, getColors, countItemDelete, ItemDeleteLength,err
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            setMessageError(error.response.data.result.errors[0].message);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
-        }
+            const errorHandleMessage = new ErrorHandleMessage();
+            errorHandleMessage.setErrorMessage(error);
+            const errorMessage = errorHandleMessage.getErrorMessage();
+            setMessageError(errorMessage);
+                setTimeout(() => {
+                    errorAlertCallback();
+                }, 500);
+            }
         throw Promise.reject(error);
     }
 }

@@ -1,5 +1,6 @@
 
 import model from '../../class/ServicesAPI';
+import ErrorHandleMessage from '../../class/ErrorHandleMessage';
 
 const GroupsOTS = model.groups.getOTS();
 const GroupsTypes = GroupsOTS.getActionsTypes();
@@ -34,7 +35,10 @@ export const createGroups = (data, successAlertCallback, errorAlertCallback, get
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -52,7 +56,10 @@ export const updateGroups = (id, data, successAlertCallback, errorAlertCallback,
         
        
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);

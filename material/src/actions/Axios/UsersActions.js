@@ -1,6 +1,7 @@
 
 import model from '../../class/ServicesAPI';
 import role from '../../enums/role';
+import ErrorHandleMessage from '../../class/ErrorHandleMessage';
 const UsersOTS = model.users.getOTS();
 const UsersTypes = UsersOTS.getActionsTypes();
 
@@ -17,7 +18,10 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
         redirectCallBack();
           
     } catch (error) {
-        setMessageError(error === "You dont have permission" ? error : error.response.data.result);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             disableLoading();
             errorAlertCallback();
@@ -56,7 +60,10 @@ export const createUsers = (data, successAlertCallback, errorAlertCallback, getU
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -74,7 +81,10 @@ export const createUsersGroups = (data, successAlertCallback, errorAlertCallback
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -92,7 +102,10 @@ export const updateUsers = (id, data, successAlertCallback, errorAlertCallback, 
         
        
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -108,7 +121,10 @@ export const deleteUser = (id, getUsers, countItemDelete, ItemDeleteLength,error
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            setMessageError(error.response.data.result.errors[0].message);
+            const errorHandleMessage = new ErrorHandleMessage();
+            errorHandleMessage.setErrorMessage(error);
+            const errorMessage = errorHandleMessage.getErrorMessage();
+            setMessageError(errorMessage);
             setTimeout(() => {
                 errorAlertCallback();
             }, 500);

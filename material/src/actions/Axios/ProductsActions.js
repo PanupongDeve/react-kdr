@@ -1,5 +1,6 @@
 
 import model from '../../class/ServicesAPI';
+import ErrorHandleMessage from '../../class/ErrorHandleMessage';
 
 const ProductsOTS = model.products.getOTS();
 const ProductsTypes = ProductsOTS.getActionsTypes();
@@ -34,7 +35,10 @@ export const createProducts = (data, successAlertCallback, errorAlertCallback, g
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -52,7 +56,10 @@ export const updateProducts = (id, data, successAlertCallback, errorAlertCallbac
         
        
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -68,7 +75,10 @@ export const deleteProduct = (id, getProducts, countItemDelete, ItemDeleteLength
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            setMessageError(error.response.data.result.errors[0].message);
+            const errorHandleMessage = new ErrorHandleMessage();
+            errorHandleMessage.setErrorMessage(error);
+            const errorMessage = errorHandleMessage.getErrorMessage();
+            setMessageError(errorMessage);
             setTimeout(() => {
                 errorAlertCallback();
             }, 500);

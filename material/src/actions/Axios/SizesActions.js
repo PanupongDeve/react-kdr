@@ -1,5 +1,6 @@
 
 import model from '../../class/ServicesAPI';
+import ErrorHandleMessage from '../../class/ErrorHandleMessage';
 
 const SizesOTS = model.sizes.getOTS();
 const SizesTypes = SizesOTS.getActionsTypes();
@@ -34,7 +35,10 @@ export const createSizes = (data, successAlertCallback, errorAlertCallback, getS
         }, 500);
           
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -52,7 +56,10 @@ export const updateSizes = (id, data, successAlertCallback, errorAlertCallback, 
         
        
     } catch (error) {
-        setMessageError(error.response.data.result.errors[0].message);
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
         }, 500);
@@ -68,7 +75,10 @@ export const deleteSize = (id, getSizes, countItemDelete, ItemDeleteLength,error
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            setMessageError(error.response.data.result.errors[0].message);
+            const errorHandleMessage = new ErrorHandleMessage();
+            errorHandleMessage.setErrorMessage(error);
+            const errorMessage = errorHandleMessage.getErrorMessage();
+            setMessageError(errorMessage);
             setTimeout(() => {
                 errorAlertCallback();
             }, 500);
