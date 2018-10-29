@@ -6,7 +6,7 @@ export default class ErrorHandleMessage {
     }
 
     setErrorMessage(errorMessage) {
-        if(errorMessage.message === 'Network Error') {
+        if(errorMessage && errorMessage.message === 'Network Error') {
             this.errorMessage = "Don't connect to server. Please try again."
         } else if (errorMessage === 'You dont have permission') {
             this.errorMessage = errorMessage;

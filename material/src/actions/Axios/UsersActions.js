@@ -23,29 +23,42 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
         const errorMessage = errorHandleMessage.getErrorMessage();
         setMessageError(errorMessage);
         setTimeout(() => {
-            disableLoading();
             errorAlertCallback();
         }, 500);
         throw Promise.reject(error);
     }
 }
 
-export const getUsers = () => async dispatch => {
+export const getUsers = (errorAlertCallback, setMessageError, disableLoading) => async dispatch => {
     try {
 
         const users = await model.users.get();
         UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USERS, users)(dispatch);
-        
+        disableLoading();
     } catch (error) {
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);
         throw Promise.reject(error);
     }
 }
 
-export const getUser = (id) => async dispatch => {
+export const getUser = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const user = await model.users.getById(id);
         UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USER, user)(dispatch);
     } catch (error) {
+        const errorHandleMessage = new ErrorHandleMessage();
+        errorHandleMessage.setErrorMessage(error);
+        const errorMessage = errorHandleMessage.getErrorMessage();
+        setMessageError(errorMessage);
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);
         throw Promise.reject(error);
     }
 }
@@ -56,7 +69,7 @@ export const createUsers = (data, successAlertCallback, errorAlertCallback, getU
         await model.users.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getUsers();  
+            getUsers(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {

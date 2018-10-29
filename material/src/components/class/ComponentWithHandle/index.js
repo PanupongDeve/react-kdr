@@ -19,7 +19,6 @@ export default class ComponentWithHandle extends ComponenPermission {
     this.model = model;
   }
 
-  
 
   handleOpenBlockLoading = () => {
     this.setState({ blockLoading: true });
@@ -65,6 +64,13 @@ export default class ComponentWithHandle extends ComponenPermission {
   handleAlertError = () => {
     this.handleCloseBlockLoading();
     SweetAlertHelper.setOnConfirm(() => this.closeModal());
+    const SweetAlertOptions = SweetAlertHelper.getOptions();
+    this.props.swal(SweetAlertOptions.handleError);
+  };
+
+  handleAlertErrorWithoutModal = () => {
+    this.handleCloseBlockLoading();
+    SweetAlertHelper.setOnConfirm(() => {});
     const SweetAlertOptions = SweetAlertHelper.getOptions();
     this.props.swal(SweetAlertOptions.handleError);
   };

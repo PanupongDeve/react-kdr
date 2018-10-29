@@ -94,7 +94,7 @@ class TextFields extends ComponentWithHandle {
 
   getUser = () => {
     const { id } = this.props;
-    this.props.getUser(id);
+    this.props.getUser(id, this.handleAlertError,this.SweetAlertOptions.setMessageError);
   }
 
   handleOnCancel = () => {
