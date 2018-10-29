@@ -1,26 +1,30 @@
 
 import model from '../../class/ServicesAPI';
 import ErrorHandleMessage from '../../class/ErrorHandleMessage';
+import { handleMessageError } from './Helper';
 
 const GroupsOTS = model.groups.getOTS();
 const GroupsTypes = GroupsOTS.getActionsTypes();
 
-export const getGroups = () => async dispatch => {
+export const getGroups = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
 
         const groups = await model.groups.get();
         GroupsOTS.sendPayloadToReducer(GroupsTypes.FETH_GROUPS, groups)(dispatch);
-        
+        if (disableLoading) disableLoading();
+
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
 
-export const getGroup = (id) => async dispatch => {
+export const getGroup = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const group = await model.groups.getById(id);
         GroupsOTS.sendPayloadToReducer(GroupsTypes.FETH_GROUP, group)(dispatch);
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -31,17 +35,11 @@ export const createGroups = (data, successAlertCallback, errorAlertCallback, get
         await model.groups.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getGroups();  
+            getGroups(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -51,18 +49,12 @@ export const updateGroups = (id, data, successAlertCallback, errorAlertCallback,
         await model.groups.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getGroups();
+            getGroups(errorAlertCallback, setMessageError);
         }, 500);
         
        
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -71,14 +63,11 @@ export const deleteGroup = (id, getGroups, countItemDelete, ItemDeleteLength,err
     try {
         await model.groups.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            getGroups();
+            getGroups(errorAlertCallback, setMessageError);
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            setMessageError(error.response.data.result.errors[0].message);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);
         }
         throw Promise.reject(error);
     }

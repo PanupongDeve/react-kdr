@@ -69,7 +69,7 @@ class TextFields extends ComponentWithHandle {
 
   getGroup = () => {
     const { id } = this.props;
-    this.props.getGroup(id);
+    this.props.getGroup(id, this.handleAlertError, this.SweetAlertOptions.setMessageError);
   }
 
   componentWillReceiveProps(nextProps) {

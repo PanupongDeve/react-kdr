@@ -61,7 +61,11 @@ class TextFields extends ComponentWithHandle {
   }
 
   componentDidMount() {
-    this.props.getGroups();
+    this.props.getGroups(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,7 +88,7 @@ class TextFields extends ComponentWithHandle {
   handleCreateDataSuccess = () => {
     const { groupId } = this.props;
     this.handleAlertSuccess();
-    this.props.getGroup(groupId);
+    this.props.getGroup(groupId, this.handleAlertError, this.SweetAlertOptions.setMessageError);
   }
 
   handleSubmit = event => {
