@@ -29,12 +29,12 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
     }
 }
 
-export const getUsers = (errorAlertCallback, setMessageError, disableLoading) => async dispatch => {
+export const getUsers = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
 
         const users = await model.users.get();
         UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USERS, users)(dispatch);
-        disableLoading();
+        if (disableLoading) disableLoading();
     } catch (error) {
         const errorHandleMessage = new ErrorHandleMessage();
         errorHandleMessage.setErrorMessage(error);
@@ -110,7 +110,7 @@ export const updateUsers = (id, data, successAlertCallback, errorAlertCallback, 
         await model.users.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getUsers();
+            getUsers(errorAlertCallback, setMessageError);
         }, 500);
         
        
@@ -130,7 +130,7 @@ export const deleteUser = (id, getUsers, countItemDelete, ItemDeleteLength,error
     try {
         await model.users.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            getUsers();
+            getUsers(errorAlertCallback, setMessageError);
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
