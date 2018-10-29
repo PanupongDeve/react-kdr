@@ -12,11 +12,7 @@ export const getProducts = (errorAlertCallback, setMessageError, disableLoading=
         ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCTS, products)(dispatch);
         if (disableLoading) disableLoading(); 
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -26,11 +22,7 @@ export const getProduct = (id, errorAlertCallback, setMessageError) => async dis
         const product = await model.products.getById(id);
         ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCT, product)(dispatch);
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -45,11 +37,7 @@ export const createProducts = (data, successAlertCallback, errorAlertCallback, g
         }, 500);
           
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -64,11 +52,7 @@ export const updateProducts = (id, data, successAlertCallback, errorAlertCallbac
         
        
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -81,11 +65,7 @@ export const deleteProduct = (id, getProducts, countItemDelete, ItemDeleteLength
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            const errorMessage = handleMessageError(error);
-            setMessageError(errorMessage);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);
         }
         throw Promise.reject(error);
     }

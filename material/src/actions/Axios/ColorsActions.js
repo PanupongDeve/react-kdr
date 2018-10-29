@@ -12,11 +12,7 @@ export const getColors = (errorAlertCallback, setMessageError, disableLoading=fa
         ColorsOTS.sendPayloadToReducer(ColorsTypes.FETH_COLORS, colors)(dispatch);
         if (disableLoading) disableLoading();
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -26,11 +22,7 @@ export const getColor = (id, errorAlertCallback, setMessageError) => async dispa
         const color = await model.colors.getById(id);
         ColorsOTS.sendPayloadToReducer(ColorsTypes.FETH_COLOR, color)(dispatch);
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -45,11 +37,7 @@ export const createColors = (data, successAlertCallback, errorAlertCallback, get
         }, 500);
           
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -64,11 +52,7 @@ export const updateColors = (id, data, successAlertCallback, errorAlertCallback,
         
        
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -81,11 +65,7 @@ export const deleteColor = (id, getColors, countItemDelete, ItemDeleteLength,err
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            const errorMessage = handleMessageError(error);
-            setMessageError(errorMessage);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);;
         }
         throw Promise.reject(error);
     }

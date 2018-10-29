@@ -1,26 +1,28 @@
 
 import model from '../../class/ServicesAPI';
-import ErrorHandleMessage from '../../class/ErrorHandleMessage';
+import { handleMessageError } from './Helper';
 
 const SizesOTS = model.sizes.getOTS();
 const SizesTypes = SizesOTS.getActionsTypes();
 
-export const getSizes = () => async dispatch => {
+export const getSizes = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
 
         const sizes = await model.sizes.get();
         SizesOTS.sendPayloadToReducer(SizesTypes.FETH_SIZES, sizes)(dispatch);
-        
+        if (disableLoading) disableLoading();
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
 
-export const getSize = (id) => async dispatch => {
+export const getSize = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const size = await model.sizes.getById(id);
         SizesOTS.sendPayloadToReducer(SizesTypes.FETH_SIZE, size)(dispatch);
     } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError)
         throw Promise.reject(error);
     }
 }
@@ -31,17 +33,11 @@ export const createSizes = (data, successAlertCallback, errorAlertCallback, getS
         await model.sizes.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getSizes();  
+            getSizes(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -51,18 +47,12 @@ export const updateSizes = (id, data, successAlertCallback, errorAlertCallback, 
         await model.sizes.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getSizes();
+            getSizes(errorAlertCallback, setMessageError);
         }, 500);
         
        
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -71,17 +61,11 @@ export const deleteSize = (id, getSizes, countItemDelete, ItemDeleteLength,error
     try {
         await model.sizes.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            getSizes();
+            getSizes(errorAlertCallback, setMessageError);
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            const errorHandleMessage = new ErrorHandleMessage();
-            errorHandleMessage.setErrorMessage(error);
-            const errorMessage = errorHandleMessage.getErrorMessage();
-            setMessageError(errorMessage);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);
         }
         throw Promise.reject(error);
     }

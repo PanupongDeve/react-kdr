@@ -20,11 +20,7 @@ export const authentication = (data, redirectCallBack, errorAlertCallback, setMe
         redirectCallBack();
           
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -36,11 +32,7 @@ export const getUsers = (errorAlertCallback, setMessageError, disableLoading=fal
         UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USERS, users)(dispatch);
         if (disableLoading) disableLoading();
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -50,11 +42,7 @@ export const getUser = (id, errorAlertCallback, setMessageError) => async dispat
         const user = await model.users.getById(id);
         UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USER, user)(dispatch);
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -69,11 +57,7 @@ export const createUsers = (data, successAlertCallback, errorAlertCallback, getU
         }, 500);
           
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -88,11 +72,7 @@ export const createUsersGroups = (data, successAlertCallback, errorAlertCallback
         }, 500);
           
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -107,11 +87,7 @@ export const updateUsers = (id, data, successAlertCallback, errorAlertCallback, 
         
        
     } catch (error) {
-        const errorMessage = handleMessageError(error);
-        setMessageError(errorMessage);
-        setTimeout(() => {
-            errorAlertCallback();
-        }, 500);
+        handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
     }
 }
@@ -124,11 +100,7 @@ export const deleteUser = (id, getUsers, countItemDelete, ItemDeleteLength,error
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            const errorMessage = handleMessageError(error);
-            setMessageError(errorMessage);
-            setTimeout(() => {
-                errorAlertCallback();
-            }, 500);
+            handleMessageError(error, errorAlertCallback, setMessageError);
         }
         throw Promise.reject(error);
     }
