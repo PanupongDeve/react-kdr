@@ -91,7 +91,7 @@ class TextFields extends ComponentWithHandle {
 
   componentDidMount() {
     const { id } = this.props;
-    this.props.getProduct(id)
+    this.props.getProduct(id, this.handleAlertError, this.SweetAlertOptions.setMessageError);
     this.props.getGroups();
     this.props.getColors();
     this.props.getSizes();

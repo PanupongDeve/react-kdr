@@ -314,12 +314,17 @@ class EnhancedTable extends ComponentWithHandle {
       page: 0,
       rowsPerPage: 5,
       search: "",
-      countItemDeleted: 0
+      countItemDeleted: 0,
+      blockLoading: true
     };
   }
 
   componentDidMount() {
-    this.props.getProducts();
+    this.props.getProducts(
+      this.handleAlertErrorWithoutModal,
+      this.SweetAlertOptions.setMessageError,
+      this.handleCloseBlockLoading
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -428,12 +433,11 @@ class EnhancedTable extends ComponentWithHandle {
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-    let { loading } = this.props.productsStore;
     data = ProductDTO.searchFilter(search, data);
 
     return (
       <Paper className={classes.root}>
-        <this.BlockUi tag="div" blocking={loading}>
+        <this.BlockUi tag="div" blocking={this.state.blockLoading}>
           <AddModalWrapped />
           <EnhancedTableToolbar
             handleRemoveItems={this.handleRemoveItems}

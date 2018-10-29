@@ -1,26 +1,36 @@
 
 import model from '../../class/ServicesAPI';
-import ErrorHandleMessage from '../../class/ErrorHandleMessage';
+import { handleMessageError } from './Helper';
 
 const ProductsOTS = model.products.getOTS();
 const ProductsTypes = ProductsOTS.getActionsTypes();
 
-export const getProducts = () => async dispatch => {
+export const getProducts = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
 
         const products = await model.products.get();
         ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCTS, products)(dispatch);
-        
+        if (disableLoading) disableLoading(); 
     } catch (error) {
+        const errorMessage = handleMessageError(error);
+        setMessageError(errorMessage);
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);
         throw Promise.reject(error);
     }
 }
 
-export const getProduct = (id) => async dispatch => {
+export const getProduct = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const product = await model.products.getById(id);
         ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCT, product)(dispatch);
     } catch (error) {
+        const errorMessage = handleMessageError(error);
+        setMessageError(errorMessage);
+        setTimeout(() => {
+            errorAlertCallback();
+        }, 500);
         throw Promise.reject(error);
     }
 }
@@ -31,13 +41,11 @@ export const createProducts = (data, successAlertCallback, errorAlertCallback, g
         await model.products.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getProducts();  
+            getProducts(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
+        const errorMessage = handleMessageError(error);
         setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
@@ -51,14 +59,12 @@ export const updateProducts = (id, data, successAlertCallback, errorAlertCallbac
         await model.products.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getProducts();
+            getProducts(errorAlertCallback, setMessageError);
         }, 500);
         
        
     } catch (error) {
-        const errorHandleMessage = new ErrorHandleMessage();
-        errorHandleMessage.setErrorMessage(error);
-        const errorMessage = errorHandleMessage.getErrorMessage();
+        const errorMessage = handleMessageError(error);
         setMessageError(errorMessage);
         setTimeout(() => {
             errorAlertCallback();
@@ -71,13 +77,11 @@ export const deleteProduct = (id, getProducts, countItemDelete, ItemDeleteLength
     try {
         await model.products.remove(id);
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            getProducts();
+            getProducts(errorAlertCallback, setMessageError);
         }
     } catch (error) {
         if(isLastItemsforDelelte(countItemDelete, ItemDeleteLength)) {
-            const errorHandleMessage = new ErrorHandleMessage();
-            errorHandleMessage.setErrorMessage(error);
-            const errorMessage = errorHandleMessage.getErrorMessage();
+            const errorMessage = handleMessageError(error);
             setMessageError(errorMessage);
             setTimeout(() => {
                 errorAlertCallback();
