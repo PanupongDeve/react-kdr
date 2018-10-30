@@ -109,7 +109,7 @@ class TextFields extends ComponentWithHandle {
           this.SweetAlertOptions.setMessageError
         );
       });
-      // this.handleAlertDicisions();
+      this.handleAlertDicisions();
     } catch (errorMessages) {
       errorMessages.map(message => {
         this.notify.error(message);

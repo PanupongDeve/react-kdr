@@ -75,6 +75,13 @@ export default class ComponentWithHandle extends ComponenPermission {
     this.props.swal(SweetAlertOptions.handleError);
   };
 
+  handleAlertSuccessWithoutCloseModal = () => {
+    this.handleCloseBlockLoading();
+    SweetAlertHelper.setOnConfirm(() => {});
+    const SweetAlertOptions = SweetAlertHelper.getOptions();
+    this.props.swal(SweetAlertOptions.handleSuccess);
+  };
+
   handleAlertSuccess = () => {
     this.handleCloseBlockLoading();
     SweetAlertHelper.setOnConfirm(() => {
