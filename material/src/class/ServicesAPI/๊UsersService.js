@@ -11,7 +11,46 @@ class UsersService extends BaseService {
     }
     getUsersValidator() {
         return new UsersValidator();
-    }   
+    }
+
+    async get() {
+        try {
+          const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+          this.storage.saveToken(resToken.data.result.token);
+          this.setConfig();
+          const res = await this.axios.get(
+            `${this.RootURL}/${this.domain}`,
+            this.config
+          );
+          return res.data.result;
+        } catch (error) {
+          if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+            this.storage.removeStorage();
+            window.location.reload();
+            return;
+          }
+          throw error;
+        }
+      }
+      async getById(id) {
+        try {
+          const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+          this.storage.saveToken(resToken.data.result.token);
+          this.setConfig();
+          const res = await this.axios.get(
+            `${this.RootURL}/${this.domain}/${id}`,
+            this.config
+          );
+          return res.data.result;
+        } catch (error) {
+          if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+            this.storage.removeStorage();
+            window.location.reload();
+            return;
+          }
+          throw error;
+        }
+      }
 
     async authentication(data) {
         try {

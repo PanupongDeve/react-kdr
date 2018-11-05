@@ -106,7 +106,6 @@ class TextFields extends ComponentWithHandle {
           data,
           this.handleCreateDataSuccess,
           this.handleAlertError,
-          this.props.getModels,
           this.SweetAlertOptions.setMessageError
         );
       });

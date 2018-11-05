@@ -190,7 +190,7 @@ class TextFields extends ComponentWithHandle {
         this.handleOpenBlockLoading();
         this.props.createProducts(
           data,
-          this.handleAlertSuccess,
+          this.handleAlertSuccessWithoutCloseModal,
           this.handleAlertError,
           this.props.getProducts,
           this.SweetAlertOptions.setMessageError
@@ -257,50 +257,6 @@ class TextFields extends ComponentWithHandle {
                   fullWidth
                 />
               </Grid> */}
-
-
-              <Grid item xs={12} md={4}>
-                <TextField
-                  required
-                  id="price"
-                  label="ราคาปลีก"
-                  name="price"
-                  type="number"
-                  onChange={this.handleChange("price")}
-                  value={this.state.price}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <TextField
-                  id="priceA"
-                  label="ราคากลุ่มA"
-                  name="priceA"
-                  type="number"
-                  onChange={this.handleChange("priceA")}
-                  value={this.state.priceA}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <TextField
-                  id="priceB"
-                  label="ราคากลุ่มB"
-                  name="priceB"
-                  type="number"
-                  onChange={this.handleChange("priceB")}
-                  value={this.state.priceB}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
 
               <Grid item xs={12} md={4}>
                 <FormControl
@@ -419,6 +375,49 @@ class TextFields extends ComponentWithHandle {
               </Grid>
 
               <Grid item xs={12} md={4} />
+
+                <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  id="price"
+                  label="ราคาปลีก"
+                  name="price"
+                  type="number"
+                  onChange={this.handleChange("price")}
+                  value={this.state.price}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="priceA"
+                  label="ราคากลุ่มA"
+                  name="priceA"
+                  type="number"
+                  onChange={this.handleChange("priceA")}
+                  value={this.state.priceA}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  id="priceB"
+                  label="ราคากลุ่มB"
+                  name="priceB"
+                  type="number"
+                  onChange={this.handleChange("priceB")}
+                  value={this.state.priceB}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
 
               <Grid item xs={12} md={4}>
                 <div className="img" style={{ width: "80%" }}>

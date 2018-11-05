@@ -86,6 +86,12 @@ class TextFields extends ComponentWithHandle {
     this.handleAlertDicisions();
   };
 
+  handleCreateDataSuccess = () => {
+    const { groupId } = this.props;
+    this.handleAlertSuccess();
+    this.props.getGroup(groupId, this.handleAlertError, this.SweetAlertOptions.setMessageError);
+  }
+
   handleSubmit = event => {
     try {
       const { id, groupId } = this.props;
@@ -99,9 +105,8 @@ class TextFields extends ComponentWithHandle {
         this.props.updateModels(
           id,
           data,
-          this.handleAlertSuccess,
+          this.handleCreateDataSuccess,
           this.handleAlertError,
-          this.props.getModels,
           this.SweetAlertOptions.setMessageError
         );
       });
@@ -120,7 +125,6 @@ class TextFields extends ComponentWithHandle {
       <Fragment key='2'>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
           <form
-            onSubmit={this.handleSubmit}
             className={classes.container}
             noValidate
             autoComplete="off"
@@ -155,6 +159,7 @@ class TextFields extends ComponentWithHandle {
 
               <Grid item xs={12} md={12}>
                 <Button
+                  onClick={this.handleSubmit}
                   className="btn-save"
                   variant="contained"
                   size="large"

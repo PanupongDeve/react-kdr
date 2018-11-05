@@ -42,9 +42,6 @@ export default class GroupsValidator extends BaseValidator {
             messageErrorField = this.isValidateNumber(group.qtyC, 'qtyC');
             if(messageErrorField) this.messageError.push(messageErrorField);
 
-            messageErrorField = this.checkBoxneedOneSelected(group, "CheckBox")
-            if(messageErrorField) this.messageError.push(messageErrorField);
-
             if(this.messageError.length !== 0) {
                 throw this.messageError;
             }

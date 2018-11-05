@@ -307,8 +307,8 @@ class EnhancedTable extends ComponentWithHandle {
     super(props);
 
     this.state = {
-      order: "desc",
-      orderBy: "updatedAt",
+      order: "asc",
+      orderBy: "id",
       selected: [],
       data: [],
       page: 0,
@@ -331,6 +331,11 @@ class EnhancedTable extends ComponentWithHandle {
     let { products } = nextProps.productsStore;
     products = ProductDTO.getArrayObject(products);
     products = ProductDTO.filterDataActive(products);
+    products = products.map((product) => {
+      product.code = product.size ? ProductDTO.createCodeBySize(product) : ProductDTO.createCodeByColor(product);
+      product.title = product.size ? ProductDTO.createTitleBySize(product) : ProductDTO.createTitleByColor(product);
+      return product;
+    })
     this.setState({ data: products });
   }
 
@@ -481,8 +486,8 @@ class EnhancedTable extends ComponentWithHandle {
                         </TableCell>
                         <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric><div style={{ padding: '30px'}}><img style={{ width: '100px', height: '100px'}} src={n.imagePath} alt='items' /></div></TableCell>
-                        <TableCell numeric>{n.size ? ProductDTO.createCodeBySize(n) : ProductDTO.createCodeByColor(n)}</TableCell>
-                        <TableCell numeric>{n.size ? ProductDTO.createTitleBySize(n) : ProductDTO.createTitleByColor(n)}</TableCell>
+                        <TableCell numeric>{n.code}</TableCell>
+                        <TableCell numeric>{n.title}</TableCell>
                         
                         {/* <TableCell numeric>{n.group.title}</TableCell>
                         <TableCell numeric>{n.model.title}</TableCell>

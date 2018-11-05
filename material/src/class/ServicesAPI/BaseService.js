@@ -33,12 +33,8 @@ export default class BaseService {
 
   async get() {
     try {
-      const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
-      this.storage.saveToken(resToken.data.result.token);
-      this.setConfig();
       const res = await this.axios.get(
-        `${this.RootURL}/${this.domain}`,
-        this.config
+        `${this.RootURL}/${this.domain}`
       );
       return res.data.result;
     } catch (error) {
@@ -52,12 +48,8 @@ export default class BaseService {
   }
   async getById(id) {
     try {
-      const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
-      this.storage.saveToken(resToken.data.result.token);
-      this.setConfig();
       const res = await this.axios.get(
-        `${this.RootURL}/${this.domain}/${id}`,
-        this.config
+        `${this.RootURL}/${this.domain}/${id}`
       );
       return res.data.result;
     } catch (error) {

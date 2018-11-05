@@ -14,7 +14,9 @@ import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import model from '../../../../../../../class/ServicesAPI';
 
+const GroupDTO = model.groups.getDTO();
 
 const styles = theme => ({
   container: {
@@ -51,6 +53,15 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       code: "",
       title: "",
+      discountA1: '',
+      discountA2: '',
+      discountB1: '',
+      discountB2: '',
+      discountC1: '',
+      discountC2: '',
+      qtyA: '',
+      qtyB: '',
+      qtyC: '',
       mixedColor: false,
       mixedModel: false,
       blockLoading: false
@@ -82,6 +93,7 @@ class TextFields extends ComponentWithHandle {
         mixedModel: this.state.mixedModel
 
       };
+      GroupDTO.deleteEmptyField(data, ['discountA1', 'discountA2', 'discountB1', 'discountB2', 'discountC1', 'discountC2', 'qtyA', 'qtyB', 'qtyC']);
       groupsValidator.validate(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
@@ -104,7 +116,6 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state);
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>

@@ -22,6 +22,9 @@ export default class BaseValidator {
     }
 
     isValidateNumber(field, fieldName) {
+        if(!field) {
+            return false;
+        }
         if(! (this.isNumberPlus(field)) ) {
             return `😿 ${fieldName} is positive integer.`;
         }

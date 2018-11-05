@@ -26,13 +26,12 @@ export const getModel = (id, errorAlertCallback, setMessageError) => async dispa
     }
 }
 
-export const createModels = (data, successAlertCallback, errorAlertCallback, getModels, setMessageError) => async dispatch => {
+export const createModels = (data, successAlertCallback, errorAlertCallback, setMessageError) => async dispatch => {
     try {
 
         await modelDB.models.create(data);
         setTimeout(() => {
             successAlertCallback();
-            getModels(errorAlertCallback, setMessageError);  
         }, 500);
           
     } catch (error) {
@@ -41,12 +40,11 @@ export const createModels = (data, successAlertCallback, errorAlertCallback, get
     }
 }
 
-export const updateModels = (id, data, successAlertCallback, errorAlertCallback, getModels, setMessageError) => async dispatch => {
+export const updateModels = (id, data, successAlertCallback, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         await modelDB.models.update(id, data);
         setTimeout(() => {
             successAlertCallback();
-            getModels(errorAlertCallback, setMessageError);
         }, 500);
         
        
