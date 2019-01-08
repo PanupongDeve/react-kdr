@@ -14,6 +14,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import * as usersActions from "../../../../../../../actions/Axios/UsersActions";
+import * as groupsAction from "../../../../../../../actions/Axios/GroupsActions";
 import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
@@ -136,6 +137,28 @@ class TextFields extends ComponentWithHandle {
     });
   };
 
+  handleDeleteGroup = (id) => () => {
+    SweetAlertHelper.setOnConfirm(() => {
+      this.props.deleteGroup(
+        id,
+        this.getUser,
+        1,
+        1,
+        this.handleAlertErrorWithoutModal,
+        this.SweetAlertOptions.setMessageError
+      );   
+    });
+    this.handleAlertDicisions();
+  }
+
+  handleGroupModalOpen = (id) => () => {
+    this.setState({ [`stateModel${id}`]: true} );
+  }
+
+  handleGroupModalClose = (id) => () => {
+    this.setState({ [`stateModel${id}`]: false} );
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -241,7 +264,7 @@ class TextFields extends ComponentWithHandle {
                               style={{ marginTop: '25px', marginRight: '12px'}}
                               key={model.id}
                               label={model.title}
-                              // onDelete={this.handleDeleteModel(model.id)}
+                              onDelete={this.handleDeleteGroup(model.id)}
                               className={classes.chip}
                             /> 
                         
@@ -306,7 +329,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(usersActions);
+const actions = Object.assign(usersActions, groupsAction);
 
 export default connect(
   mapStateToProps,

@@ -59,7 +59,7 @@ class AddModal extends React.Component {
         >
           <div className={`${classes.paper} kdr-modal`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              เพิ่มโมเดล
+              เพิ่มกลุ่ม
             </Typography>
             <AddUserForm handleCloseModal={this.handleClose} {...this.props }/>      
           </div>
