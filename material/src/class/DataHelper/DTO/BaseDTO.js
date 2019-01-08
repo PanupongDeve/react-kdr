@@ -47,7 +47,7 @@ export default class BaseDTO {
     }
 
     showTimesDisplay(date) {
-        return this.moment(date).format("DD/MM/YYYY, h:mm:ss a");
+        return this.moment(date).format("DD/MM/YYYY");
     }
 
     toMilliSecond(date) {
