@@ -25,6 +25,8 @@ import EditModalWrapped from "./EditModalUserGroup";
 const UserDTO = model.users.getDTO();
 const GroupsDTO = model.groups.getDTO();
 
+// TODO
+
 const styles = theme => ({
   container: {
     display: "flex",
@@ -269,12 +271,12 @@ class TextFields extends ComponentWithHandle {
                               className={classes.chip}
                             /> 
                         
-                        {/* <EditModalWrapped 
+                        <EditModalWrapped 
                           key={index} 
-                          modalClose={this.handleModelModalClose(model.id)}
+                          // modalClose={this.handleModelModalClose(model.id)}
                           open={this.state[`stateModel${model.id}`]} 
                           id={model.id} 
-                          groupId={this.props.id} /> */}
+                          groupId={this.props.id} />
                       </Fragment>
                   );
                 })}
