@@ -87,8 +87,7 @@ class TextFields extends ComponentWithHandle {
   }
 
   handleOnCancel = () => {
-    SweetAlertHelper.setOnConfirm(() => this.closeModal());
-    this.handleAlertDicisions();
+    this.closeModal();
   };
 
   handleSubmit = event => {

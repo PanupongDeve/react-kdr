@@ -14,12 +14,14 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import * as usersActions from "../../../../../../../actions/Axios/UsersActions";
+import * as groupsAction from "../../../../../../../actions/Axios/GroupsActions";
 import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import role from '../../../../../../../enums/role';
-import AddModalWrapped from "./AddModalUserGroups/AddModal";
+import AddModalWrapped from "./AddModalUserGroups";
+import EditModalWrapped from "./EditModalUserGroup";
 const UserDTO = model.users.getDTO();
 const GroupsDTO = model.groups.getDTO();
 
@@ -98,8 +100,7 @@ class TextFields extends ComponentWithHandle {
   }
 
   handleOnCancel = () => {
-    SweetAlertHelper.setOnConfirm(() => this.closeModal());
-    this.handleAlertDicisions();
+    this.closeModal();
   };
 
   handleSubmit = event => {
@@ -136,6 +137,28 @@ class TextFields extends ComponentWithHandle {
       [name]: event.target.value
     });
   };
+
+  handleDeleteGroup = (id) => () => {
+    SweetAlertHelper.setOnConfirm(() => {
+      this.props.deleteGroup(
+        id,
+        this.getUser,
+        1,
+        1,
+        this.handleAlertErrorWithoutModal,
+        this.SweetAlertOptions.setMessageError
+      );   
+    });
+    this.handleAlertDicisions();
+  }
+
+  handleGroupModalOpen = (id) => () => {
+    this.setState({ [`stateModel${id}`]: true} );
+  }
+
+  handleGroupModalClose = (id) => () => {
+    this.setState({ [`stateModel${id}`]: false} );
+  }
 
   render() {
     const { classes } = this.props;
@@ -242,7 +265,7 @@ class TextFields extends ComponentWithHandle {
                               style={{ marginTop: '25px', marginRight: '12px'}}
                               key={model.id}
                               label={model.title}
-                              // onDelete={this.handleDeleteModel(model.id)}
+                              onDelete={this.handleDeleteGroup(model.id)}
                               className={classes.chip}
                             /> 
                         
@@ -307,7 +330,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(usersActions);
+const actions = Object.assign(usersActions, groupsAction);
 
 export default connect(
   mapStateToProps,

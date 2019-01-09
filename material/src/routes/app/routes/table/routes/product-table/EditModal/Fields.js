@@ -78,7 +78,7 @@ class TextFields extends ComponentWithHandle {
       sizeSelected: "",
       modelLists: [],
       modelSelected: "",
-      imagePath: "assets/images-demo/image-icons/coming-soon.png",
+      imagePath: "assets/images/upload_file.png",
       price: '',
       priceA: '',
       priceB: '',
@@ -161,8 +161,7 @@ class TextFields extends ComponentWithHandle {
   }
 
   handleOnCancel = () => {
-    SweetAlertHelper.setOnConfirm(() => this.closeModal());
-    this.handleAlertDicisions();
+    this.closeModal();
   };
 
   handleUploadFile = async event => {

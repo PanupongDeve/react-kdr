@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-import AddUserForm from './AddForm';
+import AddUserForm from './EditForm';
 
 const styles = theme => ({
   paper: {
@@ -59,7 +59,7 @@ class AddModal extends React.Component {
         >
           <div className={`${classes.paper} kdr-modal`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              เพิ่มโมเดล
+              เพิ่มกลุ่ม
             </Typography>
             <AddUserForm handleCloseModal={this.handleClose} {...this.props }/>      
           </div>
