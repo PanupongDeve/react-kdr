@@ -4,8 +4,8 @@ class ColorsOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
-            FETH_COLORS: "fetch_colors",
-            FETH_COLOR: "fetch_color",
+            FETCH_COLORS: "fetch_colors",
+            FETCH_COLOR: "fetch_color",
             CLEAR_COLOR: "clear_color"
         }
     }

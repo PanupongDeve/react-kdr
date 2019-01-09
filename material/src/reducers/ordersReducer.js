@@ -7,14 +7,14 @@ export default (state = OrdersOTS.intialState(), action) => {
   let stateUpdate;
   
   switch (action.type) {
-    case OrdersTypes.FETH_ORDERS:
+    case OrdersTypes.FETCH_ORDERS:
       stateUpdate = OrdersOTS.sendDataFormReducerToStore(
         action.payload,
         "orders"
       );
       state = Object.assign(state, stateUpdate);
       return {...state};
-    case OrdersTypes.FETH_ORDER:
+    case OrdersTypes.FETCH_ORDER:
       stateUpdate = OrdersOTS.sendDataFormReducerToStore(
         action.payload,
         "order"

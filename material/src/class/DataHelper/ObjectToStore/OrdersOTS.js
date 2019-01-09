@@ -4,8 +4,8 @@ class OrdersOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
-            FETH_ORDERS: "fetch_orders",
-            FETH_ORDER: "fetch_order",
+            FETCH_ORDERS: "fetch_orders",
+            FETCH_ORDER: "fetch_order",
             CLEAR_ORDER: "clear_order"
         }
     }

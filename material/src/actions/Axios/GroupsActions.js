@@ -10,7 +10,7 @@ export const getGroups = (errorAlertCallback, setMessageError, disableLoading=fa
     try {
 
         const groups = await model.groups.get();
-        GroupsOTS.sendPayloadToReducer(GroupsTypes.FETH_GROUPS, groups)(dispatch);
+        GroupsOTS.sendPayloadToReducer(GroupsTypes.FETCH_GROUPS, groups)(dispatch);
         if (disableLoading) disableLoading();
 
     } catch (error) {
@@ -22,7 +22,7 @@ export const getGroups = (errorAlertCallback, setMessageError, disableLoading=fa
 export const getGroup = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const group = await model.groups.getById(id);
-        GroupsOTS.sendPayloadToReducer(GroupsTypes.FETH_GROUP, group)(dispatch);
+        GroupsOTS.sendPayloadToReducer(GroupsTypes.FETCH_GROUP, group)(dispatch);
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);

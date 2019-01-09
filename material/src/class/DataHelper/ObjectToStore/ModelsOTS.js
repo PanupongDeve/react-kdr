@@ -4,8 +4,8 @@ class ModelsOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
-            FETH_MODELS: "fetch_models",
-            FETH_MODEL: "fetch_model",
+            FETCH_MODELS: "fetch_models",
+            FETCH_MODEL: "fetch_model",
             CLEAR_MODEL: "clear_model"
         }
     }

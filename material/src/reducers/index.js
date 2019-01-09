@@ -8,6 +8,7 @@ import groupsReducer from './groupsReducer';
 import productsReducer from './productsReducer';
 import ordersReducer from './ordersReducer';
 import modelsReducer from './modelsReducer';
+import usersGroupsReducer from './usersGroupsReducer';
 import SweetAlertHelper from '../class/SweetAlert';
 import editModalModelReducer from './editModalModelReducer';
 
@@ -24,6 +25,7 @@ const reducers = {
   productsStore: productsReducer,
   ordersStore: ordersReducer,
   modelsStore: modelsReducer,
+  usersGroupsReducerStore: usersGroupsReducer,
   openEditModalModel: editModalModelReducer
 };
 

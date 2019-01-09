@@ -4,8 +4,8 @@ class ProductsOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
-            FETH_PRODUCTS: "fetch_products",
-            FETH_PRODUCT: "fetch_product",
+            FETCH_PRODUCTS: "fetch_products",
+            FETCH_PRODUCT: "fetch_product",
             CLEAR_PRODUCT: "clear_product"
         }
     }

@@ -9,7 +9,7 @@ export const getOrders = () => async dispatch => {
     try {
 
         const orders = await model.orders.get();
-        OrdersOTS.sendPayloadToReducer(OrdersTypes.FETH_ORDERS, orders)(dispatch);
+        OrdersOTS.sendPayloadToReducer(OrdersTypes.FETCH_ORDERS, orders)(dispatch);
         
     } catch (error) {
         throw Promise.reject(error);
@@ -19,7 +19,7 @@ export const getOrders = () => async dispatch => {
 export const getOrder = (id) => async dispatch => {
     try {
         const order = await model.orders.getById(id);
-        OrdersOTS.sendPayloadToReducer(OrdersTypes.FETH_ORDER, order)(dispatch);
+        OrdersOTS.sendPayloadToReducer(OrdersTypes.FETCH_ORDER, order)(dispatch);
     } catch (error) {
         throw Promise.reject(error);
     }

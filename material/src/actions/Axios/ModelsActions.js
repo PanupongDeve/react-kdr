@@ -8,7 +8,7 @@ const ModelsTypes = ModelsOTS.getActionsTypes();
 export const getModels = (errorAlertCallback, setMessageError, disableLoading=false) => async dispatch => {
     try {
         const models = await modelDB.models.get();
-        ModelsOTS.sendPayloadToReducer(ModelsTypes.FETH_MODELS, models)(dispatch);
+        ModelsOTS.sendPayloadToReducer(ModelsTypes.FETCH_MODELS, models)(dispatch);
         if (disableLoading) disableLoading();
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
@@ -19,7 +19,7 @@ export const getModels = (errorAlertCallback, setMessageError, disableLoading=fa
 export const getModel = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const model = await modelDB.models.getById(id);
-        ModelsOTS.sendPayloadToReducer(ModelsTypes.FETH_MODEL, model)(dispatch);
+        ModelsOTS.sendPayloadToReducer(ModelsTypes.FETCH_MODEL, model)(dispatch);
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);

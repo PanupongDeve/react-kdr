@@ -7,14 +7,14 @@ export default (state = ModelsOTS.intialState(), action) => {
   let stateUpdate;
   
   switch (action.type) {
-    case ModelsTypes.FETH_MODELS:
+    case ModelsTypes.FETCH_MODELS:
       stateUpdate = ModelsOTS.sendDataFormReducerToStore(
         action.payload,
         "models"
       );
       state = Object.assign(state, stateUpdate);
       return {...state};
-    case ModelsTypes.FETH_MODEL:
+    case ModelsTypes.FETCH_MODEL:
       stateUpdate = ModelsOTS.sendDataFormReducerToStore(
         action.payload,
         "model"

@@ -24,7 +24,7 @@ const styles = theme => ({
   }
 });
 
-class AddModal extends React.Component {
+class EditModalUserGroup extends React.Component {
   state = {
     open: false
   };
@@ -40,16 +40,6 @@ class AddModal extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <Button
-          variant="fab"
-          color="secondary"
-          aria-label="add"
-          className={classes.button}
-          onClick={this.handleOpen}
-        >
-          <AddIcon />
-        </Button>
         <Modal
           className="root-modal"
           aria-labelledby="simple-modal-title"
@@ -59,21 +49,20 @@ class AddModal extends React.Component {
         >
           <div className={`${classes.paper} kdr-modal`}>
             <Typography className="model-header" variant="title" id="modal-title">
-              เพิ่มกลุ่ม
+              แก้ไขส่วนลดของลูกค้าตามกลุ่มสินค้า
             </Typography>
             <AddUserForm handleCloseModal={this.handleClose} {...this.props }/>      
           </div>
         </Modal>
-      </div>
     );
   }
 }
 
-AddModal.propTypes = {
+EditModalUserGroup.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
 // We need an intermediary variable for handling the recursive nesting.
-const AddModalWrapped = withStyles(styles)(AddModal);
+const EditModalWrapped = withStyles(styles)(EditModalUserGroup);
 
-export default AddModalWrapped;
+export default EditModalWrapped;

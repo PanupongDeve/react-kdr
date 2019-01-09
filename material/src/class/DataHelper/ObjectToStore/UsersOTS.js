@@ -4,8 +4,8 @@ class UsersOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
-            FETH_USERS: "fetch_users",
-            FETH_USER: "fetch_user",
+            FETCH_USERS: "fetch_users",
+            FETCH_USER: "fetch_user",
             CLEAR_USER: "clear_user"
         }
     }

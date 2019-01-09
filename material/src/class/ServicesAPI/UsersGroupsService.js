@@ -3,7 +3,7 @@ import UsersGroupsDTO from '../DataHelper/DTO/UsersGroupsDTO';
 import UsersGroupsOTS from '../DataHelper/ObjectToStore/UsersGroupsOTS';
 import UsersGroupsValidator from '../Validator/UsersGroupsValidator';
 
-class GroupsService extends BaseService {
+class UsersGroupsService extends BaseService {
     constructor(domain) {
         super(domain)
         this.dto = UsersGroupsDTO;
@@ -23,4 +23,4 @@ class GroupsService extends BaseService {
     }
 }
 
-export default new GroupsService('api/groups/users');
+export default new UsersGroupsService('api/groups/users');
