@@ -17,7 +17,7 @@ class UsersService extends BaseService {
         try {
           const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
           this.storage.saveToken(resToken.data.result.token);
-          this.setConfig();
+          this.setAxiosConfig();
           const res = await this.axios.get(
             `${this.RootURL}/${this.domain}`,
             this.config
@@ -36,7 +36,7 @@ class UsersService extends BaseService {
         try {
           const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
           this.storage.saveToken(resToken.data.result.token);
-          this.setConfig();
+          this.setAxiosConfig();
           const res = await this.axios.get(
             `${this.RootURL}/${this.domain}/${id}`,
             this.config
