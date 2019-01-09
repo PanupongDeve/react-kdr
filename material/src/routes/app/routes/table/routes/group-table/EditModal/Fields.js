@@ -22,6 +22,8 @@ import EditModalWrapped from "./EditModalModel/EditModal";
 const GroupDTO = model.groups.getDTO();
 const ModelDTO = model.models.getDTO();
 
+// TODO
+
 const styles = theme => ({
   container: {
     display: "flex",
