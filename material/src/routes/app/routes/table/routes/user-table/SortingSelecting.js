@@ -31,6 +31,7 @@ import ComponentWithHandle from "../../../../../../components/class/ComponentWit
 
 const UserDTO = model.users.getDTO();
 
+// TODO
 
 function getSorting(order, orderBy) {
   return order === "desc"

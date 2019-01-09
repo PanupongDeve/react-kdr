@@ -31,6 +31,8 @@ import ComponentWithHandle from "../../../../../../components/class/ComponentWit
 
 const SizeDTO = model.sizes.getDTO();
 
+// TODO
+
 function getSorting(order, orderBy) {
   return order === "desc"
     ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
