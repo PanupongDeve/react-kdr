@@ -71,14 +71,6 @@ export const deleteColor = (id, getColors, countItemDelete, ItemDeleteLength,err
     }
 }
 
-// export const restoreColor = (documentId) => async dispatch => {
-//     try {
-//         const result = await model.colors.restoreByDocumentId(documentId);
-//     } catch (error) {
-//         throw Promise.reject(error);
-//     }
-// }
-
 export const clearColor = () => async dispatch => {
     try {
         dispatch({
