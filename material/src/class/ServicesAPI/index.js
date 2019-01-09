@@ -5,7 +5,6 @@ import Groups from './GroupsService';
 import Products from './ProductsService';
 import Orders from './OrdersService';
 import Models from './ModelService';
-import UsersGroups from './UsersGroupsService';
 import Storage from '../Storage';
 
 
@@ -19,7 +18,6 @@ class ServiceModel {
         this.products = Products;
         this.orders = Orders;
         this.models = Models;
-        this.usersGroups = UsersGroups;
     }
 
 }

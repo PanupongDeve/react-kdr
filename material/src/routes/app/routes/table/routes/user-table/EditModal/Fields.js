@@ -14,7 +14,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import * as usersActions from "../../../../../../../actions/Axios/UsersActions";
-import * as groupsAction from "../../../../../../../actions/Axios/GroupsActions";
+import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
 import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
@@ -24,7 +24,6 @@ import AddModalWrapped from "./AddModalUserGroups";
 import EditModalWrapped from "./EditModalUserGroup";
 const UserDTO = model.users.getDTO();
 const GroupsDTO = model.groups.getDTO();
-const UsersGroupDTO = model.usersGroups.getDTO();
 
 const styles = theme => ({
   container: {
@@ -337,7 +336,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(usersActions, groupsAction);
+const actions = Object.assign(usersActions, groupsActions);
 
 export default connect(
   mapStateToProps,

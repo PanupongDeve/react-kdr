@@ -62,21 +62,6 @@ export const createUsers = (data, successAlertCallback, errorAlertCallback, getU
     }
 }
 
-export const createUsersGroups = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
-    try {
-
-        await model.usersGroups.create(data);
-        setTimeout(() => {
-            successAlertCallback();
-            getUser();  
-        }, 500);
-          
-    } catch (error) {
-        handleMessageError(error, errorAlertCallback, setMessageError);
-        throw Promise.reject(error);
-    }
-}
-
 export const updateUsers = (id, data, successAlertCallback, errorAlertCallback, getUsers, setMessageError) => async dispatch => {
     try {
         await model.users.update(id, data);
@@ -122,6 +107,29 @@ export const clearUser = () => async dispatch => {
     } catch (error) {
         throw Promise.reject(error); 
     }
+}
+
+export const createUsersGroups = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
+    try {
+
+        await model.usersGroups.create(data);
+        setTimeout(() => {
+            successAlertCallback();
+            getUser();  
+        }, 500);
+          
+    } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
+        throw Promise.reject(error);
+    }
+}
+
+export const updateUsersGroup = () => {
+
+}
+
+export const deleteUsersGroup = () => {
+    
 }
 
 const isLastItemsforDelelte = (countItemDelete, ItemDeleteLength) => {
