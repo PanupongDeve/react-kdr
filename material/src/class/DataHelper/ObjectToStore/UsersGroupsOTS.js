@@ -1,6 +1,6 @@
 import BaseOTS from './BaseOTS';
 
-class GroupsOTS extends BaseOTS {
+class UsersGroupsOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
@@ -19,4 +19,4 @@ class GroupsOTS extends BaseOTS {
 
 }
 
-export default new GroupsOTS();
+export default new UsersGroupsOTS();

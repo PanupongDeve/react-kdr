@@ -1,28 +1,28 @@
 import model from "../class/ServicesAPI";
 
-const ColorsOTS = model.colors.getOTS();
-const ColorsTypes = ColorsOTS.getActionsTypes();
+const UsersGroupsOTS = model.usersGroups.getOTS();
+const UsersGroupsTypes = UsersGroupsOTS.getActionsTypes();
 
-export default (state = ColorsOTS.intialState(), action) => {
+export default (state = UsersGroupsOTS.intialState(), action) => {
   let stateUpdate;
   
   switch (action.type) {
-    case ColorsTypes.FETCH_COLORS:
-      stateUpdate = ColorsOTS.sendDataFormReducerToStore(
+    case UsersGroupsTypes.FETCH_USER_GROUPS:
+      stateUpdate = UsersGroupsOTS.sendDataFormReducerToStore(
         action.payload,
-        "colors"
+        "usersGroups"
       );
       state = Object.assign(state, stateUpdate);
       return {...state};
-    case ColorsTypes.FETCH_COLOR:
-      stateUpdate = ColorsOTS.sendDataFormReducerToStore(
+    case UsersGroupsTypes.FETCH_USER_GROUP:
+      stateUpdate = UsersGroupsOTS.sendDataFormReducerToStore(
         action.payload,
-        "color"
+        "usersGroup"
       );
       state = Object.assign(state, stateUpdate);
 	  return {...state};
-	case ColorsOTS.CLEAR_COLOR: 
-		return ColorsOTS.intialState();
+	case UsersGroupsOTS.CLEAR_COLOR: 
+		return UsersGroupsOTS.intialState();
     default:
       return state;
   }

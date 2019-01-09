@@ -15,7 +15,6 @@ import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import * as usersActions from "../../../../../../../actions/Axios/UsersActions";
 import * as groupsAction from "../../../../../../../actions/Axios/GroupsActions";
-import * as userGroupsActions from "../../../../../../../actions/Axios/UserGroupsActions";
 import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
@@ -338,7 +337,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(usersActions, groupsAction, userGroupsActions);
+const actions = Object.assign(usersActions, groupsAction);
 
 export default connect(
   mapStateToProps,
