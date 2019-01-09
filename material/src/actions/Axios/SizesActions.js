@@ -9,7 +9,7 @@ export const getSizes = (errorAlertCallback, setMessageError, disableLoading=fal
     try {
 
         const sizes = await model.sizes.get();
-        SizesOTS.sendPayloadToReducer(SizesTypes.FETH_SIZES, sizes)(dispatch);
+        SizesOTS.sendPayloadToReducer(SizesTypes.FETCH_SIZES, sizes)(dispatch);
         if (disableLoading) disableLoading();
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
@@ -20,7 +20,7 @@ export const getSizes = (errorAlertCallback, setMessageError, disableLoading=fal
 export const getSize = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const size = await model.sizes.getById(id);
-        SizesOTS.sendPayloadToReducer(SizesTypes.FETH_SIZE, size)(dispatch);
+        SizesOTS.sendPayloadToReducer(SizesTypes.FETCH_SIZE, size)(dispatch);
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError)
         throw Promise.reject(error);

@@ -4,8 +4,8 @@ class SizesOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
-            FETH_SIZES: "fetch_sizes",
-            FETH_SIZE: "fetch_size",
+            FETCH_SIZES: "fetch_sizes",
+            FETCH_SIZE: "fetch_size",
             CLEAR_SIZE: "clear_size"
         }
     }

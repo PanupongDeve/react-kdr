@@ -10,7 +10,7 @@ export const getUsersGroups = (errorAlertCallback, setMessageError, disableLoadi
     try {
 
         const usersGroups = await model.usersGroups.get();
-        UsersGroupsOTS.sendPayloadToReducer(UsersGroupsTypes.FETH_USER_GROUPS, usersGroups)(dispatch);
+        UsersGroupsOTS.sendPayloadToReducer(UsersGroupsTypes.FETCH_USER_GROUPS, usersGroups)(dispatch);
         if (disableLoading) disableLoading();
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
@@ -21,7 +21,7 @@ export const getUsersGroups = (errorAlertCallback, setMessageError, disableLoadi
 export const getUsersGroup = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const usersGroup = await model.usersGroups.getById(id);
-        UsersGroupsOTS.sendPayloadToReducer(UsersGroupsTypes.FETH_USER_GROUP, usersGroup)(dispatch);
+        UsersGroupsOTS.sendPayloadToReducer(UsersGroupsTypes.FETCH_USER_GROUP, usersGroup)(dispatch);
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);

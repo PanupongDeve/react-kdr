@@ -4,8 +4,8 @@ class GroupsOTS extends BaseOTS {
     constructor() {
         super();
         this.actionsTypes = {
-            FETH_USER_GROUPS: "fetch_user_groups",
-            FETH_USER_GROUP: "fetch_user_group",
+            FETCH_USER_GROUPS: "fetch_user_groups",
+            FETCH_USER_GROUP: "fetch_user_group",
             CLEAR_USER_GROUP: "clear_user_group"
         }
     }

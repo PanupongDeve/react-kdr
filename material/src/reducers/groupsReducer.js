@@ -7,14 +7,14 @@ export default (state = GroupsOTS.intialState(), action) => {
   let stateUpdate;
   
   switch (action.type) {
-    case GroupsTypes.FETH_GROUPS:
+    case GroupsTypes.FETCH_GROUPS:
       stateUpdate = GroupsOTS.sendDataFormReducerToStore(
         action.payload,
         "groups"
       );
       state = Object.assign(state, stateUpdate);
       return {...state};
-    case GroupsTypes.FETH_GROUP:
+    case GroupsTypes.FETCH_GROUP:
       stateUpdate = GroupsOTS.sendDataFormReducerToStore(
         action.payload,
         "group"

@@ -9,7 +9,7 @@ export const getColors = (errorAlertCallback, setMessageError, disableLoading=fa
     try {
 
         const colors = await model.colors.get();
-        ColorsOTS.sendPayloadToReducer(ColorsTypes.FETH_COLORS, colors)(dispatch);
+        ColorsOTS.sendPayloadToReducer(ColorsTypes.FETCH_COLORS, colors)(dispatch);
         if (disableLoading) disableLoading();
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
@@ -20,7 +20,7 @@ export const getColors = (errorAlertCallback, setMessageError, disableLoading=fa
 export const getColor = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const color = await model.colors.getById(id);
-        ColorsOTS.sendPayloadToReducer(ColorsTypes.FETH_COLOR, color)(dispatch);
+        ColorsOTS.sendPayloadToReducer(ColorsTypes.FETCH_COLOR, color)(dispatch);
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
