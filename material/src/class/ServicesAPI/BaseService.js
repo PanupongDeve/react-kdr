@@ -25,6 +25,7 @@ export default class BaseService {
 
   setAxiosConfig() {
     this.config = {
+      // set headers xhr
       headers: {
         authorization: this.storage.getToken()
       }
@@ -67,9 +68,11 @@ export default class BaseService {
   async create(data) {
     this.setAxiosConfig();
     try {
+      // this code for check refresh token
       const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
       this.storage.saveToken(resToken.data.result.token);
       this.setAxiosConfig();
+      // this code for create data
       const res = await this.axios.post(
         `${this.RootURL}/${this.domain}`,
         data,
@@ -90,6 +93,7 @@ export default class BaseService {
       const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
       this.storage.saveToken(resToken.data.result.token);
       this.setAxiosConfig();
+      // this code for update data
       const res = await this.axios.patch(
         `${this.RootURL}/${this.domain}/${id}`,
         data,
@@ -110,6 +114,7 @@ export default class BaseService {
       const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
       this.storage.saveToken(resToken.data.result.token);
       this.setAxiosConfig();
+      // this code for delete data
       const res = await this.axios.delete(
         `${this.RootURL}/${this.domain}/soft/${id}`,
         this.config
