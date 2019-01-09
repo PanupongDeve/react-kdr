@@ -15,6 +15,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import * as usersActions from "../../../../../../../actions/Axios/UsersActions";
 import * as groupsAction from "../../../../../../../actions/Axios/GroupsActions";
+import * as userGroupsActions from "../../../../../../../actions/Axios/UserGroupsActions";
 import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
@@ -24,6 +25,7 @@ import AddModalWrapped from "./AddModalUserGroups";
 import EditModalWrapped from "./EditModalUserGroup";
 const UserDTO = model.users.getDTO();
 const GroupsDTO = model.groups.getDTO();
+const UsersGroupDTO = model.usersGroups.getDTO();
 
 const styles = theme => ({
   container: {
@@ -69,6 +71,8 @@ class TextFields extends ComponentWithHandle {
       tel: "",
       group: "",
       groups: [],
+      usersGroup: "",
+      usersGroups: [],
       blockLoading: true
     };
   }
@@ -150,6 +154,10 @@ class TextFields extends ComponentWithHandle {
       );   
     });
     this.handleAlertDicisions();
+  }
+
+  handleDeleteUsersGroup = (userId, groupId) => {
+
   }
 
   handleGroupModalOpen = (id) => () => {
@@ -330,7 +338,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(usersActions, groupsAction);
+const actions = Object.assign(usersActions, groupsAction, userGroupsActions);
 
 export default connect(
   mapStateToProps,
