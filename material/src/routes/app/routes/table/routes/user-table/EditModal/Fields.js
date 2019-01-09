@@ -20,7 +20,8 @@ import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
 import role from '../../../../../../../enums/role';
-import AddModalWrapped from "./AddModalUserGroups/AddModal";
+import AddModalWrapped from "./AddModalUserGroups";
+import EditModalWrapped from "./EditModalUserGroup";
 const UserDTO = model.users.getDTO();
 const GroupsDTO = model.groups.getDTO();
 

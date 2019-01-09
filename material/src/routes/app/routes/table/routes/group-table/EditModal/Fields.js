@@ -17,8 +17,8 @@ import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
-import AddModalWrapped from "./AddModalModel/AddModal";
-import EditModalWrapped from "./EditModalModel/EditModal";
+import AddModalWrapped from "./AddModalModel";
+import EditModalWrapped from "./EditModalModel";
 const GroupDTO = model.groups.getDTO();
 const ModelDTO = model.models.getDTO();
 

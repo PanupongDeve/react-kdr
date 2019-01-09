@@ -21,8 +21,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
 import MaterialIcon from "components/MaterialIcon";
-import AddModalWrapped from "./AddModal/AddModal";
-import EditModalWrapped from "./EditModal/EditModal";
+import AddModalWrapped from "./AddModal";
+import EditModalWrapped from "./EditModal";
 import { connect } from "react-redux";
 import * as modelsActions from "../../../../../../actions/Axios/ModelsActions";
 import model from "../../../../../../class/ServicesAPI";
@@ -30,8 +30,6 @@ import SweetAlertHelper from "../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
 
 const ModelDTO = model.models.getDTO();
-
-// TODO
 
 function getSorting(order, orderBy) {
   return order === "desc"
