@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-import AddUserForm from './AddForm';
+import AddUserForm from './EditForm';
 
 const styles = theme => ({
   paper: {
