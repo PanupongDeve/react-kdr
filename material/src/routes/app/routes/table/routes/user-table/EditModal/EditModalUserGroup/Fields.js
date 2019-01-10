@@ -74,6 +74,14 @@ class TextFields extends ComponentWithHandle {
       this.SweetAlertOptions.setMessageError,
       this.handleCloseBlockLoading
     );
+
+    const { userGroup } = this.props;
+    this.setState({
+      discountA: userGroup.discountA || 0,
+      discountB: userGroup.discountB || 0,
+      amount: userGroup.amount || 0,
+      groupSelected: userGroup.groupId
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -186,6 +194,7 @@ class TextFields extends ComponentWithHandle {
                   name="discountA"
                   onChange={this.handleChange("discountA")}
                   value={this.state.discountA}
+                  defaultChecked={this.props.userGroup.discountA}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -246,7 +255,8 @@ class TextFields extends ComponentWithHandle {
 }
 
 TextFields.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  userGroup: PropTypes.object.isRequired
 };
 
 const TextFields1 = withStyles(styles)(TextFields);

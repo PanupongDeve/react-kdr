@@ -34,7 +34,7 @@ class EditModalUserGroup extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.props.modalClose();
   };
 
   render() {
@@ -44,7 +44,7 @@ class EditModalUserGroup extends React.Component {
           className="root-modal"
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
-          open={this.state.open}
+          open={this.props.open}
           onClose={this.handleClose}
         >
           <div className={`${classes.paper} kdr-modal`}>
@@ -59,7 +59,8 @@ class EditModalUserGroup extends React.Component {
 }
 
 EditModalUserGroup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  userGroup: PropTypes.object.isRequired
 };
 
 // We need an intermediary variable for handling the recursive nesting.
