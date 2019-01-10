@@ -111,7 +111,6 @@ export const clearUser = () => async dispatch => {
 
 export const createUsersGroups = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
     try {
-
         await model.usersGroups.create(data);
         setTimeout(() => {
             successAlertCallback();
@@ -128,8 +127,14 @@ export const updateUsersGroup = () => {
 
 }
 
-export const deleteUsersGroup = () => {
-    
+export const deleteUsersGroup = (userId, groupId, getUser, errorAlertCallback, setMessageError) => async dispatch => {
+    try {
+        await model.usersGroups.remove(userId, groupId);
+        getUser(errorAlertCallback, setMessageError);
+    } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
+        throw Promise.reject(error);
+    }
 }
 
 const isLastItemsforDelelte = (countItemDelete, ItemDeleteLength) => {
