@@ -37,13 +37,15 @@ function getSorting(order, orderBy) {
 
 const columnData = [
   { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
-  { id: "code", numeric: false, disablePadding: true, label: "รหัส" },
+  { id: "code", numeric: false, disablePadding: true, label: "invoice" },
   {
     id: "title",
     numeric: false,
     disablePadding: true,
-    label: "ชื่อกลุ่ม"
+    label: "จำนวนเงิน(บาท)"
   },
+  { id: "actions", numeric: false, disablePadding: true, label: "Actions" },
+  { id: "ordersFile", numeric: false, disablePadding: true, label: "ordersFile" },
   // {
   //   id: "createdAt",
   //   numeric: false,
@@ -75,7 +77,7 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox" className="check-box" style={{ opacity: '0'}}>
+          <TableCell padding="checkbox" className="check-box">
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
@@ -291,8 +293,7 @@ class EnhancedTable extends ComponentWithHandle {
 
   componentWillReceiveProps(nextProps) {
     let { orders } = nextProps.ordersStore;
-    orders = OrderDTO.getArrayObject(orders);
-    orders = OrderDTO.filterDataActive(orders);
+    console.log(orders);
     this.setState({ data: orders });
   }
 
@@ -397,7 +398,6 @@ class EnhancedTable extends ComponentWithHandle {
 
     let { loading } = this.props.ordersStore;
     data = OrderDTO.searchFilter(search, data);
-
     return (
       <Paper className={classes.root}>
         <this.BlockUi tag="div" blocking={loading}>
@@ -434,7 +434,6 @@ class EnhancedTable extends ComponentWithHandle {
                         tabIndex={-1}
                         key={n.id}
                           selected={isSelected}
-                          style={{ opacity: '0'}}
                       >
                         <TableCell padding="checkbox">
                           <Checkbox
@@ -443,8 +442,8 @@ class EnhancedTable extends ComponentWithHandle {
                           />
                         </TableCell>
                         <TableCell numeric>{n.id}</TableCell>
-                        <TableCell numeric>{n.code}</TableCell>
-                        <TableCell numeric>{n.title}</TableCell>
+                        <TableCell numeric>{n.invoice}</TableCell>
+                        <TableCell numeric>{n.amount}</TableCell>
                         {/* <TableCell numeric>
                           {OrderDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
