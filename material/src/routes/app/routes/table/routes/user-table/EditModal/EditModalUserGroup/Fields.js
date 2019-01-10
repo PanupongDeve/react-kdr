@@ -15,6 +15,7 @@ import red from "@material-ui/core/colors/red";
 import { connect } from "react-redux";
 import * as modelsActions from "../../../../../../../../actions/Axios/ModelsActions";
 import * as groupsActions from "../../../../../../../../actions/Axios/GroupsActions";
+import * as usersActions from "../../../../../../../../actions/Axios/UsersActions";
 import SweetAlertHelper from "../../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../../components/class/ComponentWithHandle";
 import model from "../../../../../../../../class/ServicesAPI";
@@ -76,6 +77,7 @@ class TextFields extends ComponentWithHandle {
     );
 
     const { userGroup } = this.props;
+    console.log(userGroup);
     this.setState({
       discountA: userGroup.discountA || 0,
       discountB: userGroup.discountB || 0,
@@ -105,15 +107,15 @@ class TextFields extends ComponentWithHandle {
     try {
       
       const { groupSelected:groupId , discountA, discountB, amount  } = this.state;
-      const { userId } = this.props;
+      const { userGroup } = this.props;
       const UserGroupsValidator = this.model.usersGroups.getValidator();
       event.preventDefault();
-      const data = { userId, groupId, discountA, discountB, amount  } 
+      const data = { userId: userGroup.userId , groupId, discountA, discountB, amount  } 
       UserGroupsValidator.validate(data);
       GroupDTO.deleteEmptyField(data, ['discountB']);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
-        this.props.createUsersGroups(
+        this.props.updateUsersGroup(
           data,
           this.handleAlertSuccess,
           this.handleAlertError,
@@ -132,6 +134,7 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
+    console.log(this.props);
     return (
       <Fragment key='1'>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
@@ -268,7 +271,8 @@ const SweetAlertActions = SweetAlertHelper.getActions();
 const actions = Object.assign(
   modelsActions,
   groupsActions, 
-  SweetAlertActions
+  SweetAlertActions,
+  usersActions
 );
 
 const mapStateToProps = state => {
