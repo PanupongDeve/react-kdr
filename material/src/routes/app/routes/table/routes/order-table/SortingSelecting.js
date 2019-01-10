@@ -26,7 +26,7 @@ import * as ordersActions from "../../../../../../actions/Axios/OrdersActions";
 import model from "../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
-import * as Hepler from './Helper';
+import * as Helper from './Helper';
 
 const OrderDTO = model.orders.getDTO();
 
@@ -37,15 +37,16 @@ function getSorting(order, orderBy) {
 }
 
 const columnData = [
-  { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
-  { id: "code", numeric: false, disablePadding: true, label: "invoice" },
+  { id: "code", numeric: false, disablePadding: true, label: "Purchase Order" },
+  { id: "user", numeric: false, disablePadding: true, label: "ชื่อลูกค้า" },
   {
-    id: "title",
+    id: "user",
     numeric: false,
     disablePadding: true,
-    label: "จำนวนเงิน(บาท)"
+    label: "จำนวนเงิน"
   },
-  { id: "PO", numeric: false, disablePadding: true, label: "PO" },
+  { id: "discount", numeric: false, disablePadding: true, label: "ส่วนลด" },
+  { id: "createdAt", numeric: false, disablePadding: true, label: "วันที่" },
   // {
   //   id: "createdAt",
   //   numeric: false,
@@ -382,7 +383,7 @@ class EnhancedTable extends ComponentWithHandle {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   handlePOClick = (pathPO) => () => {
-    const path = Hepler.generatePathPO(pathPO);
+    const path = Helper.generatePathPO(pathPO);
     if (pathPO === '//none') {
         alert('ออเดอร์ยังไม่มีใบPO')
     } else {
@@ -447,9 +448,11 @@ class EnhancedTable extends ComponentWithHandle {
                             checked={isSelected}
                           />
                         </TableCell>
-                        <TableCell numeric>{n.id}</TableCell>
                         <TableCell numeric>{n.invoice}</TableCell>
+                        <TableCell numeric>ชื่อลูกค้า</TableCell>
                         <TableCell numeric>{n.amount}</TableCell>
+                        <TableCell numeric>{Helper.generateDiscount(n.discount)}</TableCell>
+                        <TableCell numeric>{Helper.showTimesDisplay(n.createAt)}</TableCell>
                         {/* <TableCell numeric>
                           {OrderDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
@@ -461,7 +464,7 @@ class EnhancedTable extends ComponentWithHandle {
                             className="material-icons" 
                             style={{ 
                               fontSize: '32px',
-                              color: Hepler.selectPDFicon(n.filePath)
+                              color: Helper.selectPDFicon(n.filePath)
                             }}>
                           picture_as_pdf
                           </i>
