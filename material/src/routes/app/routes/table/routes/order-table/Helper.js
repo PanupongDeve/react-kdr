@@ -33,3 +33,21 @@ export const generateDiscount = (discount) => {
 export const showTimesDisplay = (date) => {
     return momentTH(date).format("DD/MM/YYYY");
 }
+
+export const setBlackSlash = (string) => {
+    return string.replace(new RegExp("\\\\", "g"), "\\\\"); 
+}
+
+export const searchTable = (searchWord, orders) => {
+        
+    return orders.filter((order) => {
+        searchWord = setBlackSlash(searchWord);
+        let createdAt = showTimesDisplay(order.createdAt);
+        return (
+            new RegExp(searchWord.toLowerCase()).test(order.invoice.toLowerCase())
+            || new RegExp(searchWord.toLowerCase()).test(order.amount)
+            || new RegExp(searchWord.toLowerCase()).test(order.discount)
+            || new RegExp(searchWord.toLowerCase()).test(createdAt.toLowerCase())
+        );
+    })
+}
