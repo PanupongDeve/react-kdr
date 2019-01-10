@@ -26,6 +26,7 @@ import * as ordersActions from "../../../../../../actions/Axios/OrdersActions";
 import model from "../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../components/class/ComponentWithHandle";
+import * as Hepler from './Helper';
 
 const OrderDTO = model.orders.getDTO();
 
@@ -37,13 +38,14 @@ function getSorting(order, orderBy) {
 
 const columnData = [
   { id: "id", numeric: false, disablePadding: true, label: "ลำดับ" },
-  { id: "code", numeric: false, disablePadding: true, label: "รหัส" },
+  { id: "code", numeric: false, disablePadding: true, label: "invoice" },
   {
     id: "title",
     numeric: false,
     disablePadding: true,
-    label: "ชื่อกลุ่ม"
+    label: "จำนวนเงิน(บาท)"
   },
+  { id: "PO", numeric: false, disablePadding: true, label: "PO" },
   // {
   //   id: "createdAt",
   //   numeric: false,
@@ -79,7 +81,6 @@ class EnhancedTableHead extends React.Component {
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
             />
           </TableCell>
           {columnData.map(column => {
@@ -291,8 +292,7 @@ class EnhancedTable extends ComponentWithHandle {
 
   componentWillReceiveProps(nextProps) {
     let { orders } = nextProps.ordersStore;
-    orders = OrderDTO.getArrayObject(orders);
-    orders = OrderDTO.filterDataActive(orders);
+    console.log(orders);
     this.setState({ data: orders });
   }
 
@@ -381,6 +381,15 @@ class EnhancedTable extends ComponentWithHandle {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+  handlePOClick = (pathPO) => () => {
+    const path = Hepler.generatePathPO(pathPO);
+    if (pathPO === '//none') {
+        alert('ออเดอร์ยังไม่มีใบPO')
+    } else {
+        window.open(path, "_blank");
+    }
+  }
+
   render() {
     const { classes } = this.props;
     let {
@@ -397,7 +406,6 @@ class EnhancedTable extends ComponentWithHandle {
 
     let { loading } = this.props.ordersStore;
     data = OrderDTO.searchFilter(search, data);
-
     return (
       <Paper className={classes.root}>
         <this.BlockUi tag="div" blocking={loading}>
@@ -428,29 +436,36 @@ class EnhancedTable extends ComponentWithHandle {
                     return (
                       <TableRow
                         hover
-                          onClick={event => this.handleClick(event, n.id)}
                           role="checkbox"
                           aria-checked={isSelected}
                         tabIndex={-1}
                         key={n.id}
                           selected={isSelected}
-                          style={{ opacity: '0'}}
                       >
-                        <TableCell padding="checkbox">
+                        <TableCell padding="checkbox" style={{ opacity: '0'}}>
                           <Checkbox
                             checked={isSelected}
-                            onClick={event => this.handleClick(event, n.id)}
                           />
                         </TableCell>
                         <TableCell numeric>{n.id}</TableCell>
-                        <TableCell numeric>{n.code}</TableCell>
-                        <TableCell numeric>{n.title}</TableCell>
+                        <TableCell numeric>{n.invoice}</TableCell>
+                        <TableCell numeric>{n.amount}</TableCell>
                         {/* <TableCell numeric>
                           {OrderDTO.showTimesDisplay(n.createdAt)}
                         </TableCell>
                         <TableCell numeric>
                           {OrderDTO.showTimesDisplay(n.updatedAt)}
                         </TableCell> */}
+                        <TableCell numeric style={{ cursor: 'pointer'}} onClick={this.handlePOClick(n.filePath)}>
+                          <i
+                            className="material-icons" 
+                            style={{ 
+                              fontSize: '32px',
+                              color: Hepler.selectPDFicon(n.filePath)
+                            }}>
+                          picture_as_pdf
+                          </i>
+                        </TableCell>
                       </TableRow>
                     );
                   })}

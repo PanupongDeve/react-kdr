@@ -48,6 +48,27 @@ class OrdersService extends BaseService {
           throw error;
         }
       }
+
+      async remove(id) {
+        try {
+          const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+          this.storage.saveToken(resToken.data.result.token);
+          this.setAxiosConfig();
+          // this code for delete data
+          const res = await this.axios.delete(
+            `${this.RootURL}/${this.domain}/${id}`,
+            this.config
+          );
+          return res.data.result;
+        } catch (error) {
+          if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+            this.storage.removeStorage();
+            window.location.reload();
+            return;
+          }
+          throw error;
+        }
+      }
     
     getOrdersValidator() {
         return new OrdersValidator();
