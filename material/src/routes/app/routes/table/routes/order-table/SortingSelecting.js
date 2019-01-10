@@ -293,7 +293,6 @@ class EnhancedTable extends ComponentWithHandle {
 
   componentWillReceiveProps(nextProps) {
     let { orders } = nextProps.ordersStore;
-    console.log(orders);
     this.setState({ data: orders });
   }
 
@@ -406,7 +405,8 @@ class EnhancedTable extends ComponentWithHandle {
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     let { loading } = this.props.ordersStore;
-    data = OrderDTO.searchFilter(search, data);
+    data = Helper.searchTable(search, data);
+    console.log(data);
     return (
       <Paper className={classes.root}>
         <this.BlockUi tag="div" blocking={loading}>
@@ -453,12 +453,6 @@ class EnhancedTable extends ComponentWithHandle {
                         <TableCell numeric>{n.amount}</TableCell>
                         <TableCell numeric>{Helper.generateDiscount(n.discount)}</TableCell>
                         <TableCell numeric>{Helper.showTimesDisplay(n.createAt)}</TableCell>
-                        {/* <TableCell numeric>
-                          {OrderDTO.showTimesDisplay(n.createdAt)}
-                        </TableCell>
-                        <TableCell numeric>
-                          {OrderDTO.showTimesDisplay(n.updatedAt)}
-                        </TableCell> */}
                         <TableCell numeric style={{ cursor: 'pointer'}} onClick={this.handlePOClick(n.filePath)}>
                           <i
                             className="material-icons" 
