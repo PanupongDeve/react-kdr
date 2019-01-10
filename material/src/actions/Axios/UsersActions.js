@@ -123,8 +123,18 @@ export const createUsersGroups = (data, successAlertCallback, errorAlertCallback
     }
 }
 
-export const updateUsersGroup = () => {
-
+export const updateUsersGroup = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
+    try {
+        await model.usersGroups.update(data);
+        setTimeout(() => {
+            successAlertCallback();
+            getUser();  
+        }, 500);
+          
+    } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
+        throw Promise.reject(error);
+    }
 }
 
 export const deleteUsersGroup = (userId, groupId, getUser, errorAlertCallback, setMessageError) => async dispatch => {
