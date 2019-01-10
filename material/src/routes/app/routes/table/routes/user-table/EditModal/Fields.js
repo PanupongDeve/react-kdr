@@ -91,9 +91,17 @@ class TextFields extends ComponentWithHandle {
       address: user.address,
       tel: user.tel,
       group: user.group,
-      groups,
-      blockLoading: false
+      groups
     });
+
+    groups.map( group => {
+      this.setState({ [`stateGroup${group.id}`]: false} );
+      return group;
+    });
+
+    if(user) {
+      this.setState({  blockLoading: false })
+    }
   }
 
   getUser = () => {
@@ -140,6 +148,14 @@ class TextFields extends ComponentWithHandle {
     });
   };
 
+  handleGroupModalOpen = (id) => () => {
+    this.setState({ [`stateGroup${id}`]: true} );
+  }
+
+  handleGroupModalClose = (id) => () => {
+    this.setState({ [`stateGroup${id}`]: false} );
+  }
+
   handleDeleteUserGroup = (groupId) => () => {
     let { user } = this.props.usersStore;
     SweetAlertHelper.setOnConfirm(() => {
@@ -152,14 +168,6 @@ class TextFields extends ComponentWithHandle {
       );   
     });
     this.handleAlertDicisions();
-  }
-
-  handleGroupModalOpen = (id) => () => {
-    this.setState({ [`stateModel${id}`]: true} );
-  }
-
-  handleGroupModalClose = (id) => () => {
-    this.setState({ [`stateModel${id}`]: false} );
   }
 
   render() {
@@ -260,26 +268,29 @@ class TextFields extends ComponentWithHandle {
                   <AddModalWrapped createUsersGroups={this.props.createUsersGroups} getUser={this.getUser} userId={this.props.id} />
                 </div>
                 
-                {groups.map((group, index) => {
+                
+                { groups ? groups.map((group, index) => {
                   return (
                       <Fragment key={index} style={{ display: 'flex', flexDirection: 'row'}}>
                             <Chip
+                              key={index}
                               style={{ marginTop: '25px', marginRight: '12px'}}
                               key={group.id}
                               label={group.title}
+                              onClick={this.handleGroupModalOpen(group.id)}
                               onDelete={this.handleDeleteUserGroup(group.id)}
                               className={classes.chip}
                             /> 
                         
                         <EditModalWrapped 
                           key={index} 
-                          // modalClose={this.handleModelModalClose(model.id)}
-                          open={this.state[`stateModel${group.id}`]} 
-                          id={model.id} 
+                          modalClose={this.handleGroupModalClose(group.id)}
+                          open={this.state[`stateGroup${group.id}`]} 
+                          id={group.id} 
                           groupId={this.props.id} />
                       </Fragment>
                   );
-                })}
+                }): null}
               </Grid>
 
               <Grid item xs={12} md={12}>

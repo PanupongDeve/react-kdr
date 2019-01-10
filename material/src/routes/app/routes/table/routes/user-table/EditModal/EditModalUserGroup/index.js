@@ -34,7 +34,7 @@ class EditModalUserGroup extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.props.modalClose();
   };
 
   render() {
@@ -44,7 +44,7 @@ class EditModalUserGroup extends React.Component {
           className="root-modal"
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
-          open={this.state.open}
+          open={this.props.open}
           onClose={this.handleClose}
         >
           <div className={`${classes.paper} kdr-modal`}>
