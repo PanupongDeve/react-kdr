@@ -287,6 +287,7 @@ class TextFields extends ComponentWithHandle {
                           modalClose={this.handleGroupModalClose(group.id)}
                           open={this.state[`stateGroup${group.id}`]} 
                           id={group.id} 
+                          userGroup={group.user_group}
                           groupId={this.props.id} />
                       </Fragment>
                   );

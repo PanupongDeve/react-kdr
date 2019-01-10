@@ -59,7 +59,8 @@ class EditModalUserGroup extends React.Component {
 }
 
 EditModalUserGroup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  userGroup: PropTypes.object.isRequired
 };
 
 // We need an intermediary variable for handling the recursive nesting.
