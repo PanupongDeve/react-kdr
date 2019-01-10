@@ -14,8 +14,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import ClearIcon from "@material-ui/icons/Clear";
 import red from "@material-ui/core/colors/red";
 import * as usersActions from "../../../../../../../actions/Axios/UsersActions";
-import * as groupsAction from "../../../../../../../actions/Axios/GroupsActions";
-import * as userGroupsActions from "../../../../../../../actions/Axios/UserGroupsActions";
+import * as groupsActions from "../../../../../../../actions/Axios/GroupsActions";
 import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
@@ -25,7 +24,6 @@ import AddModalWrapped from "./AddModalUserGroups";
 import EditModalWrapped from "./EditModalUserGroup";
 const UserDTO = model.users.getDTO();
 const GroupsDTO = model.groups.getDTO();
-const UsersGroupDTO = model.usersGroups.getDTO();
 
 const styles = theme => ({
   container: {
@@ -142,22 +140,18 @@ class TextFields extends ComponentWithHandle {
     });
   };
 
-  handleDeleteGroup = (id) => () => {
+  handleDeleteUserGroup = (groupId) => () => {
+    let { user } = this.props.usersStore;
     SweetAlertHelper.setOnConfirm(() => {
-      this.props.deleteGroup(
-        id,
+      this.props.deleteUsersGroup(
+        user.id,
+        groupId,
         this.getUser,
-        1,
-        1,
         this.handleAlertErrorWithoutModal,
         this.SweetAlertOptions.setMessageError
       );   
     });
     this.handleAlertDicisions();
-  }
-
-  handleDeleteUsersGroup = (userId, groupId) => {
-
   }
 
   handleGroupModalOpen = (id) => () => {
@@ -170,7 +164,8 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-
+    let { user } = this.props.usersStore;
+    const { groups } = user;
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
@@ -265,22 +260,21 @@ class TextFields extends ComponentWithHandle {
                   <AddModalWrapped createUsersGroups={this.props.createUsersGroups} getUser={this.getUser} userId={this.props.id} />
                 </div>
                 
-                {this.state.groups.map((model, index) => {
-              
+                {groups.map((group, index) => {
                   return (
                       <Fragment key={index} style={{ display: 'flex', flexDirection: 'row'}}>
                             <Chip
                               style={{ marginTop: '25px', marginRight: '12px'}}
-                              key={model.id}
-                              label={model.title}
-                              onDelete={this.handleDeleteGroup(model.id)}
+                              key={group.id}
+                              label={group.title}
+                              onDelete={this.handleDeleteUserGroup(group.id)}
                               className={classes.chip}
                             /> 
                         
                         <EditModalWrapped 
                           key={index} 
                           // modalClose={this.handleModelModalClose(model.id)}
-                          open={this.state[`stateModel${model.id}`]} 
+                          open={this.state[`stateModel${group.id}`]} 
                           id={model.id} 
                           groupId={this.props.id} />
                       </Fragment>
@@ -338,7 +332,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actions = Object.assign(usersActions, groupsAction, userGroupsActions);
+const actions = Object.assign(usersActions, groupsActions);
 
 export default connect(
   mapStateToProps,

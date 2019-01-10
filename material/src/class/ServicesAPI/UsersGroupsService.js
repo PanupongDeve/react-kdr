@@ -1,13 +1,9 @@
 import BaseService from './BaseService';
-import UsersGroupsDTO from '../DataHelper/DTO/UsersGroupsDTO';
-import UsersGroupsOTS from '../DataHelper/ObjectToStore/UsersGroupsOTS';
 import UsersGroupsValidator from '../Validator/UsersGroupsValidator';
 
 class UsersGroupsService extends BaseService {
     constructor(domain) {
         super(domain)
-        this.dto = UsersGroupsDTO;
-        this.ots = UsersGroupsOTS;
     }
     
     getValidator() {
@@ -21,6 +17,29 @@ class UsersGroupsService extends BaseService {
     getOTSClass() {
         
     }
+
+
+    // overide from baseService
+    async remove(userId, groupId) {
+        try {
+          const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
+          this.storage.saveToken(resToken.data.result.token);
+          this.setAxiosConfig();
+          // this code for delete data
+          const res = await this.axios.delete(
+            `${this.RootURL}/${this.domain}/${userId}/${groupId}`,
+            this.config
+          );
+          return res.data.result;
+        } catch (error) {
+          if(error && error.response && error.response.data && error.response.data.result && error.response.data.result.name === 'TokenExpiredError') {
+            this.storage.removeStorage();
+            window.location.reload();
+            return;
+          }
+          throw error;
+        }
+      }
 }
 
 export default new UsersGroupsService('api/groups/users');
