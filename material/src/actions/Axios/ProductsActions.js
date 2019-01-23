@@ -9,7 +9,7 @@ export const getProducts = (errorAlertCallback, setMessageError, disableLoading=
     try {
 
         const products = await model.products.get();
-        ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCTS, products)(dispatch);
+        ProductsOTS.sendPayloadToReducer(ProductsTypes.FETCH_PRODUCTS, products)(dispatch);
         if (disableLoading) disableLoading(); 
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
@@ -20,7 +20,7 @@ export const getProducts = (errorAlertCallback, setMessageError, disableLoading=
 export const getProduct = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const product = await model.products.getById(id);
-        ProductsOTS.sendPayloadToReducer(ProductsTypes.FETH_PRODUCT, product)(dispatch);
+        ProductsOTS.sendPayloadToReducer(ProductsTypes.FETCH_PRODUCT, product)(dispatch);
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);

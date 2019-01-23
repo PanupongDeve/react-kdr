@@ -17,8 +17,8 @@ import { connect } from "react-redux";
 import model from "../../../../../../../class/ServicesAPI";
 import SweetAlertHelper from "../../../../../../../class/SweetAlert";
 import ComponentWithHandle from "../../../../../../../components/class/ComponentWithHandle";
-import AddModalWrapped from "./AddModalModel/AddModal";
-import EditModalWrapped from "./EditModalModel/EditModal";
+import AddModalWrapped from "./AddModalModel";
+import EditModalWrapped from "./EditModalModel";
 const GroupDTO = model.groups.getDTO();
 const ModelDTO = model.models.getDTO();
 
@@ -107,10 +107,7 @@ class TextFields extends ComponentWithHandle {
   }
 
   handleOnCancel = () => {
-    SweetAlertHelper.setOnConfirm(() => {
-      this.closeModal();
-    });
-    this.handleAlertDicisions();
+    this.closeModal();
   };
 
   handleSubmit = event => {
@@ -154,11 +151,10 @@ class TextFields extends ComponentWithHandle {
     }
   };
 
-  handleDeleteModel = (modelId) => () => {
-    const { id } = this.props;
+  handleDeleteModel = (id) => () => {
     SweetAlertHelper.setOnConfirm(() => {
       this.props.deleteModel(
-        modelId,
+        id,
         this.getGroup,
         1,
         1,
@@ -169,12 +165,12 @@ class TextFields extends ComponentWithHandle {
     this.handleAlertDicisions();
   }
 
-  handleModelModalOpen = (modelId) => () => {
-    this.setState({ [`stateModel${modelId}`]: true} );
+  handleModelModalOpen = (id) => () => {
+    this.setState({ [`stateModel${id}`]: true} );
   }
 
-  handleModelModalClose = (modelId) => () => {
-    this.setState({ [`stateModel${modelId}`]: false} );
+  handleModelModalClose = (id) => () => {
+    this.setState({ [`stateModel${id}`]: false} );
   }
 
   render() {

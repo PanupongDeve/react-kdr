@@ -7,14 +7,14 @@ export default (state = SizesOTS.intialState(), action) => {
   let stateUpdate;
   
   switch (action.type) {
-    case SizesTypes.FETH_SIZES:
+    case SizesTypes.FETCH_SIZES:
       stateUpdate = SizesOTS.sendDataFormReducerToStore(
         action.payload,
         "sizes"
       );
       state = Object.assign(state, stateUpdate);
       return {...state};
-    case SizesTypes.FETH_SIZE:
+    case SizesTypes.FETCH_SIZE:
       stateUpdate = SizesOTS.sendDataFormReducerToStore(
         action.payload,
         "size"

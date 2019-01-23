@@ -23,8 +23,9 @@ export default class BaseService {
     return this.ots;
   }
 
-  setConfig() {
+  setAxiosConfig() {
     this.config = {
+      // set headers xhr
       headers: {
         authorization: this.storage.getToken()
       }
@@ -33,6 +34,7 @@ export default class BaseService {
 
   async get() {
     try {
+      // fetch data method get
       const res = await this.axios.get(
         `${this.RootURL}/${this.domain}`
       );
@@ -48,6 +50,7 @@ export default class BaseService {
   }
   async getById(id) {
     try {
+      // fetch data method get by Id
       const res = await this.axios.get(
         `${this.RootURL}/${this.domain}/${id}`
       );
@@ -63,11 +66,13 @@ export default class BaseService {
   }
 
   async create(data) {
-    this.setConfig();
+    this.setAxiosConfig();
     try {
+      // this code for check refresh token
       const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
       this.storage.saveToken(resToken.data.result.token);
-      this.setConfig();
+      this.setAxiosConfig();
+      // this code for create data
       const res = await this.axios.post(
         `${this.RootURL}/${this.domain}`,
         data,
@@ -87,7 +92,8 @@ export default class BaseService {
     try {
       const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
       this.storage.saveToken(resToken.data.result.token);
-      this.setConfig();
+      this.setAxiosConfig();
+      // this code for update data
       const res = await this.axios.patch(
         `${this.RootURL}/${this.domain}/${id}`,
         data,
@@ -107,7 +113,8 @@ export default class BaseService {
     try {
       const resToken = await this.axios.get(`${this.RootURL}/${this.TokenURL}?token=${this.storage.getToken()}`);
       this.storage.saveToken(resToken.data.result.token);
-      this.setConfig();
+      this.setAxiosConfig();
+      // this code for delete data
       const res = await this.axios.delete(
         `${this.RootURL}/${this.domain}/soft/${id}`,
         this.config

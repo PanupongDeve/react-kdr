@@ -29,7 +29,7 @@ export const getUsers = (errorAlertCallback, setMessageError, disableLoading=fal
     try {
 
         const users = await model.users.get();
-        UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USERS, users)(dispatch);
+        UsersOTS.sendPayloadToReducer(UsersTypes.FETCH_USERS, users)(dispatch);
         if (disableLoading) disableLoading();
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
@@ -40,7 +40,7 @@ export const getUsers = (errorAlertCallback, setMessageError, disableLoading=fal
 export const getUser = (id, errorAlertCallback, setMessageError) => async dispatch => {
     try {
         const user = await model.users.getById(id);
-        UsersOTS.sendPayloadToReducer(UsersTypes.FETH_USER, user)(dispatch);
+        UsersOTS.sendPayloadToReducer(UsersTypes.FETCH_USER, user)(dispatch);
     } catch (error) {
         handleMessageError(error, errorAlertCallback, setMessageError);
         throw Promise.reject(error);
@@ -54,21 +54,6 @@ export const createUsers = (data, successAlertCallback, errorAlertCallback, getU
         setTimeout(() => {
             successAlertCallback();
             getUsers(errorAlertCallback, setMessageError);  
-        }, 500);
-          
-    } catch (error) {
-        handleMessageError(error, errorAlertCallback, setMessageError);
-        throw Promise.reject(error);
-    }
-}
-
-export const createUsersGroups = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
-    try {
-
-        await model.usersGroups.create(data);
-        setTimeout(() => {
-            successAlertCallback();
-            getUser();  
         }, 500);
           
     } catch (error) {
@@ -121,6 +106,44 @@ export const clearUser = () => async dispatch => {
         });
     } catch (error) {
         throw Promise.reject(error); 
+    }
+}
+
+export const createUsersGroups = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
+    try {
+        await model.usersGroups.create(data);
+        setTimeout(() => {
+            successAlertCallback();
+            getUser();  
+        }, 500);
+          
+    } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
+        throw Promise.reject(error);
+    }
+}
+
+export const updateUsersGroup = (data, successAlertCallback, errorAlertCallback, getUser, setMessageError) => async dispatch => {
+    try {
+        await model.usersGroups.update(data);
+        setTimeout(() => {
+            successAlertCallback();
+            getUser();  
+        }, 500);
+          
+    } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
+        throw Promise.reject(error);
+    }
+}
+
+export const deleteUsersGroup = (userId, groupId, getUser, errorAlertCallback, setMessageError) => async dispatch => {
+    try {
+        await model.usersGroups.remove(userId, groupId);
+        getUser(errorAlertCallback, setMessageError);
+    } catch (error) {
+        handleMessageError(error, errorAlertCallback, setMessageError);
+        throw Promise.reject(error);
     }
 }
 

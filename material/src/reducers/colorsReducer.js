@@ -7,14 +7,14 @@ export default (state = ColorsOTS.intialState(), action) => {
   let stateUpdate;
   
   switch (action.type) {
-    case ColorsTypes.FETH_COLORS:
+    case ColorsTypes.FETCH_COLORS:
       stateUpdate = ColorsOTS.sendDataFormReducerToStore(
         action.payload,
         "colors"
       );
       state = Object.assign(state, stateUpdate);
       return {...state};
-    case ColorsTypes.FETH_COLOR:
+    case ColorsTypes.FETCH_COLOR:
       stateUpdate = ColorsOTS.sendDataFormReducerToStore(
         action.payload,
         "color"

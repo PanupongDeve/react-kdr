@@ -8,7 +8,7 @@ export const getColors = () => async dispatch => {
     try {
 
         const functionReciveData = (data) => {
-             ColorsOTS.sendPayloadToReducer(ColorsTypes.FETH_COLORS, data)(dispatch);
+             ColorsOTS.sendPayloadToReducer(ColorsTypes.FETCH_COLORS, data)(dispatch);
         }
 
         await model.colors.getAllWithRealtime(functionReciveData);
@@ -21,7 +21,7 @@ export const getColors = () => async dispatch => {
 export const getColor = (documentId) => async dispatch => {
     try {
         const color = await model.colors.getByDocumentId(documentId);
-        ColorsOTS.sendPayloadToReducer(ColorsTypes.FETH_COLOR, color)(dispatch);
+        ColorsOTS.sendPayloadToReducer(ColorsTypes.FETCH_COLOR, color)(dispatch);
     } catch (error) {
         throw Promise.reject(error);
     }
