@@ -449,7 +449,7 @@ class EnhancedTable extends ComponentWithHandle {
                           />
                         </TableCell>
                         <TableCell numeric>{n.invoice}</TableCell>
-                        <TableCell numeric>ชื่อลูกค้า</TableCell>
+                        <TableCell numeric>{n.user.name}</TableCell>
                         <TableCell numeric>{n.amount}</TableCell>
                         <TableCell numeric>{Helper.generateDiscount(n.discount)}</TableCell>
                         <TableCell numeric>{Helper.showTimesDisplay(n.createAt)}</TableCell>
