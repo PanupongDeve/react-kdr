@@ -152,7 +152,8 @@ class TextFields extends ComponentWithHandle {
       priceB: product.priceB,
       remark: product.remark,
       isSize: product.sizeId ? true : false,
-      isColor: product.colorId ? true: false
+      isColor: product.colorId ? true: false,
+      imagePath: product.imagePath
     });
 
     if(groups && colors && sizes && models) {
