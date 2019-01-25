@@ -72,6 +72,20 @@ class TextFields extends ComponentWithHandle {
     this.closeModal();
   };
 
+  handleCheckMixColor = () => {
+    this.setState({
+      mixedColor: true,
+      mixedModel: false
+    });
+  }
+
+  handleCheckMixModel = () => {
+    this.setState({
+      mixedColor: false,
+      mixedModel: true
+    });
+  }
+
   handleSubmit = event => {
     try {
       const groupsValidator = this.model.groups.getGroupsValidator();
@@ -273,9 +287,8 @@ class TextFields extends ComponentWithHandle {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      disabled={(this.state.mixedColor&&this.state.mixedModel) || this.state.mixedModel}
                       checked={this.state.mixedColor}
-                      onChange={this.handleChange('mixedColor', true)}
+                      onChange={this.handleCheckMixColor}
                       value={this.state.mixedColor}
                     />
                   }
@@ -286,9 +299,8 @@ class TextFields extends ComponentWithHandle {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      disabled={(this.state.mixedColor&&this.state.mixedModel) || this.state.mixedColor}
                       checked={this.state.mixedModel}
-                      onChange={this.handleChange('mixedModel', true)}
+                      onChange={this.handleCheckMixModel}
                       value={this.state.mixedModel}
                     />
                   }
