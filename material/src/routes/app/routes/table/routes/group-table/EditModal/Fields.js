@@ -234,6 +234,32 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
+              <Grid style={{ marginTop: '10px'}} item xs={12} md={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.mixedColor}
+                      onChange={this.handleCheckMixColor}
+                      value={this.state.mixedColor}
+                    />
+                  }
+                  label="Mix-Color"
+                  className="kdr-checkbox"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.mixedModel}
+                      onChange={this.handleCheckMixModel}
+                      value={this.state.mixedModel}
+                    />
+                  }
+                  label="Mix-Model"
+                  className="kdr-checkbox"
+                />
+              </Grid>
+
               <Grid item xs={12} md={4}>
                 <TextField
                   type="number"
@@ -242,34 +268,6 @@ class TextFields extends ComponentWithHandle {
                   label="qtyA"
                   name="qtyA"
                   onChange={this.handleChange("qtyA")}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <TextField
-                  type="number"
-                  value={this.state.qtyB}
-                  id="qtyB"
-                  label="qtyB"
-                  name="qtyB"
-                  onChange={this.handleChange("qtyB")}
-                  className={classes.textField}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <TextField
-                  value={this.state.qtyC}
-                  type="number"
-                  id="qtyC"
-                  label="qtyC"
-                  name="qtyC"
-                  onChange={this.handleChange("qtyC")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -306,6 +304,20 @@ class TextFields extends ComponentWithHandle {
 
               <Grid item xs={12} md={4}>
                 <TextField
+                  type="number"
+                  value={this.state.qtyB}
+                  id="qtyB"
+                  label="qtyB"
+                  name="qtyB"
+                  onChange={this.handleChange("qtyB")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
                   value={this.state.discountB1}
                   type="number"
                   id="discountB1"
@@ -326,6 +338,20 @@ class TextFields extends ComponentWithHandle {
                   label="discountB2"
                   name="discountB2"
                   onChange={this.handleChange("discountB2")}
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  value={this.state.qtyC}
+                  type="number"
+                  id="qtyC"
+                  label="qtyC"
+                  name="qtyC"
+                  onChange={this.handleChange("qtyC")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
@@ -357,34 +383,6 @@ class TextFields extends ComponentWithHandle {
                   className={classes.textField}
                   margin="normal"
                   fullWidth
-                />
-              </Grid>
-
-              
-
-              <Grid item xs={12} md={4}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.mixedColor}
-                      onChange={this.handleCheckMixColor}
-                      value={this.state.mixedColor}
-                    />
-                  }
-                  label="Mix-Color"
-                  className="kdr-checkbox"
-                />
-
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.mixedModel}
-                      onChange={this.handleCheckMixModel}
-                      value={this.state.mixedModel}
-                    />
-                  }
-                  label="Mix-Model"
-                  className="kdr-checkbox"
                 />
               </Grid>
 
