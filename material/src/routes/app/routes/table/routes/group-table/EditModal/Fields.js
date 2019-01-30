@@ -124,6 +124,14 @@ class TextFields extends ComponentWithHandle {
     this.closeModal();
   };
 
+  handleClearLists = (lists) => () => {
+    this.setState({
+      [lists[0]]: "",
+      [lists[1]]: "",
+      [lists[2]]: ""
+    });
+  }
+
   handleSubmit = event => {
     try {
       const groupsValidator = this.model.groups.getGroupsValidator();
@@ -144,6 +152,7 @@ class TextFields extends ComponentWithHandle {
         mixedColor: this.state.mixedColor,
         mixedModel: this.state.mixedModel
       };
+      GroupDTO.assigneNullInEmptyField(data, ['qtyA', 'discountA1', 'discountA2', 'qtyB', 'discountB1', 'discountB2', 'qtyC', 'discountC1', 'discountC2']);
       groupsValidator.validate(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
@@ -260,7 +269,7 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   value={this.state.qtyA}
@@ -274,7 +283,7 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   value={this.state.discountA1}
                   id="discountA1"
@@ -288,7 +297,7 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   value={this.state.discountA2}
                   type="number"
@@ -302,7 +311,23 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
+                <Button
+                  onClick={this.handleClearLists(['qtyA', 'discountA1', 'discountA2'])}
+                  className="btn-cancel"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  style={{ marginTop: '22px'}}
+                >
+                  <ClearIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Clear A
+                </Button>
+              </Grid>
+
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   value={this.state.qtyB}
@@ -316,7 +341,7 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   value={this.state.discountB1}
                   type="number"
@@ -330,7 +355,7 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   value={this.state.discountB2}
                   type="number"
@@ -344,7 +369,23 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
+                <Button
+                  onClick={this.handleClearLists(['qtyB', 'discountB1', 'discountB2'])}
+                  className="btn-cancel"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  style={{ marginTop: '22px'}}
+                >
+                  <ClearIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Clear B
+                </Button>
+              </Grid>
+
+              <Grid item xs={12} md={3}>
                 <TextField
                   value={this.state.qtyC}
                   type="number"
@@ -358,7 +399,7 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   value={this.state.discountC1}
                   type="number"
@@ -372,7 +413,7 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   value={this.state.discountC2}
                   type="number"
@@ -384,6 +425,22 @@ class TextFields extends ComponentWithHandle {
                   margin="normal"
                   fullWidth
                 />
+              </Grid>
+
+              <Grid item xs={12} md={3}>
+                <Button
+                  onClick={this.handleClearLists(['qtyC', 'discountC1', 'discountC2'])}
+                  className="btn-cancel"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  style={{ marginTop: '22px'}}
+                >
+                  <ClearIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Clear C
+                </Button>
               </Grid>
 
               <Grid item xs={12} md={8}>
