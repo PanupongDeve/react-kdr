@@ -96,6 +96,15 @@ export default class BaseDTO {
         })
     }
 
+    assigneNullInEmptyField(object, fields) {
+        fields.map(field => {
+            if(object[field] === "") {
+                object[field] = null;
+            }
+            return field;
+        })
+    }
+
     setDefaultDecimal(object, fields) {
         fields.map(field => {
             if(!object[field]) {

@@ -42,6 +42,15 @@ export default class GroupsValidator extends BaseValidator {
             messageErrorField = this.isValidateNumber(group.qtyC, 'qtyC');
             if(messageErrorField) this.messageError.push(messageErrorField);
 
+            messageErrorField = this.checkQtaAndDisCount(group, ['qtyA','discountA1', 'discountA2'], 'qtaA and discountA');
+            if(messageErrorField) this.messageError.push(messageErrorField);
+
+            messageErrorField = this.checkQtaAndDisCount(group, ['qtyB','discountB1', 'discountB2'], 'qtaB and discountB');
+            if(messageErrorField) this.messageError.push(messageErrorField);
+
+            messageErrorField = this.checkQtaAndDisCount(group, ['qtyC','discountC1', 'discountC2'], 'qtaC and discountC');
+            if(messageErrorField) this.messageError.push(messageErrorField);
+
             if(this.messageError.length !== 0) {
                 throw this.messageError;
             }
@@ -53,6 +62,19 @@ export default class GroupsValidator extends BaseValidator {
     checkBoxneedOneSelected(group, fieldName) {
         if((group.mixedColor === false) && (group.mixedModel === false)) {
             return `😿 ${fieldName} must one seleced.`;
+        }
+    }
+
+    checkQtaAndDisCount(group, checklists, message) {
+        let count = 0;
+        checklists.forEach(checklist => {
+            if (group[checklist]) {
+                count++;
+            }
+        });
+        
+        if (count > 0 && count < 3) {
+            return `😿 ${message} must full input or empty data.`;
         }
     }
 }

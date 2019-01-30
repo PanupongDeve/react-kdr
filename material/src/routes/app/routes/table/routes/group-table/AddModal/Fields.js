@@ -53,15 +53,15 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       code: "",
       title: "",
-      discountA1: '',
-      discountA2: '',
-      discountB1: '',
-      discountB2: '',
-      discountC1: '',
-      discountC2: '',
-      qtyA: '',
-      qtyB: '',
-      qtyC: '',
+      discountA1: null,
+      discountA2: null,
+      discountB1: null,
+      discountB2: null,
+      discountC1: null,
+      discountC2: null,
+      qtyA: null,
+      qtyB: null,
+      qtyC: null, 
       mixedColor: true,
       mixedModel: false,
       blockLoading: false
@@ -86,6 +86,14 @@ class TextFields extends ComponentWithHandle {
     });
   }
 
+  handleClearLists = (lists) => () => {
+    this.setState({
+      [lists[0]]: "",
+      [lists[1]]: "",
+      [lists[2]]: ""
+    });
+  }
+
   handleSubmit = event => {
     try {
       const groupsValidator = this.model.groups.getGroupsValidator();
@@ -106,7 +114,7 @@ class TextFields extends ComponentWithHandle {
         mixedModel: this.state.mixedModel
 
       };
-      GroupDTO.deleteEmptyField(data, ['discountA1', 'discountA2', 'discountB1', 'discountB2', 'discountC1', 'discountC2', 'qtyA', 'qtyB', 'qtyC']);
+      GroupDTO.assigneNullInEmptyField(data, ['qtyA', 'discountA1', 'discountA2', 'qtyB', 'discountB1', 'discountB2', 'qtyC', 'discountC1', 'discountC2']);
       groupsValidator.validate(data);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
@@ -190,12 +198,13 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="qtyA"
                   label="qtyA"
                   name="qtyA"
+                  value={this.state.qtyA}
                   onChange={this.handleChange("qtyA")}
                   className={classes.textField}
                   margin="normal"
@@ -203,12 +212,13 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   id="discountA1"
                   type="number"
                   label="discountA1"
                   name="discountA1"
+                  value={this.state.discountA1}
                   onChange={this.handleChange("discountA1")}
                   className={classes.textField}
                   margin="normal"
@@ -216,12 +226,13 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="discountA2"
                   label="discountA2"
                   name="discountA2"
+                  value={this.state.discountA2}
                   onChange={this.handleChange("discountA2")}
                   className={classes.textField}
                   margin="normal"
@@ -229,12 +240,29 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
+                <Button
+                  onClick={this.handleClearLists(['qtyA', 'discountA1', 'discountA2'])}
+                  className="btn-cancel"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  style={{ marginTop: '22px'}}
+                >
+                  <ClearIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Clear A
+                </Button>
+              </Grid>
+
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="qtyB"
                   label="qtyB"
                   name="qtyB"
+                  value={this.state.qtyB}
                   onChange={this.handleChange("qtyB")}
                   className={classes.textField}
                   margin="normal"
@@ -242,12 +270,13 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="discountB1"
                   label="discountB1"
                   name="discountB1"
+                  value={this.state.discountB1}
                   onChange={this.handleChange("discountB1")}
                   className={classes.textField}
                   margin="normal"
@@ -255,12 +284,13 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="discountB2"
                   label="discountB2"
                   name="discountB2"
+                  value={this.state.discountB2}
                   onChange={this.handleChange("discountB2")}
                   className={classes.textField}
                   margin="normal"
@@ -268,12 +298,29 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
+                <Button
+                  onClick={this.handleClearLists(['qtyB', 'discountB1', 'discountB2'])}
+                  className="btn-cancel"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  style={{ marginTop: '22px'}}
+                >
+                  <ClearIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Clear B
+                </Button>
+              </Grid>
+
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="qtyC"
                   label="qtyC"
                   name="qtyC"
+                  value={this.state.qtyC}
                   onChange={this.handleChange("qtyC")}
                   className={classes.textField}
                   margin="normal"
@@ -281,12 +328,13 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="discountC1"
                   label="discountC1"
                   name="discountC1"
+                  value={this.state.discountC1}
                   onChange={this.handleChange("discountC1")}
                   className={classes.textField}
                   margin="normal"
@@ -294,17 +342,34 @@ class TextFields extends ComponentWithHandle {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   type="number"
                   id="discountC2"
                   label="discountC2"
                   name="discountC2"
+                  value={this.state.discountC2}
                   onChange={this.handleChange("discountC2")}
                   className={classes.textField}
                   margin="normal"
                   fullWidth
                 />
+              </Grid>
+
+              <Grid item xs={12} md={3}>
+                <Button
+                  onClick={this.handleClearLists(['qtyC', 'discountC1', 'discountC2'])}
+                  className="btn-cancel"
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  style={{ marginTop: '22px'}}
+                >
+                  <ClearIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Clear C
+                </Button>
               </Grid>
 
               <Grid item xs={12} md={12}>
