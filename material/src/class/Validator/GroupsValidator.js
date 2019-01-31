@@ -68,7 +68,7 @@ export default class GroupsValidator extends BaseValidator {
     checkQtaAndDisCount(group, checklists, message) {
         let count = 0;
         checklists.forEach(checklist => {
-            if (group[checklist] || group[checklist] === '0') {
+            if (group[checklist] || group[checklist] === '0' || group[checklist] === 0) {
                 count++;
             }
         });
