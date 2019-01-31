@@ -116,6 +116,9 @@ class TextFields extends ComponentWithHandle {
       };
       GroupDTO.assigneNullInEmptyField(data, ['qtyA', 'discountA1', 'discountA2', 'qtyB', 'discountB1', 'discountB2', 'qtyC', 'discountC1', 'discountC2']);
       groupsValidator.validate(data);
+      GroupDTO.assignNullInZeroFields(data, ['qtyA', 'discountA1', 'discountA2']);
+      GroupDTO.assignNullInZeroFields(data, ['qtyB', 'discountB1', 'discountB2']);
+      GroupDTO.assignNullInZeroFields(data, ['qtyC', 'discountC1', 'discountC2']);
       SweetAlertHelper.setOnConfirm(() => {
         this.handleOpenBlockLoading();
         this.props.createGroups(

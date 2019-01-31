@@ -105,6 +105,26 @@ export default class BaseDTO {
         })
     }
 
+    assignNullInZeroFields(object, fields) {
+        let count = this.countDataIsZero(object, fields);
+        if (count === 3) {
+            fields.forEach(field => {
+                object[field] = null;
+            });  
+        }
+    }
+
+    countDataIsZero(object, fields) {
+        let count = 0;
+        fields.forEach(field => {
+            if (object[field] === '0') {
+                count++;
+            }
+        });
+        
+        return count;
+    }
+
     setDefaultDecimal(object, fields) {
         fields.map(field => {
             if(!object[field]) {
