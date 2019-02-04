@@ -406,7 +406,6 @@ class EnhancedTable extends ComponentWithHandle {
 
     let { loading } = this.props.ordersStore;
     data = Helper.searchTable(search, data);
-    console.log(data);
     return (
       <Paper className={classes.root}>
         <this.BlockUi tag="div" blocking={loading}>

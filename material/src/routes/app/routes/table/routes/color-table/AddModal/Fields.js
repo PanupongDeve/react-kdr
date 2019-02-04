@@ -88,7 +88,6 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.isMobile);
     return (
       <Fragment>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>

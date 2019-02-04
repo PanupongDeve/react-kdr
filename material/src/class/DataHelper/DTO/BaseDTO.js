@@ -55,7 +55,8 @@ export default class BaseDTO {
     }
 
     setBlackSlash(string) {
-        return string.replace(new RegExp("\\\\", "g"), "\\\\"); 
+        const invalid = /[°"§%()\[\]{}=\\?´`'#<>|\*,;.:+_-]+/g;
+        return string.replace(invalid, "\\\\"); 
     }
 
     filterIsHaveData(data) {

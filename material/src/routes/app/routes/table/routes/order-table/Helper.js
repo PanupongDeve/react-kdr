@@ -35,7 +35,8 @@ export const showTimesDisplay = (date) => {
 }
 
 export const setBlackSlash = (string) => {
-    return string.replace(new RegExp("\\\\", "g"), "\\\\"); 
+    const invalid = /[°"§%()\[\]{}=\\?´`'#<>|\*,;.:+_-]+/g;
+    return string.replace(invalid, "\\\\"); 
 }
 
 export const searchTable = (searchWord, orders) => {
@@ -47,6 +48,7 @@ export const searchTable = (searchWord, orders) => {
             new RegExp(searchWord.toLowerCase()).test(order.invoice.toLowerCase())
             || new RegExp(searchWord.toLowerCase()).test(order.amount)
             || new RegExp(searchWord.toLowerCase()).test(order.discount)
+            || new RegExp(searchWord.toLowerCase()).test(order.user.name.toLowerCase())
             || new RegExp(searchWord.toLowerCase()).test(createdAt.toLowerCase())
         );
     })
