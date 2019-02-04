@@ -77,7 +77,6 @@ class TextFields extends ComponentWithHandle {
     );
 
     const { userGroup } = this.props;
-    console.log(userGroup);
     this.setState({
       discountA: userGroup.discountA || 0,
       discountB: userGroup.discountB || 0,
@@ -134,7 +133,6 @@ class TextFields extends ComponentWithHandle {
 
   render() {
     const { classes } = this.props;
-    console.log(this.props);
     return (
       <Fragment key='1'>
         <this.BlockUi tag="div" blocking={this.state.blockLoading}>
