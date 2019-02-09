@@ -1,5 +1,5 @@
 import * as moment  from 'moment-timezone';
-
+import Storage from '../../../../../../class/Storage';
 
 const serverURL = 'https://kd-api.palmfuture.space';
 const momentTH = (timestamp) => {
@@ -10,7 +10,9 @@ export const generatePathPO = (pathPO) => {
     if (pathPO === '//none') {
         return pathPO;
     } else {
-        return `${serverURL}/${pathPO}`;
+        const storage = new Storage();
+        const token = storage.getToken();
+        return `${serverURL}/${pathPO}?token=${token}`;
     }
 }
 
