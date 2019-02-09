@@ -65,6 +65,7 @@ class TextFields extends ComponentWithHandle {
     this.state = {
       name: "",
       username: "",
+      password: "",
       address: "",
       tel: "",
       group: "",
@@ -116,10 +117,10 @@ class TextFields extends ComponentWithHandle {
   handleSubmit = event => {
     try {
       const usersValidator = this.model.users.getUsersValidator();
-      const {name, address, tel, group} = this.state;
+      const {name, address, tel, group, password} = this.state;
       event.preventDefault();
       const { id } = this.props;
-      let data = {name, address, tel, group};
+      let data = {name, address, tel, group, password};
       data = UserDTO.filterIsHaveDataForUpdate(data);
       usersValidator.validateUpdate(data);
       SweetAlertHelper.setOnConfirm(() => {
@@ -260,6 +261,20 @@ class TextFields extends ComponentWithHandle {
                     <MenuItem value={role.DEFAULT}>{role.DEFAULT}</MenuItem>
                   </Select>
                 </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <TextField
+                  required
+                  id="password"
+                  label="แก้ไขรหัสผ่าน"
+                  name="password"
+                  onChange={this.handleChange("password")}
+                  className={classes.textField}
+                  margin="normal"
+                  type="password"
+                  fullWidth
+                />
               </Grid>
 
               <Grid item xs={12} md={8}>
